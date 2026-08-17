@@ -1,6 +1,6 @@
 {
-    "name": "car_faults_app",
-    "short_name": "car_faults_app",
+    "name": "Auto Crónica",
+    "short_name": "Auto Crónica",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

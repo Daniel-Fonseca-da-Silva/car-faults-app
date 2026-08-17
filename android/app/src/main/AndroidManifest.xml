@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="car_faults_app"
+        android:label="Auto Crónica"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
