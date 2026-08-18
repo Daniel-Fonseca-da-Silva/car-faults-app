@@ -19,5 +19,33 @@
   "loginHeroImageAlt": "Fusca de 1951 estacionado numa garagem.",
   "@loginHeroImageAlt": {
     "description": "Accessibility description of the login hero background photo."
+  },
+  "loginAccessEyebrow": "Acesso",
+  "@loginAccessEyebrow": {
+    "description": "Eyebrow above the login access block's title."
+  },
+  "loginAccessTitle": "Entrar na conta",
+  "@loginAccessTitle": {
+    "description": "Title of the login access block."
+  },
+  "loginAccessSubtitle": "Bem-vindo de volta. Acesse o banco de defeitos.",
+  "@loginAccessSubtitle": {
+    "description": "Subtitle of the login access block."
+  },
+  "loginGoogle": "Continuar com Google",
+  "@loginGoogle": {
+    "description": "Label of the Google sign-in button."
+  },
+  "loginNoAccount": "Não tem conta?",
+  "@loginNoAccount": {
+    "description": "Muted lead-in text of the sign-up prompt, before the link."
+  },
+  "loginSignUp": "Cadastre-se grátis",
+  "@loginSignUp": {
+    "description": "Tappable link of the sign-up prompt. Triggers the same Google command as loginGoogle."
+  },
+  "loginGoogleSoon": "Login com Google em breve disponível.",
+  "@loginGoogleSoon": {
+    "description": "SnackBar shown after tapping the Google button — the API has no mobile-facing OAuth endpoint yet."
   }
 }
