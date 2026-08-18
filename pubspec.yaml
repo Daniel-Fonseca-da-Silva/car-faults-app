@@ -30,6 +30,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -57,9 +60,13 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  # Generates AppLocalizations from lib/l10n/*.arb (see l10n.yaml).
+  generate: true
+
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/logo/
+    - assets/images/garage/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

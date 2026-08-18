@@ -1,0 +1,23 @@
+{
+  "@@locale": "pt",
+  "loginHeroEyebrow": "CARFAULTS",
+  "@loginHeroEyebrow": {
+    "description": "Brand eyebrow shown over the login hero photo."
+  },
+  "loginHeroTitleBeforeHighlight": "Conheça os defeitos",
+  "@loginHeroTitleBeforeHighlight": {
+    "description": "First part of the login hero title, before the highlighted word."
+  },
+  "loginHeroTitleHighlight": "antes",
+  "@loginHeroTitleHighlight": {
+    "description": "Highlighted (orange) word in the login hero title."
+  },
+  "loginHeroTitleAfterHighlight": "de ser pego de surpresa.",
+  "@loginHeroTitleAfterHighlight": {
+    "description": "Last part of the login hero title, after the highlighted word."
+  },
+  "loginHeroImageAlt": "Fusca de 1951 estacionado numa garagem.",
+  "@loginHeroImageAlt": {
+    "description": "Accessibility description of the login hero background photo."
+  }
+}
