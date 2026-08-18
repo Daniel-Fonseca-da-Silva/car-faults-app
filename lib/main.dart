@@ -1,3 +1,4 @@
+import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import 'ui/core/constants/app_brand.dart';
@@ -17,6 +18,9 @@ class CarFaultsApp extends StatelessWidget {
       title: AppBrand.displayName,
       theme: AppTheme.dark,
       debugShowCheckedModeBanner: false,
+      locale: const Locale('pt'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: const LoginView(),
     );
   }

@@ -22,6 +22,33 @@ end_of_record
     expect(coverage.percent, 90);
   });
 
+  test('parseLcov skips generated AppLocalizations files', () {
+    const source = '''
+SF:lib/l10n/app_localizations.dart
+LF:19
+LH:15
+end_of_record
+SF:lib/l10n/app_localizations_en.dart
+LF:6
+LH:0
+end_of_record
+SF:lib/l10n/app_localizations_es.dart
+LF:6
+LH:0
+end_of_record
+SF:lib/main.dart
+LF:10
+LH:9
+end_of_record
+''';
+
+    final coverage = parseLcov(source);
+
+    expect(coverage.linesFound, 10);
+    expect(coverage.linesHit, 9);
+    expect(coverage.percent, 90);
+  });
+
   test('parseLcov returns zero coverage when the report is empty', () {
     final coverage = parseLcov('');
 
