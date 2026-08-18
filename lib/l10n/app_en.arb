@@ -4,5 +4,12 @@
   "loginHeroTitleBeforeHighlight": "Know the faults",
   "loginHeroTitleHighlight": "before",
   "loginHeroTitleAfterHighlight": "you get caught off guard.",
-  "loginHeroImageAlt": "1951 Volkswagen Beetle parked in a garage."
+  "loginHeroImageAlt": "1951 Volkswagen Beetle parked in a garage.",
+  "loginAccessEyebrow": "Access",
+  "loginAccessTitle": "Sign in to your account",
+  "loginAccessSubtitle": "Welcome back. Access the faults database.",
+  "loginGoogle": "Continue with Google",
+  "loginNoAccount": "Don't have an account?",
+  "loginSignUp": "Sign up for free",
+  "loginGoogleSoon": "Google sign-in coming soon."
 }

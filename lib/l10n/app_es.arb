@@ -4,5 +4,12 @@
   "loginHeroTitleBeforeHighlight": "Conoce los defectos",
   "loginHeroTitleHighlight": "antes",
   "loginHeroTitleAfterHighlight": "de que te sorprendan.",
-  "loginHeroImageAlt": "Volkswagen Beetle de 1951 estacionado en un garaje."
+  "loginHeroImageAlt": "Volkswagen Beetle de 1951 estacionado en un garaje.",
+  "loginAccessEyebrow": "Acceso",
+  "loginAccessTitle": "Entrar en la cuenta",
+  "loginAccessSubtitle": "Bienvenido de nuevo. Accede al banco de defectos.",
+  "loginGoogle": "Continuar con Google",
+  "loginNoAccount": "¿No tienes cuenta?",
+  "loginSignUp": "Regístrate gratis",
+  "loginGoogleSoon": "Inicio de sesión con Google próximamente."
 }
