@@ -64,9 +64,7 @@ class LoginHeroSection extends StatelessWidget {
                       height: 1.15,
                     ),
                     children: [
-                      TextSpan(
-                        text: '${l10n.loginHeroTitleBeforeHighlight} ',
-                      ),
+                      TextSpan(text: '${l10n.loginHeroTitleBeforeHighlight} '),
                       TextSpan(
                         text: l10n.loginHeroTitleHighlight,
                         style: const TextStyle(color: AppColors.primary),

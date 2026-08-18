@@ -15,9 +15,7 @@ class LoginView extends StatelessWidget {
     return const Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [LoginHeader(), LoginHeroSection()],
-          ),
+          child: Column(children: [LoginHeader(), LoginHeroSection()]),
         ),
       ),
     );
