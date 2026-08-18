@@ -24,7 +24,10 @@ class BrandWordmark extends StatelessWidget {
       TextSpan(
         style: baseStyle,
         children: [
-          TextSpan(text: 'AUTO', style: TextStyle(color: AppColors.onSurface)),
+          TextSpan(
+            text: 'AUTO',
+            style: TextStyle(color: AppColors.onSurface),
+          ),
           TextSpan(
             text: 'CRÓNICA',
             style: TextStyle(color: AppColors.primary),
