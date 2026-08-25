@@ -11,5 +11,9 @@
   "loginGoogle": "Continue with Google",
   "loginNoAccount": "Don't have an account?",
   "loginSignUp": "Sign up for free",
-  "loginGoogleSoon": "Google sign-in coming soon."
+  "loginGoogleSoon": "Google sign-in coming soon.",
+  "loginStatFaults": "faults",
+  "loginStatModels": "models",
+  "loginStatRecalls": "recalls",
+  "loginStatsSemanticLabel": "Platform statistics"
 }

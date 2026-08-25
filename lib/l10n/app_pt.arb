@@ -47,5 +47,21 @@
   "loginGoogleSoon": "Login com Google em breve disponível.",
   "@loginGoogleSoon": {
     "description": "SnackBar shown after tapping the Google button — the API has no mobile-facing OAuth endpoint yet."
+  },
+  "loginStatFaults": "defeitos",
+  "@loginStatFaults": {
+    "description": "Label of the faults count in the login stats bar."
+  },
+  "loginStatModels": "modelos",
+  "@loginStatModels": {
+    "description": "Label of the vehicle models count in the login stats bar."
+  },
+  "loginStatRecalls": "recalls",
+  "@loginStatRecalls": {
+    "description": "Label of the recalls count in the login stats bar. Kept as the product word in every locale."
+  },
+  "loginStatsSemanticLabel": "Estatísticas da plataforma",
+  "@loginStatsSemanticLabel": {
+    "description": "Accessibility label announcing the login stats group."
   }
 }
