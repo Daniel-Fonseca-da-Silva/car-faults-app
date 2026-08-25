@@ -4,19 +4,21 @@ import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/constants/app_brand.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/widgets/brand_wordmark.dart';
-import '../../../legal/view_models/legal_view_model.dart';
-import '../../../legal/views/legal_view.dart';
+import '../../features/legal/view_models/legal_view_model.dart';
+import '../../features/legal/views/legal_view.dart';
+import '../constants/app_brand.dart';
+import '../theme/app_colors.dart';
+import 'brand_wordmark.dart';
 
-/// Bottom block of the login screen: wordmark, data disclaimer, legal links
+/// Bottom block shared by every screen: wordmark, data disclaimer, legal links
 /// and copyright.
 ///
-/// Static content — the wordmark is the same [BrandWordmark] as the header,
-/// only smaller. Legal links open [LegalView] via [Navigator.push].
-class LoginFooter extends StatelessWidget {
-  const LoginFooter({super.key});
+/// The [disclaimer] changes per screen, so the caller passes the localized
+/// string. Legal links open [LegalView] via [Navigator.push].
+class AppFooter extends StatelessWidget {
+  const AppFooter({required this.disclaimer, super.key});
+
+  final String disclaimer;
 
   static const _wordmarkFontSize = 16.0;
   static const _disclaimerFontSize = 12.0;
@@ -33,7 +35,7 @@ class LoginFooter extends StatelessWidget {
         children: [
           const BrandWordmark(fontSize: _wordmarkFontSize),
           const SizedBox(height: 16),
-          _mutedText(l10n.loginDisclaimer, _disclaimerFontSize),
+          _mutedText(disclaimer, _disclaimerFontSize),
           const SizedBox(height: 12),
           _legalLinks(context, l10n),
           const SizedBox(height: 12),

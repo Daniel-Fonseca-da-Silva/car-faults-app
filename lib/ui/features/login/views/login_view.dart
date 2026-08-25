@@ -2,10 +2,10 @@ import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/widgets/app_footer.dart';
+import '../../../core/widgets/app_header.dart';
 import '../view_models/login_view_model.dart';
 import 'widgets/login_access_section.dart';
-import 'widgets/login_footer.dart';
-import 'widgets/login_header.dart';
 import 'widgets/login_hero_section.dart';
 import 'widgets/login_sign_up_prompt.dart';
 import 'widgets/login_stats_section.dart';
@@ -38,12 +38,12 @@ class LoginView extends StatelessWidget {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  const LoginHeader(),
+                  const AppHeader(),
                   const LoginHeroSection(),
                   LoginAccessSection(viewModel: viewModel),
                   LoginSignUpPrompt(viewModel: viewModel),
                   const LoginStatsSection(),
-                  const LoginFooter(),
+                  AppFooter(disclaimer: l10n.loginDisclaimer),
                 ],
               ),
             );
