@@ -9,6 +9,8 @@ import 'package:car_faults_app/ui/features/login/views/widgets/login_access_sect
 import 'package:car_faults_app/ui/features/login/views/widgets/login_header.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_hero_section.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_sign_up_prompt.dart';
+import 'package:car_faults_app/ui/features/login/views/widgets/login_stat_item.dart';
+import 'package:car_faults_app/ui/features/login/views/widgets/login_stats_section.dart';
 
 void main() {
   testWidgets('LoginView shows the header with logo, wordmark and avatar', (
@@ -91,6 +93,22 @@ void main() {
       );
     },
   );
+
+  testWidgets('LoginView shows the three stats with their labels', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const CarFaultsApp());
+
+    expect(find.byType(LoginStatsSection), findsOneWidget);
+    expect(find.byType(LoginStatItem), findsNWidgets(3));
+
+    expect(find.text('1.2M+'), findsOneWidget);
+    expect(find.text('defeitos'), findsOneWidget);
+    expect(find.text('8.4K+'), findsOneWidget);
+    expect(find.text('modelos'), findsOneWidget);
+    expect(find.text('34K+'), findsOneWidget);
+    expect(find.text('recalls'), findsOneWidget);
+  });
 
   testWidgets('tapping "Cadastre-se grátis" triggers the same Google command', (
     WidgetTester tester,
