@@ -7,10 +7,11 @@ import 'widgets/login_access_section.dart';
 import 'widgets/login_header.dart';
 import 'widgets/login_hero_section.dart';
 import 'widgets/login_sign_up_prompt.dart';
+import 'widgets/login_stats_section.dart';
 
-/// Login screen: header, hero, Google access and sign-up prompt.
+/// Login screen: header, hero, Google access, sign-up prompt and stats.
 ///
-/// Stats and footer are added by later slices as sibling widgets inside the
+/// The footer is added by a later slice as a sibling widget inside the
 /// same [Column].
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -43,6 +44,7 @@ class LoginView extends StatelessWidget {
                   const LoginHeroSection(),
                   LoginAccessSection(viewModel: viewModel),
                   LoginSignUpPrompt(viewModel: viewModel),
+                  const LoginStatsSection(),
                 ],
               ),
             );
