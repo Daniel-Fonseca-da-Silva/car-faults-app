@@ -11,5 +11,9 @@
   "loginGoogle": "Continuar con Google",
   "loginNoAccount": "¿No tienes cuenta?",
   "loginSignUp": "Regístrate gratis",
-  "loginGoogleSoon": "Inicio de sesión con Google próximamente."
+  "loginGoogleSoon": "Inicio de sesión con Google próximamente.",
+  "loginStatFaults": "defectos",
+  "loginStatModels": "modelos",
+  "loginStatRecalls": "recalls",
+  "loginStatsSemanticLabel": "Estadísticas de la plataforma"
 }
