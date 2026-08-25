@@ -15,5 +15,11 @@
   "loginStatFaults": "defectos",
   "loginStatModels": "modelos",
   "loginStatRecalls": "recalls",
-  "loginStatsSemanticLabel": "Estadísticas de la plataforma"
+  "loginStatsSemanticLabel": "Estadísticas de la plataforma",
+  "loginDisclaimer": "Datos obtenidos de informes públicos, foros o mediante el uso de agentes e IA.",
+  "loginCopyright": "© {year}",
+  "legalLinkPrivacy": "Privacidad",
+  "legalLinkTerms": "Términos",
+  "legalLoadError": "No se pudo cargar el documento legal.",
+  "legalRetry": "Intentar de nuevo"
 }

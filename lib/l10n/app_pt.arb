@@ -63,5 +63,35 @@
   "loginStatsSemanticLabel": "Estatísticas da plataforma",
   "@loginStatsSemanticLabel": {
     "description": "Accessibility label announcing the login stats group."
+  },
+  "loginDisclaimer": "Dados obtidos de relatos públicos, fóruns ou pelo uso de agentes e IA.",
+  "@loginDisclaimer": {
+    "description": "Legal disclaimer in the login footer about where the fault data comes from."
+  },
+  "loginCopyright": "© {year}",
+  "@loginCopyright": {
+    "description": "Copyright line in the login footer.",
+    "placeholders": {
+      "year": {
+        "type": "int",
+        "example": "2026"
+      }
+    }
+  },
+  "legalLinkPrivacy": "Privacidade",
+  "@legalLinkPrivacy": {
+    "description": "Footer link that opens the privacy policy section of the legal screen."
+  },
+  "legalLinkTerms": "Termos",
+  "@legalLinkTerms": {
+    "description": "Footer link that opens the terms of service section of the legal screen."
+  },
+  "legalLoadError": "Não foi possível carregar o documento legal.",
+  "@legalLoadError": {
+    "description": "Error message shown when the privacy/terms JSON fails to load."
+  },
+  "legalRetry": "Tentar novamente",
+  "@legalRetry": {
+    "description": "Retry button label on the legal screen error state."
   }
 }

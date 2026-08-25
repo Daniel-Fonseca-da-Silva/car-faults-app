@@ -5,7 +5,9 @@ import 'package:car_faults_app/main.dart';
 import 'package:car_faults_app/ui/core/widgets/brand_wordmark.dart';
 import 'package:car_faults_app/ui/core/widgets/google_sign_in_button.dart';
 import 'package:car_faults_app/ui/core/widgets/section_eyebrow.dart';
+import 'package:car_faults_app/ui/features/legal/views/legal_view.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_access_section.dart';
+import 'package:car_faults_app/ui/features/login/views/widgets/login_footer.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_header.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_hero_section.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_sign_up_prompt.dart';
@@ -29,7 +31,10 @@ void main() {
 
     final wordmark = tester.widget<Text>(
       find.descendant(
-        of: find.byType(BrandWordmark),
+        of: find.descendant(
+          of: find.byType(LoginHeader),
+          matching: find.byType(BrandWordmark),
+        ),
         matching: find.byType(Text),
       ),
     );
@@ -108,6 +113,63 @@ void main() {
     expect(find.text('modelos'), findsOneWidget);
     expect(find.text('34K+'), findsOneWidget);
     expect(find.text('recalls'), findsOneWidget);
+  });
+
+  testWidgets('LoginView shows the footer wordmark, disclaimer and copyright', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const CarFaultsApp());
+    await tester.scrollUntilVisible(find.byType(LoginFooter), 200);
+
+    expect(
+      find.descendant(
+        of: find.byType(LoginFooter),
+        matching: find.byType(BrandWordmark),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.text(
+        'Dados obtidos de relatos públicos, fóruns ou pelo uso de agentes e IA.',
+      ),
+      findsOneWidget,
+    );
+    expect(find.text('© 2026'), findsOneWidget);
+  });
+
+  testWidgets('LoginView footer shows Privacy and Terms links', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const CarFaultsApp());
+    await tester.scrollUntilVisible(find.text('Privacidade'), 200);
+
+    expect(
+      find.descendant(
+        of: find.byType(LoginFooter),
+        matching: find.text('Privacidade'),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(
+        of: find.byType(LoginFooter),
+        matching: find.text('Termos'),
+      ),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('tapping Privacidade opens the LegalView', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const CarFaultsApp());
+    await tester.scrollUntilVisible(find.text('Privacidade'), 200);
+
+    await tester.tap(find.text('Privacidade'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(LegalView), findsOneWidget);
+    expect(find.text('Privacidade e Termos de Uso'), findsOneWidget);
   });
 
   testWidgets('tapping "Cadastre-se grátis" triggers the same Google command', (
