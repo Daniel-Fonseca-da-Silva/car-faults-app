@@ -1,0 +1,149 @@
+{
+  "hero": {
+    "eyebrow": "Legal",
+    "title": "Privacy & Terms of Use",
+    "imageAlt": "Documents for a Fiat 500 resting on the car's bonnet"
+  },
+  "nav": {
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "policy": {
+    "title": "Privacy and Data Protection Policy",
+    "effectiveDate": "Effective date: 14 August 2026",
+    "lastUpdated": "Last updated: 14 August 2026",
+    "sections": {
+      "scope": {
+        "heading": "1. Introduction and Scope",
+        "body": "Auto Crónica (the \"Service\") is operated by Daniel Fonseca da Silva, a self-employed professional in Portugal (\"Provider\", \"we\", \"us\" or \"our\"), and respects your privacy, being committed to protecting your personal information. This Privacy Policy explains how we collect, use, process and protect information when you use the Auto Crónica Service.\n\nRegulatory compliance: this policy has been drafted taking into account the European Union General Data Protection Regulation (GDPR) and the UK GDPR, applicable to users in the European Economic Area and the United Kingdom.\n\nService overview: Auto Crónica is a catalogue of chronic vehicle faults organised by make and model. The Service lets you search for information about known faults, save vehicles to a personal garage, comment on and rate reports, vote on suggested fixes and, when there isn't yet enough data, obtain suggestions generated with the support of artificial intelligence. The data may be based on public reports, community contributions or AI-assisted content."
+      },
+      "controller": {
+        "heading": "2. Data Controller Information and Contact Details",
+        "body": "Data controller: Daniel Fonseca da Silva (Portugal).\n\nPrivacy enquiries: send a request with the subject \"Privacy Request\" through the contact listed on the Service's About page (the controller's LinkedIn profile), until a dedicated email address is published on the Service."
+      },
+      "dataCollected": {
+        "heading": "3. Categories of Personal Information We Collect",
+        "body": "Information you provide directly (or via Google): account information when signing in with Google OAuth - Google identifier, email address, display name, avatar URL and account role; user-generated content - vehicles saved to your garage, favourites, text comments, comment images, ratings and votes on fixes; search criteria - make, model, year, engine, fuel type, number of doors and search language (we do not ask for a VIN, licence plate, address or phone number); communication data from support or privacy requests.\n\nInformation collected automatically: technical information (IP address, browser type, device and access timestamps, to the extent they appear in hosting or API technical logs); session information (JWT authentication token in an httpOnly cookie, typically valid for around 7 days); activity logs and profile statistics derived from your usage.\n\nAdvertising data (when enabled): if advertising is enabled, Google AdSense may collect data through its own cookies and technologies, in accordance with Google's own privacy policy. Advertising may be disabled in development environments.\n\nWe do not intentionally collect special category data (Article 9 GDPR) or payment data - the Service does not process cards or subscriptions."
+      },
+      "legalBasis": {
+        "heading": "4. Legal Basis for Processing and Purposes of Use",
+        "body": "GDPR / UK GDPR legal bases: performance of a contract (Article 6(1)(b)) to create and manage your account, authenticate sessions and provide the garage, comments, ratings, votes and search results; legitimate interests (Article 6(1)(f)) for security, catalogue improvement, infrastructure operation and responding to support requests; consent (Article 6(1)(a)) where required for third-party advertising technologies or future marketing communications; legal obligation (Article 6(1)(c)) where the law requires it.\n\nProcessing purposes: providing the Service (catalogue, search, account and community features); AI processing to generate or enrich fault and fix suggestions, without automated decision-making that produces legally significant effects on you; security (anti-bot verification, session protection and role-based access control); storage of comment and catalogue images; advertising via Google AdSense, where configured; and compliance with data subject rights requests and applicable legal obligations."
+      },
+      "aiProcessing": {
+        "heading": "5. AI Processing and Automated Decision-Making",
+        "body": "Searches that don't yet have enough data in the catalogue may be routed by our API to an internal (stateless) AI service, which may in turn call on language model providers (for example, Google Gemini, Groq, OpenRouter or equivalents). The data sent to these providers is typically vehicle attributes (make, model, year, engine, fuel, doors, language) and, in translation/enrichment flows, issue titles and descriptions - we do not send your email or account identifier to this AI service. Results may be stored in the shared catalogue and/or cached for reuse by other users.\n\nThe Service does not make automated decisions that produce legal or similarly significant effects on you (Article 22 GDPR). AI suggestions are informational and do not replace a professional inspection, mechanical diagnosis or legal advice. You may request further information about AI processing that affects your experience through the privacy contact listed in this policy."
+      },
+      "dataSharing": {
+        "heading": "6. Data Sharing and Third-Party Processors",
+        "body": "Authentication: Google, for OAuth authentication (typically the email and profile scopes). Google processes data according to its own privacy policy.\n\nInfrastructure and security: Cloudflare (Turnstile and, where used, R2 object storage for images) and cloud hosting providers (web application, API, PostgreSQL database and Redis cache).\n\nAI processing: language model providers accessed through our AI service (for example, Google, Groq, OpenRouter), exclusively to generate or enrich catalogue content.\n\nAdvertising: Google AdSense (when enabled), which acts as an advertising service provider and may set its own cookies.\n\nNo sale of data: we do not sell your personal information to third parties for their own direct marketing."
+      },
+      "internationalTransfers": {
+        "heading": "7. International Data Transfers",
+        "body": "Some subprocessors (namely Google, Cloudflare and LLM providers) may process data in the United States or other countries outside the EEA / UK.\n\nWhere required, we rely on mechanisms recognised under the GDPR / UK GDPR, such as adequacy decisions or Standard Contractual Clauses (SCCs), depending on what each provider offers. You may request further information about transfers that affect you through the privacy contact."
+      },
+      "retention": {
+        "heading": "8. Data Retention and Deletion",
+        "body": "Account data: kept while the account is active. Requesting account deletion currently performs a logical deletion (soft-delete); logging in again with the same Google account may restore the record.\n\nSession: the access cookie typically expires after around 7 days or when the session ends. Redis cache: user data and search results cached with a limited TTL. Comment images: kept while the associated content exists on the Service. Technical and activity logs: for as long as necessary for the security, operation and improvement of the Service, or while the account and associated content persist.\n\nCommunity and catalogue content: comments, ratings, votes and catalogue issues may remain on the Service for as long as they are needed for the shared catalogue's purpose; on deletion requests, we assess what can be deleted, anonymised or unlinked, subject to legal obligations and the integrity of the Service.\n\nTransparency note: at this stage we do not offer automatic portability export or immediate, complete physical deletion of all related records. You may request access, rectification or further deletion through the privacy contact; we will handle the request within the applicable legal timeframe."
+      },
+      "rights": {
+        "heading": "9. Your Rights as a Data Subject",
+        "body": "Under the GDPR / UK GDPR, and subject to the applicable legal conditions, you may: be informed about the processing of your data; access the personal data we hold about you; rectify inaccurate or incomplete data (including updating your name and avatar via your profile, where available); request the deletion of your data (\"right to be forgotten\"), including requesting account deletion on the Service; request restriction of processing; object to processing based on legitimate interests; request data portability, where applicable; and withdraw consent where processing is based on consent, without affecting the lawfulness of prior processing."
+      },
+      "exercisingRights": {
+        "heading": "10. Exercising Your Rights",
+        "body": "How to submit requests: contact us as described in the \"Data Controller Information\" section, with the subject \"Privacy Request\", stating the request (access, rectification, deletion, objection, portability, etc.) and enough information to verify your identity (for example, the email of the Google account associated with the Service).\n\nHandling requests: response time typically within 30 days (GDPR / UK GDPR), extendable as permitted by law where the request is complex; identity verification through reasonable measures to confirm the request comes from the data subject; typically free of charge, except for manifestly unfounded, excessive or repetitive requests."
+      },
+      "cookies": {
+        "heading": "11. Cookies and Similar Technologies",
+        "body": "Types used: essential cookies (the access_token authentication session cookie, httpOnly, needed to keep you signed in and protect authenticated areas); security technologies (Cloudflare Turnstile on protected search flows); advertising and statistics (Google AdSense and Vercel Analytics cookies and technologies, only after you accept); interface preferences (interface components may use technical preference cookies, not for marketing purposes).\n\nConsent and control: on your first visit, the Service shows a cookie notice in the bottom-left corner of the screen, with \"Accept\" and \"Reject\" buttons and a link to this Privacy Policy. Your choice is stored in the cookie_consent cookie (value accepted or rejected, valid for about one year). Rejecting does not stop you from using the site - it only keeps advertising and statistics switched off. Google's advertising signals (Consent Mode) start switched off by default and only become granted after you accept. You can change your choice at any time through the \"Cookies\" link in the Service's footer, or manage cookies through your browser settings and, where applicable, the opt-out tools Google provides for advertising."
+      },
+      "security": {
+        "heading": "12. Data Security",
+        "body": "Measures adopted: TLS-protected communication in production environments; JWT token in an httpOnly cookie, with an appropriate SameSite setting and the Secure flag in production; mandatory authentication for profile, garage and admin areas, with role-based authorisation for administrative functions; redaction of sensitive headers (for example, Authorization and Cookie) in the API's HTTP logs, to the extent configured; and minimisation - we do not ask for a VIN, licence plate or payment data.\n\nLimitations: no system is entirely free of risk. If we become aware of an incident affecting your personal data, we will assess the impact and, where required by law, notify the competent authority and affected data subjects."
+      },
+      "minors": {
+        "heading": "13. Children's Privacy",
+        "body": "The Service is not intended for children under 16. We do not knowingly collect personal data from children below that age. If you are a parent or guardian and believe a minor has provided us with personal data, please contact us so we can arrange its deletion."
+      },
+      "communications": {
+        "heading": "14. Communications",
+        "body": "We do not currently send newsletters or email marketing campaigns. Any future marketing communication will only take place on an appropriate legal basis (including consent, where required) and with the ability to opt out. We may contact you regarding your account or requests you have sent us (transactional / service communications)."
+      },
+      "updates": {
+        "heading": "15. Updates to This Privacy Policy",
+        "body": "We will publish the updated version of this policy on the Service (or the repository / page where it is made available), with its effective date. Material changes may be communicated prominently on the Service. Continued use after the effective date, where permitted by law, constitutes acceptance of the updated policy; where the law requires renewed consent, we will ask for it."
+      },
+      "contact": {
+        "heading": "16. Contact Information and Complaints",
+        "body": "Privacy enquiries: see the \"Data Controller Information\" section.\n\nRegulatory complaints: in Portugal (GDPR), the Comissão Nacional de Proteção de Dados (CNPD) - www.cnpd.pt; in the United Kingdom (UK GDPR), the Information Commissioner's Office (ICO) - www.ico.org.uk; in other EU member states, the supervisory authority of your habitual residence, place of work or the place of the alleged infringement.\n\nWe encourage you to contact us directly before filing a formal complaint, so we can try to resolve the matter promptly."
+      }
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "effectiveDate": "Effective date: 14 August 2026",
+    "lastUpdated": "Last updated: 14 August 2026",
+    "sections": {
+      "provider": {
+        "heading": "1. Service Provider Information and Service Overview",
+        "body": "The Service is provided by Daniel Fonseca da Silva, a self-employed professional in Portugal. For questions relating to these Terms, please contact us at contact@autocronica.autos.\n\nAuto Crónica is a catalogue of chronic vehicle faults, organised by make and model, that lets you search for known faults, save vehicles to a personal garage, comment on and rate reports, and vote on fixes suggested by the community.\n\nAI processing disclosure: when a search doesn't yet have enough data in the catalogue, the Service may use artificial intelligence systems (through language model providers such as Google Gemini, Groq or OpenRouter) to generate or enrich fault and fix suggestions based on the vehicle's attributes. AI-generated suggestions are informational and do not replace a professional inspection, mechanical diagnosis or legal advice."
+      },
+      "acceptance": {
+        "heading": "2. Acceptance and Modification of the Terms",
+        "body": "By accessing or using the Service, you acknowledge that you have read, understood and agree to be bound by these Terms and our Privacy Policy. These Terms form a legally binding agreement between you and the Service Provider under the laws of the Portuguese Republic and applicable European Union regulations, including but not limited to the GDPR.\n\nWe reserve the right to modify these Terms at any time. Changes will be published on our site with an updated effective date. Continued use of the Service after changes constitutes acceptance of the modified Terms. Electronic acceptance of these Terms creates a valid and enforceable contract in accordance with Portuguese law and the European Union's electronic contract formation requirements, including the eIDAS Regulation (Regulation (EU) No 910/2014)."
+      },
+      "eligibility": {
+        "heading": "3. User Eligibility and Account Registration",
+        "body": "Our Service is available to users from any country. However, for users in the European Union, you must have reached the minimum legal age to enter into binding contracts (generally 18, or the age set by Portuguese law or the law of your country of residence, where applicable), and comply with these Terms and applicable local laws.\n\nTo use features such as the personal garage, comments, ratings and votes, users must sign in via Google OAuth. Users are responsible for keeping access to their Google account confidential and for all activity that occurs through their account on the Service."
+      },
+      "acceptableUse": {
+        "heading": "4. Acceptable Use of the Service",
+        "body": "Users agree to use the Service only for lawful purposes and in accordance with these Terms. Using the Service for any illegal or fraudulent activity, or one that violates the rights of others - including posting offensive, defamatory comments or images, or content that infringes third-party intellectual property rights - is prohibited.\n\nUsers may not attempt to access unauthorised areas of the Service, interfere with its operation, fraudulently manipulate votes or ratings, or use any automated method to access the Service without prior authorisation."
+      },
+      "advertisingPayments": {
+        "heading": "5. Advertising and Absence of Payment Processing",
+        "body": "The Service does not process payments or charge users any subscription fee. All catalogue, garage, community and AI suggestion features are available to users at no direct cost.\n\nWhen enabled, advertising on the Service is delivered through Google AdSense. Google may use its own cookies and technologies to serve ads, in accordance with its own privacy policy. Advertising may be disabled in development environments."
+      },
+      "intellectualProperty": {
+        "heading": "6. Intellectual Property Rights",
+        "body": "The Service, including software, algorithms, trademarks and catalogue content (excluding user data and publicly available information), is owned by the Service Provider and protected under Portuguese and international intellectual property laws.\n\nWe grant users a limited, non-exclusive, non-transferable licence to access and use the fault catalogue, the personal garage, community features (comments, ratings, votes) and AI-generated suggestions, strictly for personal, non-commercial use.\n\nVehicle data, comments, ratings and votes submitted by users are handled in accordance with the Privacy Policy. The Service may use publicly available information relevant to the automotive sector to enrich the catalogue, without claiming ownership of that information. Users retain ownership of the content they provide to the Service, but grant the Provider a worldwide, non-exclusive, royalty-free and sublicensable licence to process, format, store and display that content within the shared catalogue, to the extent necessary to provide the Service."
+      },
+      "dataProtection": {
+        "heading": "7. Data Protection and Privacy",
+        "body": "Processing of users' personal data is governed by our Privacy Policy, which complies with the European Union's General Data Protection Regulation (GDPR) and Portuguese data protection law.\n\nUsers have the right to access, rectify, erase, restrict processing of, port and object to the processing of their personal data, as provided for under the GDPR."
+      },
+      "cookies": {
+        "heading": "8. Cookies and Similar Technologies",
+        "body": "The Service uses cookies and similar technologies in accordance with the ePrivacy Directive (2002/58/EC) and the GDPR. For more information about our use of cookies, please see our Privacy Policy.\n\nUsers can manage their cookie preferences through their browser settings."
+      },
+      "legalCompliance": {
+        "heading": "9. Legal Compliance and International Transfers",
+        "body": "To operate the Service, users' personal data may be transferred to countries outside the European Economic Area (EEA), including the United States and the United Kingdom, in particular through infrastructure, authentication and language model providers. Any international transfers are subject to appropriate safeguards, in accordance with Article 46 GDPR, and will be protected through the implementation of Standard Contractual Clauses (SCCs) approved by the European Commission, or other valid transfer mechanisms, ensuring that data maintains a level of protection essentially equivalent to that guaranteed by the GDPR."
+      },
+      "indemnification": {
+        "heading": "10. Indemnification",
+        "body": "Users agree to indemnify, defend and hold the Service Provider harmless from any claims, damages, losses, liabilities and expenses (including legal fees) arising from the user's use of the Service, breach of these Terms, or infringement of any third-party rights."
+      },
+      "liability": {
+        "heading": "11. Limitation of Liability and Disclaimer of Warranties",
+        "body": "The Service is provided \"as is\" and \"as available\" without warranties of any kind, express or implied, including but not limited to warranties of accuracy, reliability, fitness for a particular purpose or non-infringement. Catalogue information, chronic fault reports and AI-generated suggestions depend on data entered by users, public reports and third-party information, and may contain inaccuracies. Users must independently verify any catalogue information before making purchase, maintenance or repair decisions about a vehicle. We are not liable for decisions made based on data from the Service.\n\nTo the maximum extent permitted by applicable law, the Service Provider's total liability for all claims related to the Service shall not exceed EUR 100, given that the Service does not process payments from users. This limitation applies regardless of the legal theory on which the claim is based.\n\nWe will not be liable for indirect, incidental, special, consequential or punitive damages, unless such damages result from our wilful misconduct or gross negligence.\n\nNothing in these Terms limits or excludes our liability for death or personal injury resulting from our negligence, fraud or fraudulent misrepresentation, or any other liability that cannot be limited or excluded under applicable Portuguese or European Union law."
+      },
+      "termination": {
+        "heading": "12. Termination",
+        "body": "The Service Provider reserves the right to suspend or terminate a user's access to the Service, at any time, without prior notice, for breach of these Terms or for any other reason at the Service Provider's discretion.\n\nUsers may close their account at any time through their account settings or by contacting us. Requesting account deletion currently performs a logical deletion (soft-delete), as described in the Privacy Policy."
+      },
+      "serviceModifications": {
+        "heading": "13. Modifications to the Service",
+        "body": "The Service Provider reserves the right to modify, suspend or discontinue any aspect of the Service at any time, with or without prior notice.\n\nThe Service Provider will not be liable to the user or any third party for any modification, suspension or discontinuation of the Service."
+      },
+      "governingLaw": {
+        "heading": "14. Governing Law and Dispute Resolution",
+        "body": "These Terms are governed by and construed in accordance with the laws of the Portuguese Republic and applicable European Union law, without regard to their conflict of laws principles.\n\nAny dispute, controversy or claim arising out of these Terms, or their breach, termination or invalidity, shall be subject to the jurisdiction of the Portuguese courts, with jurisdiction lying with the court of the Service Provider's place of residence or, at the consumer's choice, the court of their place of residence, pursuant to Regulation (EU) No 1215/2012.\n\nConsumers in Portugal and other EU member states may seek dispute resolution through the European Commission's Online Dispute Resolution (ODR) platform, available at https://ec.europa.eu/consumers/odr/. The parties agree to attempt good-faith negotiation before initiating formal legal proceedings."
+      },
+      "additionalProvisions": {
+        "heading": "15. Additional Provisions",
+        "body": "These Terms, together with the Privacy Policy, constitute the entire agreement between the user and the Service Provider regarding use of the Service and supersede all prior agreements.\n\nIf any provision of these Terms is found to be invalid or unenforceable, the remaining provisions will remain in full force and effect. The Portuguese-language version of these Terms shall prevail in the event of any conflict with translations.\n\nThe Service Provider's failure to enforce any right or provision of these Terms will not constitute a waiver of that right or provision. Users may not assign or transfer these Terms without the Service Provider's prior written consent; the Service Provider may assign these Terms without restriction.\n\nFor questions relating to these Terms, please contact us at contact@autocronica.autos."
+      }
+    }
+  }
+}

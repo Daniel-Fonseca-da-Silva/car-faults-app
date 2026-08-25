@@ -15,5 +15,11 @@
   "loginStatFaults": "faults",
   "loginStatModels": "models",
   "loginStatRecalls": "recalls",
-  "loginStatsSemanticLabel": "Platform statistics"
+  "loginStatsSemanticLabel": "Platform statistics",
+  "loginDisclaimer": "Data sourced from public reports, forums or through the use of agents and AI.",
+  "loginCopyright": "© {year}",
+  "legalLinkPrivacy": "Privacy",
+  "legalLinkTerms": "Terms",
+  "legalLoadError": "Could not load the legal document.",
+  "legalRetry": "Try again"
 }
