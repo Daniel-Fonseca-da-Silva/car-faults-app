@@ -1,30 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
 
-import 'package:car_faults_app/main.dart';
+import 'package:car_faults_app/data/repositories/auth_repository.dart';
+import 'package:car_faults_app/l10n/app_localizations.dart';
+import 'package:car_faults_app/ui/core/theme/app_theme.dart';
+import 'package:car_faults_app/ui/core/widgets/app_footer.dart';
+import 'package:car_faults_app/ui/core/widgets/app_header.dart';
 import 'package:car_faults_app/ui/core/widgets/brand_wordmark.dart';
 import 'package:car_faults_app/ui/core/widgets/google_sign_in_button.dart';
 import 'package:car_faults_app/ui/core/widgets/section_eyebrow.dart';
 import 'package:car_faults_app/ui/features/legal/views/legal_view.dart';
+import 'package:car_faults_app/ui/features/login/view_models/login_view_model.dart';
+import 'package:car_faults_app/ui/features/login/views/login_view.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_access_section.dart';
-import 'package:car_faults_app/ui/features/login/views/widgets/login_footer.dart';
-import 'package:car_faults_app/ui/features/login/views/widgets/login_header.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_hero_section.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_sign_up_prompt.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_stat_item.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_stats_section.dart';
 
+Widget _loginApp() {
+  return ChangeNotifierProvider(
+    create: (_) => LoginViewModel(authRepository: AuthRepository()),
+    child: MaterialApp(
+      theme: AppTheme.dark,
+      locale: const Locale('pt'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: const LoginView(),
+    ),
+  );
+}
+
 void main() {
   testWidgets('LoginView shows the header with logo, wordmark and avatar', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const CarFaultsApp());
+    await tester.pumpWidget(_loginApp());
 
     expect(
-      find.descendant(
-        of: find.byType(LoginHeader),
-        matching: find.byType(Image),
-      ),
+      find.descendant(of: find.byType(AppHeader), matching: find.byType(Image)),
       findsOneWidget,
     );
     expect(find.byIcon(Icons.person), findsOneWidget);
@@ -32,7 +47,7 @@ void main() {
     final wordmark = tester.widget<Text>(
       find.descendant(
         of: find.descendant(
-          of: find.byType(LoginHeader),
+          of: find.byType(AppHeader),
           matching: find.byType(BrandWordmark),
         ),
         matching: find.byType(Text),
@@ -44,7 +59,7 @@ void main() {
   testWidgets('LoginView shows the hero photo, eyebrow and title', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const CarFaultsApp());
+    await tester.pumpWidget(_loginApp());
 
     expect(find.byType(LoginHeroSection), findsOneWidget);
     expect(
@@ -67,7 +82,7 @@ void main() {
   testWidgets(
     'LoginView shows the Google access block and the sign-up prompt',
     (WidgetTester tester) async {
-      await tester.pumpWidget(const CarFaultsApp());
+      await tester.pumpWidget(_loginApp());
 
       expect(find.byType(LoginAccessSection), findsOneWidget);
       expect(find.text('Entrar na conta'), findsOneWidget);
@@ -87,7 +102,7 @@ void main() {
   testWidgets(
     'tapping the Google button shows a SnackBar with the stub result',
     (WidgetTester tester) async {
-      await tester.pumpWidget(const CarFaultsApp());
+      await tester.pumpWidget(_loginApp());
 
       await tester.tap(find.text('Continuar com Google'));
       await tester.pumpAndSettle();
@@ -102,7 +117,7 @@ void main() {
   testWidgets('LoginView shows the three stats with their labels', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const CarFaultsApp());
+    await tester.pumpWidget(_loginApp());
 
     expect(find.byType(LoginStatsSection), findsOneWidget);
     expect(find.byType(LoginStatItem), findsNWidgets(3));
@@ -118,12 +133,12 @@ void main() {
   testWidgets('LoginView shows the footer wordmark, disclaimer and copyright', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const CarFaultsApp());
-    await tester.scrollUntilVisible(find.byType(LoginFooter), 200);
+    await tester.pumpWidget(_loginApp());
+    await tester.scrollUntilVisible(find.byType(AppFooter), 200);
 
     expect(
       find.descendant(
-        of: find.byType(LoginFooter),
+        of: find.byType(AppFooter),
         matching: find.byType(BrandWordmark),
       ),
       findsOneWidget,
@@ -140,19 +155,19 @@ void main() {
   testWidgets('LoginView footer shows Privacy and Terms links', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const CarFaultsApp());
+    await tester.pumpWidget(_loginApp());
     await tester.scrollUntilVisible(find.text('Privacidade'), 200);
 
     expect(
       find.descendant(
-        of: find.byType(LoginFooter),
+        of: find.byType(AppFooter),
         matching: find.text('Privacidade'),
       ),
       findsOneWidget,
     );
     expect(
       find.descendant(
-        of: find.byType(LoginFooter),
+        of: find.byType(AppFooter),
         matching: find.text('Termos'),
       ),
       findsOneWidget,
@@ -162,7 +177,7 @@ void main() {
   testWidgets('tapping Privacidade opens the LegalView', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const CarFaultsApp());
+    await tester.pumpWidget(_loginApp());
     await tester.scrollUntilVisible(find.text('Privacidade'), 200);
 
     await tester.tap(find.text('Privacidade'));
@@ -175,7 +190,7 @@ void main() {
   testWidgets('tapping "Cadastre-se grátis" triggers the same Google command', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const CarFaultsApp());
+    await tester.pumpWidget(_loginApp());
 
     await tester.tap(find.text('Cadastre-se grátis'));
     await tester.pumpAndSettle();
