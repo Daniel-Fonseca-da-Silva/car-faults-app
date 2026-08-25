@@ -1,0 +1,149 @@
+{
+  "hero": {
+    "eyebrow": "Legal",
+    "title": "Privacidade e Termos de Uso",
+    "imageAlt": "Documentos de um Fiat 500 pousados sobre o capô do veículo"
+  },
+  "nav": {
+    "privacy": "Política de Privacidade",
+    "terms": "Termos de Serviço"
+  },
+  "policy": {
+    "title": "Política de Privacidade e Proteção de Dados",
+    "effectiveDate": "Data de vigência: 14 de agosto de 2026",
+    "lastUpdated": "Última atualização: 14 de agosto de 2026",
+    "sections": {
+      "scope": {
+        "heading": "1. Introdução e Âmbito",
+        "body": "A Auto Crónica (\"Serviço\") é operada por Daniel Fonseca da Silva, trabalhador independente em Portugal (\"Prestador\", \"nós\", \"nosso\" ou \"nossa\"), e respeita a sua privacidade, estando comprometida em proteger as suas informações pessoais. Esta Política de Privacidade explica como recolhemos, usamos, processamos e protegemos informações quando utiliza o Serviço Auto Crónica.\n\nConformidade regulatória: esta política foi elaborada tendo em conta o Regulamento Geral sobre a Proteção de Dados (RGPD) da União Europeia e o UK GDPR, aplicáveis aos utilizadores no Espaço Económico Europeu e no Reino Unido.\n\nVisão geral do Serviço: a Auto Crónica é um catálogo de defeitos crónicos de veículos organizado por marca e modelo. O Serviço permite pesquisar informação sobre falhas conhecidas, guardar veículos numa garage pessoal, comentar e avaliar relatos, votar em correções sugeridas e, quando ainda não existem dados suficientes, obter sugestões geradas com apoio de inteligência artificial. Os dados podem basear-se em relatos públicos, contribuições da comunidade ou conteúdo assistido por IA."
+      },
+      "controller": {
+        "heading": "2. Informações do Controlador de Dados e Detalhes de Contacto",
+        "body": "Controlador de dados: Daniel Fonseca da Silva (Portugal).\n\nConsultas de privacidade: envie um pedido com o assunto \"Pedido de Privacidade\" através do contacto indicado na página Sobre do Serviço (perfil LinkedIn do controlador), até que um endereço de e-mail dedicado seja publicado no Serviço."
+      },
+      "dataCollected": {
+        "heading": "3. Categorias de Informações Pessoais que Recolhemos",
+        "body": "Informações que o utilizador fornece diretamente (ou via Google): informações da conta ao iniciar sessão com Google OAuth - identificador Google, endereço de e-mail, nome de apresentação, URL do avatar e o papel da conta; conteúdo gerado pelo utilizador - veículos guardados na garage, favoritos, comentários em texto, imagens de comentários, avaliações e votos em correções; critérios de pesquisa - marca, modelo, ano, motor, tipo de combustível, número de portas e idioma (não pedimos VIN, matrícula, morada nem número de telefone); dados de comunicação em pedidos de suporte ou privacidade.\n\nInformações recolhidas automaticamente: informações técnicas (endereço IP, tipo de navegador, dispositivo e carimbos de data/hora de acesso, na medida em que constem dos registos técnicos do alojamento ou da API); informações de sessão (token de autenticação JWT em cookie httpOnly, com validade habitual de cerca de 7 dias); registos de atividade e estatísticas de perfil derivadas da sua utilização.\n\nDados de publicidade (quando ativada): se a publicidade estiver ativada, o Google AdSense pode recolher dados através dos seus próprios cookies e tecnologias, segundo a política de privacidade do Google. Em ambientes de desenvolvimento a publicidade pode estar desativada.\n\nNão recolhemos intencionalmente dados sensíveis especiais (artigo 9.º do RGPD) nem dados de pagamento - o Serviço não processa cartões nem subscrições."
+      },
+      "legalBasis": {
+        "heading": "4. Base Legal para Processamento e Finalidades de Uso",
+        "body": "Bases legais do RGPD / UK GDPR: execução de contrato (artigo 6.º, n.º 1, alínea b)) para criar e gerir a sua conta, autenticar sessões e disponibilizar garage, comentários, avaliações, votos e resultados de pesquisa; interesses legítimos (artigo 6.º, n.º 1, alínea f)) para segurança, melhoria do catálogo, funcionamento da infraestrutura e resposta a pedidos de suporte; consentimento (artigo 6.º, n.º 1, alínea a)) quando exigido para tecnologias de publicidade de terceiros ou futuras comunicações de marketing; obrigação legal (artigo 6.º, n.º 1, alínea c)) quando a lei o exigir.\n\nFinalidades de processamento: prestação do Serviço (catálogo, pesquisa, conta e funcionalidades de comunidade); processamento por IA para gerar ou enriquecer sugestões de defeitos e correções, sem decisão automatizada com efeitos jurídicos significativos sobre si; segurança (verificação anti-bot, proteção de sessões e controlo de acesso por função); armazenamento de imagens de comentários e de catálogo; publicidade via Google AdSense, quando configurada; e conformidade com pedidos de direitos dos titulares e obrigações legais aplicáveis."
+      },
+      "aiProcessing": {
+        "heading": "5. Processamento por IA e Tomada de Decisão Automatizada",
+        "body": "As pesquisas que ainda não têm dados suficientes no catálogo podem ser encaminhadas pela nossa API para um serviço de IA interno (stateless), que por sua vez pode recorrer a fornecedores de modelos de linguagem (por exemplo, Google Gemini, Groq, OpenRouter ou equivalentes). Os dados enviados a esses fornecedores são tipicamente atributos do veículo (marca, modelo, ano, motor, combustível, portas, idioma) e, em fluxos de tradução/enriquecimento, títulos e descrições de issues - não enviamos o seu e-mail ou identificador de conta a esse serviço de IA. Os resultados podem ser guardados no catálogo partilhado e/ou em cache, para reutilização por outros utilizadores.\n\nO Serviço não toma decisões automatizadas com efeitos jurídicos ou igualmente significativos sobre si (artigo 22.º do RGPD). As sugestões de IA são informativas e não substituem inspeção profissional, diagnóstico mecânico ou aconselhamento jurídico. Pode solicitar informações adicionais sobre o processamento por IA que afete a sua experiência através do contacto de privacidade indicado nesta política."
+      },
+      "dataSharing": {
+        "heading": "6. Partilha de Dados e Processadores de Terceiros",
+        "body": "Autenticação: Google, para autenticação OAuth (âmbitos tipicamente email e profile). O Google processa os dados segundo a sua própria política de privacidade.\n\nInfraestrutura e segurança: Cloudflare (Turnstile e, quando utilizado, armazenamento de objetos R2 para imagens) e fornecedores de alojamento em nuvem (aplicação web, API, base de dados PostgreSQL e cache Redis).\n\nProcessamento por IA: fornecedores de modelos de linguagem acedidos através do nosso serviço de IA (por exemplo, Google, Groq, OpenRouter), exclusivamente para gerar ou enriquecer conteúdo do catálogo.\n\nPublicidade: Google AdSense (quando ativado), que atua como prestador de serviços de publicidade e pode definir cookies próprios.\n\nSem venda de dados: não vendemos as suas informações pessoais a terceiros para marketing direto desses terceiros."
+      },
+      "internationalTransfers": {
+        "heading": "7. Transferências Internacionais de Dados",
+        "body": "Alguns subprocessadores (nomeadamente Google, Cloudflare e fornecedores de LLM) podem processar dados nos Estados Unidos ou noutros países fora do EEE / Reino Unido.\n\nQuando exigido, recorremos a mecanismos reconhecidos pelo RGPD / UK GDPR, tais como decisões de adequação ou Cláusulas Contratuais-Tipo (SCCs), consoante o que cada fornecedor disponibilize. Pode solicitar informações adicionais sobre transferências que o afetem através do contacto de privacidade."
+      },
+      "retention": {
+        "heading": "8. Retenção e Eliminação de Dados",
+        "body": "Dados da conta: mantidos enquanto a conta estiver ativa. O pedido de eliminação da conta efetua, nesta fase, uma eliminação lógica (soft-delete); o re-login com a mesma conta Google pode restaurar o registo.\n\nSessão: o cookie de acesso expira tipicamente em cerca de 7 dias ou quando termina a sessão. Cache Redis: dados de utilizador e resultados de pesquisa em cache com TTL limitado. Imagens de comentários: mantidas enquanto o conteúdo associado existir no Serviço. Registos técnicos e de atividade: pelo tempo necessário à segurança, operação e melhoria do Serviço, ou enquanto a conta e o conteúdo associado subsistirem.\n\nConteúdo de comunidade e catálogo: comentários, avaliações, votos e issues do catálogo podem permanecer no Serviço enquanto forem necessários à finalidade do catálogo partilhado; em pedidos de eliminação analisamos o que pode ser apagado, anonimizado ou desassociado, sujeito a obrigações legais e à integridade do Serviço.\n\nNota de transparência: nesta fase não disponibilizamos exportação automática de portabilidade nem eliminação física completa e imediata de todos os registos relacionados. Pode solicitar acesso, retificação ou eliminação adicional pelo contacto de privacidade; trataremos o pedido no prazo legal aplicável."
+      },
+      "rights": {
+        "heading": "9. Direitos do Titular dos Dados",
+        "body": "Nos termos do RGPD / UK GDPR, e sob reserva das condições legais, pode: ser informado sobre o tratamento dos seus dados; aceder aos dados pessoais que conservamos sobre si; retificar dados inexatos ou incompletos (incluindo atualização de nome e avatar através do perfil, quando disponível); solicitar a eliminação dos seus dados (\"direito a ser esquecido\"), incluindo o pedido de eliminação de conta no Serviço; solicitar a limitação do tratamento; opor-se a tratamentos baseados em interesses legítimos; solicitar a portabilidade dos dados, quando aplicável; e retirar o consentimento quando o tratamento se baseie em consentimento, sem afetar a licitude do tratamento anterior."
+      },
+      "exercisingRights": {
+        "heading": "10. Exercendo os Seus Direitos",
+        "body": "Como enviar solicitações: contacte-nos conforme a secção \"Informações do Controlador de Dados\", com o assunto \"Pedido de Privacidade\", indicando o pedido (acesso, retificação, eliminação, oposição, portabilidade, etc.) e informação suficiente para verificar a sua identidade (por exemplo, o e-mail da conta Google associada ao Serviço).\n\nProcessamento de solicitações: prazo de resposta em regra até 30 dias (RGPD / UK GDPR), prorrogável nos termos da lei quando o pedido for complexo; verificação de identidade através de medidas razoáveis para confirmar que o pedido é feito pelo titular; sem taxa em regra, salvo pedidos manifestamente infundados, excessivos ou repetitivos."
+      },
+      "cookies": {
+        "heading": "11. Cookies e Tecnologias Semelhantes",
+        "body": "Tipos utilizados: cookies essenciais (cookie de sessão de autenticação access_token, httpOnly, necessário para manter o login e proteger áreas autenticadas); tecnologias de segurança (Cloudflare Turnstile em fluxos de pesquisa protegidos); publicidade e estatísticas (cookies e tecnologias do Google AdSense e do Vercel Analytics, apenas depois de aceitar); preferências da interface (componentes podem utilizar cookies técnicos de preferência, sem fins de marketing).\n\nConsentimento e controlo: na primeira visita, o Serviço apresenta um aviso de cookies no canto inferior esquerdo do ecrã, com os botões \"Aceitar\" e \"Recusar\" e um link para esta Política de Privacidade. A sua escolha é guardada no cookie cookie_consent (valor accepted ou rejected, com validade de cerca de um ano). Recusar não impede a utilização do site - apenas mantém a publicidade e as estatísticas desligadas. Os sinais de publicidade do Google (Consent Mode) começam desligados por predefinição e só passam a concedidos depois de aceitar. Pode mudar a sua escolha a qualquer momento através do link \"Cookies\" no rodapé do Serviço, ou gerir cookies através das definições do seu navegador e, quando aplicável, das ferramentas de opt-out disponibilizadas pelo Google para publicidade."
+      },
+      "security": {
+        "heading": "12. Segurança de Dados",
+        "body": "Medidas adotadas: comunicação protegida por TLS em ambientes de produção; token JWT em cookie httpOnly, com SameSite adequado e flag Secure em produção; autenticação obrigatória para áreas de perfil, garage e administração, com autorização por papel (role) para funções administrativas; redação de cabeçalhos sensíveis (por exemplo, Authorization e Cookie) nos registos HTTP da API, na medida do configurado; e minimização - não pedimos VIN, matrícula nem dados de pagamento.\n\nLimitações: nenhum sistema é totalmente isento de risco. Se tomarmos conhecimento de um incidente que afete os seus dados pessoais, avaliaremos o impacto e, quando exigido por lei, notificaremos a autoridade competente e os titulares afetados."
+      },
+      "minors": {
+        "heading": "13. Privacidade de Menores",
+        "body": "O Serviço não se destina a crianças com idade inferior a 16 anos. Não recolhemos intencionalmente dados pessoais de menores abaixo dessa idade. Se for responsável parental e acreditar que um menor nos forneceu dados pessoais, contacte-nos para solicitarmos a eliminação."
+      },
+      "communications": {
+        "heading": "14. Comunicações",
+        "body": "Não enviamos newsletters nem campanhas de marketing por e-mail nesta fase. Qualquer comunicação futura de marketing só será feita com base legal adequada (incluindo consentimento, quando exigido) e com possibilidade de opt-out. Podemos contactá-lo a respeito da sua conta ou de pedidos que nos tenha enviado (comunicações transacionais / de serviço)."
+      },
+      "updates": {
+        "heading": "15. Atualizações desta Política de Privacidade",
+        "body": "Publicaremos a versão atualizada desta política no Serviço (ou no repositório / página onde for disponibilizada), com a respetiva data de vigência. Alterações materiais poderão ser comunicadas de forma destacada no Serviço. O uso continuado após a data de vigência, quando permitido por lei, constitui aceitação da política atualizada; quando a lei exigir novo consentimento, solicitá-lo-emos."
+      },
+      "contact": {
+        "heading": "16. Informações de Contacto e Reclamações",
+        "body": "Consultas de privacidade: ver secção \"Informações do Controlador de Dados\".\n\nReclamações regulatórias: em Portugal (RGPD), a Comissão Nacional de Proteção de Dados (CNPD) - www.cnpd.pt; no Reino Unido (UK GDPR), o Information Commissioner's Office (ICO) - www.ico.org.uk; nos restantes Estados-Membros da UE, a autoridade de controlo do seu país de residência habitual, local de trabalho ou do local da alegada infração.\n\nEncorajamos o contacto direto connosco antes de apresentar uma reclamação formal, para tentarmos resolver a questão com brevidade."
+      }
+    }
+  },
+  "terms": {
+    "title": "Termos de Serviço",
+    "effectiveDate": "Data de vigência: 14 de agosto de 2026",
+    "lastUpdated": "Última atualização: 14 de agosto de 2026",
+    "sections": {
+      "provider": {
+        "heading": "1. Informações do Prestador de Serviço e Visão Geral do Serviço",
+        "body": "O Serviço é prestado por Daniel Fonseca da Silva, trabalhador independente em Portugal. Para questões relacionadas com estes Termos, entre em contacto através do email contact@autocronica.autos.\n\nA Auto Crónica é um catálogo de defeitos crónicos de veículos, organizado por marca e modelo, que permite pesquisar falhas conhecidas, guardar veículos numa garage pessoal, comentar e avaliar relatos, e votar em correções sugeridas pela comunidade.\n\nDivulgação de processamento por IA: quando uma pesquisa ainda não tem dados suficientes no catálogo, o Serviço pode recorrer a sistemas de inteligência artificial (através de fornecedores de modelos de linguagem, como Google Gemini, Groq ou OpenRouter) para gerar ou enriquecer sugestões de defeitos e correções com base nos atributos do veículo. As sugestões geradas por IA são informativas e não substituem inspeção profissional, diagnóstico mecânico ou aconselhamento jurídico."
+      },
+      "acceptance": {
+        "heading": "2. Aceitação e Modificação dos Termos",
+        "body": "Ao aceder ou usar o Serviço, o utilizador reconhece que leu, entendeu e concorda em estar vinculado a estes Termos e à nossa Política de Privacidade. Estes Termos constituem um acordo legalmente vinculativo entre o utilizador e o Prestador de Serviço sob as leis da República Portuguesa e os Regulamentos da União Europeia aplicáveis, incluindo, mas não se limitando a, o RGPD.\n\nReservamo-nos o direito de modificar estes Termos a qualquer momento. As alterações serão publicadas no nosso site com uma data de vigência atualizada. O uso continuado do Serviço após as alterações constitui aceitação dos Termos modificados. A aceitação eletrónica destes Termos cria um contrato válido e executável de acordo com a legislação portuguesa e os requisitos de formação de contratos eletrónicos da União Europeia, incluindo o Regulamento eIDAS (Regulamento (UE) n.º 910/2014)."
+      },
+      "eligibility": {
+        "heading": "3. Elegibilidade do Utilizador e Registo de Conta",
+        "body": "O nosso Serviço está disponível para utilizadores de qualquer país. No entanto, para utilizadores na União Europeia, o utilizador deve ter a idade mínima legal para celebrar contratos vinculativos (geralmente 18 anos, ou a idade determinada pela lei portuguesa ou pela lei do país de residência do utilizador, se aplicável), e cumprir estes Termos e as leis locais aplicáveis.\n\nPara utilizar funcionalidades como a garage pessoal, comentários, avaliações e votos, os utilizadores devem iniciar sessão através do Google OAuth. Os utilizadores são responsáveis por manter a confidencialidade do acesso à sua conta Google e por todas as atividades que ocorram através da sua conta no Serviço."
+      },
+      "acceptableUse": {
+        "heading": "4. Uso Aceitável do Serviço",
+        "body": "Os utilizadores concordam em usar o Serviço apenas para fins legais e de acordo com estes Termos. É proibido usar o Serviço para qualquer atividade ilegal, fraudulenta ou que viole os direitos de terceiros, incluindo a publicação de comentários ou imagens ofensivos, difamatórios ou que infrinjam direitos de propriedade intelectual de terceiros.\n\nOs utilizadores não podem tentar aceder a áreas não autorizadas do Serviço, interferir com o funcionamento do Serviço, manipular votos ou avaliações de forma fraudulenta, ou usar qualquer método automatizado para aceder ao Serviço sem autorização prévia."
+      },
+      "advertisingPayments": {
+        "heading": "5. Publicidade e Ausência de Processamento de Pagamentos",
+        "body": "O Serviço não processa pagamentos nem cobra subscrições aos utilizadores. Todas as funcionalidades do catálogo, garage, comunidade e sugestões de IA estão disponíveis sem custo direto para o utilizador.\n\nQuando ativada, a publicidade no Serviço é disponibilizada através do Google AdSense. O Google pode utilizar cookies e tecnologias próprias para apresentar anúncios, de acordo com a sua própria política de privacidade. Em ambientes de desenvolvimento, a publicidade pode estar desativada."
+      },
+      "intellectualProperty": {
+        "heading": "6. Direitos de Propriedade Intelectual",
+        "body": "O Serviço, incluindo software, algoritmos, marcas registadas e conteúdo do catálogo (excluindo dados do utilizador e informação de domínio público), é propriedade do Prestador de Serviço e está protegido pelas leis portuguesas e internacionais de propriedade intelectual.\n\nConcedemos aos utilizadores uma licença limitada, não exclusiva e não transferível para aceder e usar o catálogo de defeitos, a garage pessoal, as funcionalidades de comunidade (comentários, avaliações, votos) e as sugestões geradas por IA, estritamente para uso pessoal e não comercial.\n\nOs dados de veículos, comentários, avaliações e votos introduzidos pelos utilizadores são tratados de acordo com a Política de Privacidade. O Serviço pode utilizar informação de domínio público relevante para o setor automóvel para enriquecer o catálogo, sem reivindicar propriedade sobre tal informação. Os utilizadores mantêm a propriedade do conteúdo que fornecem ao Serviço, mas concedem ao Prestador uma licença mundial, não exclusiva, livre de royalties e sublicenciável para processar, formatar, armazenar e exibir esse conteúdo no âmbito do catálogo partilhado, na medida necessária à prestação do Serviço."
+      },
+      "dataProtection": {
+        "heading": "7. Proteção de Dados e Privacidade",
+        "body": "O processamento de dados pessoais dos utilizadores é regido pela nossa Política de Privacidade, que está em conformidade com o Regulamento Geral de Proteção de Dados (RGPD) da União Europeia e as leis portuguesas de proteção de dados.\n\nOs utilizadores têm o direito de aceder, retificar, apagar, limitar o processamento, portabilidade dos dados e oposição ao processamento dos seus dados pessoais, conforme previsto no RGPD."
+      },
+      "cookies": {
+        "heading": "8. Cookies e Tecnologias Similares",
+        "body": "O Serviço utiliza cookies e tecnologias similares em conformidade com a Diretiva ePrivacy (2002/58/CE) e o RGPD. Para mais informações sobre o uso de cookies, consulte a nossa Política de Privacidade.\n\nOs utilizadores podem gerir as suas preferências de cookies através das definições do navegador."
+      },
+      "legalCompliance": {
+        "heading": "9. Conformidade Legal e Transferências Internacionais",
+        "body": "Para a operação do Serviço, os dados pessoais do utilizador podem ser transferidos para países fora do Espaço Económico Europeu (EEE), incluindo os EUA e o Reino Unido, nomeadamente através de fornecedores de infraestrutura, autenticação e modelos de linguagem. Quaisquer transferências internacionais estão sujeitas a salvaguardas apropriadas, de acordo com o Artigo 46.º do RGPD, e serão protegidas através da implementação das Cláusulas Contratuais-Tipo (SCCs) aprovadas pela Comissão Europeia, ou de outros mecanismos de transferência válidos, garantindo que os dados mantêm um nível de proteção essencialmente equivalente ao garantido pelo RGPD."
+      },
+      "indemnification": {
+        "heading": "10. Indemnização",
+        "body": "Os utilizadores concordam em indemnizar, defender e isentar o Prestador de Serviço de quaisquer reivindicações, danos, perdas, responsabilidades e despesas (incluindo honorários advocatícios) decorrentes do uso do Serviço pelo utilizador, violação destes Termos, ou violação de quaisquer direitos de terceiros."
+      },
+      "liability": {
+        "heading": "11. Limitação de Responsabilidade e Exclusão de Garantias",
+        "body": "O Serviço é fornecido \"como está\" e \"conforme disponível\" sem garantias de qualquer tipo, expressas ou implícitas, incluindo, mas não se limitando a garantias de precisão, confiabilidade, adequação a um fim específico ou não violação. A informação do catálogo, os relatos de defeitos crónicos e as sugestões geradas por IA dependem de dados introduzidos pelos utilizadores, relatos públicos e informação de terceiros, podendo conter imprecisões. Os utilizadores devem verificar de forma independente qualquer informação do catálogo antes de tomar decisões de compra, manutenção ou reparação de um veículo. Não somos responsáveis por decisões tomadas com base em dados do Serviço.\n\nNa extensão máxima permitida pela lei aplicável, a responsabilidade total do Prestador de Serviço por todas as reivindicações relacionadas com o Serviço não excederá 100 euros, dado que o Serviço não processa pagamentos dos utilizadores. Esta limitação aplica-se independentemente da teoria legal sobre a qual a reivindicação se baseia.\n\nNão seremos responsáveis por danos indiretos, incidentais, especiais, consequenciais ou punitivos, a menos que tais danos resultem de má conduta intencional ou negligência grave da nossa parte.\n\nNada nestes Termos limita ou exclui a nossa responsabilidade por morte ou lesão pessoal resultante de negligência nossa, fraude ou deturpação fraudulenta, ou qualquer outra responsabilidade que não possa ser limitada ou excluída sob as leis da República Portuguesa ou da União Europeia aplicáveis."
+      },
+      "termination": {
+        "heading": "12. Rescisão",
+        "body": "O Prestador de Serviço reserva-se o direito de suspender ou encerrar o acesso do utilizador ao Serviço, a qualquer momento, sem aviso prévio, por violação destes Termos ou por qualquer outro motivo a critério do Prestador de Serviço.\n\nO utilizador pode encerrar a sua conta a qualquer momento através das definições da conta ou entrando em contacto connosco. O pedido de eliminação da conta efetua, nesta fase, uma eliminação lógica (soft-delete), conforme descrito na Política de Privacidade."
+      },
+      "serviceModifications": {
+        "heading": "13. Modificações do Serviço",
+        "body": "O Prestador de Serviço reserva-se o direito de modificar, suspender ou descontinuar qualquer aspeto do Serviço a qualquer momento, com ou sem aviso prévio.\n\nO Prestador de Serviço não será responsável perante o utilizador ou qualquer terceiro por qualquer modificação, suspensão ou descontinuação do Serviço."
+      },
+      "governingLaw": {
+        "heading": "14. Lei Aplicável e Resolução de Disputas",
+        "body": "Estes Termos são regidos e interpretados de acordo com as leis da República Portuguesa e as leis da União Europeia aplicáveis, sem consideração aos seus princípios de conflito de leis.\n\nQualquer disputa, controvérsia ou reivindicação decorrente destes Termos, ou a sua violação, resolução ou invalidade, será submetida à jurisdição dos tribunais portugueses, sendo competente o tribunal da área de residência do Prestador de Serviço ou, à escolha do consumidor, o tribunal da área da sua residência, nos termos do Regulamento (UE) n.º 1215/2012.\n\nOs consumidores em Portugal e noutros estados-membros da UE podem procurar a resolução de disputas através da plataforma de Resolução de Disputas Online (ODR) da Comissão Europeia, acessível em https://ec.europa.eu/consumers/odr/. As partes concordam em tentar a negociação de boa fé antes de iniciar procedimentos legais formais."
+      },
+      "additionalProvisions": {
+        "heading": "15. Disposições Adicionais",
+        "body": "Estes Termos, juntamente com a Política de Privacidade, constituem o acordo completo entre o utilizador e o Prestador de Serviço relativamente ao uso do Serviço e substituem todos os acordos anteriores.\n\nSe qualquer disposição destes Termos for considerada inválida ou inexequível, as disposições restantes permanecerão em pleno vigor e efeito. A versão em português destes Termos prevalecerá em caso de conflito com traduções.\n\nA falha do Prestador de Serviço em fazer valer qualquer direito ou disposição destes Termos não constituirá uma renúncia a tal direito ou disposição. O utilizador não pode ceder ou transferir estes Termos sem o consentimento prévio por escrito do Prestador de Serviço; o Prestador de Serviço pode ceder estes Termos sem restrições.\n\nPara questões relacionadas com estes Termos, entre em contacto através do email contact@autocronica.autos."
+      }
+    }
+  }
+}
