@@ -1,5 +1,8 @@
 {
   "@@locale": "es",
+  "appHeaderLogo": "Logotipo de Auto Crónica",
+  "appHeaderAvatar": "Cuenta de usuario",
+  "homeDisclaimer": "Datos obtenidos de informes públicos y organismos reguladores. No sustituye una evaluación técnica.",
   "loginHeroEyebrow": "CARFAULTS",
   "loginHeroTitleBeforeHighlight": "Conoce los defectos",
   "loginHeroTitleHighlight": "antes",

@@ -1,5 +1,17 @@
 {
   "@@locale": "pt",
+  "appHeaderLogo": "Logótipo Auto Crónica",
+  "@appHeaderLogo": {
+    "description": "Accessibility label of the brand logo in the shared app header."
+  },
+  "appHeaderAvatar": "Conta de utilizador",
+  "@appHeaderAvatar": {
+    "description": "Accessibility label of the avatar in the shared app header."
+  },
+  "homeDisclaimer": "Dados obtidos de relatos públicos e entidades reguladoras. Não substitui uma avaliação técnica.",
+  "@homeDisclaimer": {
+    "description": "Legal disclaimer in the home footer about where the fault data comes from."
+  },
   "loginHeroEyebrow": "CARFAULTS",
   "@loginHeroEyebrow": {
     "description": "Brand eyebrow shown over the login hero photo."

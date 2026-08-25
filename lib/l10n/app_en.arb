@@ -1,5 +1,8 @@
 {
   "@@locale": "en",
+  "appHeaderLogo": "Auto Crónica logo",
+  "appHeaderAvatar": "User account",
+  "homeDisclaimer": "Data gathered from public reports and regulatory bodies. It does not replace a technical assessment.",
   "loginHeroEyebrow": "CARFAULTS",
   "loginHeroTitleBeforeHighlight": "Know the faults",
   "loginHeroTitleHighlight": "before",
