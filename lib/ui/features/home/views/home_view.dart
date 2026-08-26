@@ -7,10 +7,11 @@ import '../../../core/widgets/app_footer.dart';
 import '../../../core/widgets/app_header.dart';
 import '../../login/view_models/login_view_model.dart';
 import '../../login/views/login_view.dart';
+import 'widgets/home_hero_section.dart';
 import 'widgets/home_search_card.dart';
 
-/// Home screen: shared header, vehicle search card and shared footer. The hero,
-/// stats and reported faults arrive in the following slices.
+/// Home screen: shared header, hero, vehicle search card and shared footer.
+/// Stats and reported faults arrive in the following slices.
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
@@ -24,6 +25,8 @@ class HomeView extends StatelessWidget {
           child: Column(
             children: [
               AppHeader(onAvatarTap: () => _openLogin(context)),
+              const SizedBox(height: 24),
+              const HomeHeroSection(),
               const SizedBox(height: 24),
               const HomeSearchCard(),
               AppFooter(disclaimer: l10n.homeDisclaimer),
