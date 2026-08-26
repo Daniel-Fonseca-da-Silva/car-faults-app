@@ -10,13 +10,13 @@ import 'package:car_faults_app/ui/core/widgets/app_header.dart';
 import 'package:car_faults_app/ui/core/widgets/brand_wordmark.dart';
 import 'package:car_faults_app/ui/core/widgets/google_sign_in_button.dart';
 import 'package:car_faults_app/ui/core/widgets/section_eyebrow.dart';
+import 'package:car_faults_app/ui/core/widgets/stat_item.dart';
 import 'package:car_faults_app/ui/features/legal/views/legal_view.dart';
 import 'package:car_faults_app/ui/features/login/view_models/login_view_model.dart';
 import 'package:car_faults_app/ui/features/login/views/login_view.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_access_section.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_hero_section.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_sign_up_prompt.dart';
-import 'package:car_faults_app/ui/features/login/views/widgets/login_stat_item.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_stats_section.dart';
 
 Widget _loginApp() {
@@ -120,7 +120,7 @@ void main() {
     await tester.pumpWidget(_loginApp());
 
     expect(find.byType(LoginStatsSection), findsOneWidget);
-    expect(find.byType(LoginStatItem), findsNWidgets(3));
+    expect(find.byType(StatItem), findsNWidgets(3));
 
     expect(find.text('1.2M+'), findsOneWidget);
     expect(find.text('defeitos'), findsOneWidget);
