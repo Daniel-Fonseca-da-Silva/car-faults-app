@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
+import '../theme/app_colors.dart';
 
-/// Single column of the login stats bar: orange value over a muted label.
-class LoginStatItem extends StatelessWidget {
-  const LoginStatItem({super.key, required this.value, required this.label});
+/// Single column of a stats bar: orange value over a muted label.
+class StatItem extends StatelessWidget {
+  const StatItem({super.key, required this.value, required this.label});
 
   final String value;
   final String label;
@@ -27,6 +27,7 @@ class LoginStatItem extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             label,
+            textAlign: TextAlign.center,
             style: const TextStyle(color: AppColors.muted, fontSize: 12),
           ),
         ],
