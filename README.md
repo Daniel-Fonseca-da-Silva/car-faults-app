@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/icon/app_icon.png" alt="Auto Crónica" width="220">
+</p>
+
 # Car Faults App
 
 Mobile client for **Auto Crónica** - a SaaS focused on **chronic reliability by vehicle model**: what typically fails on a given make / model / year / engine, how severe it is, typical cost and how it gets fixed.
