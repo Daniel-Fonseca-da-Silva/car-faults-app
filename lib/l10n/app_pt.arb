@@ -12,6 +12,26 @@
   "@homeDisclaimer": {
     "description": "Legal disclaimer in the home footer about where the fault data comes from."
   },
+  "homeHeroEyebrow": "Base de dados de fiabilidade automóvel",
+  "@homeHeroEyebrow": {
+    "description": "Eyebrow label above the home hero title."
+  },
+  "homeHeroTitleBeforeHighlight": "Conheça os",
+  "@homeHeroTitleBeforeHighlight": {
+    "description": "First part of the home hero title, before the highlighted word."
+  },
+  "homeHeroTitleHighlight": "defeitos",
+  "@homeHeroTitleHighlight": {
+    "description": "Highlighted word (shown in orange) of the home hero title."
+  },
+  "homeHeroTitleAfterHighlight": "antes de comprar",
+  "@homeHeroTitleAfterHighlight": {
+    "description": "Last part of the home hero title, after the highlighted word."
+  },
+  "homeHeroSubtitle": "Pesquise avarias crónicas por marca, modelo, ano e motor, reportadas por milhares de proprietários reais.",
+  "@homeHeroSubtitle": {
+    "description": "Subtitle below the home hero title."
+  },
   "homeSearchTitle": "PESQUISAR VEÍCULO",
   "@homeSearchTitle": {
     "description": "Title of the vehicle search card on the home screen."
