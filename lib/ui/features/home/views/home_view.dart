@@ -10,9 +10,10 @@ import '../../login/views/login_view.dart';
 import 'widgets/home_hero_section.dart';
 import 'widgets/home_search_card.dart';
 import 'widgets/home_stats_section.dart';
+import 'widgets/home_top_faults_section.dart';
 
-/// Home screen: shared header, hero, vehicle search card, stats bar and
-/// shared footer. Reported faults arrive in a following slice.
+/// Home screen: shared header, hero, vehicle search card, stats bar, most
+/// reported faults and shared footer.
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
@@ -31,6 +32,7 @@ class HomeView extends StatelessWidget {
               const SizedBox(height: 24),
               const HomeSearchCard(),
               const HomeStatsSection(),
+              const HomeTopFaultsSection(),
               AppFooter(disclaimer: l10n.homeDisclaimer),
             ],
           ),

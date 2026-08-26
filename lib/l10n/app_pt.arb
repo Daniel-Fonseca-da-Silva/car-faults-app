@@ -128,6 +128,42 @@
   "@homeStatsSemanticLabel": {
     "description": "Accessibility label announcing the home stats group."
   },
+  "homeTopFaultsTitle": "AVARIAS MAIS REPORTADAS",
+  "@homeTopFaultsTitle": {
+    "description": "Title of the most-reported-faults section on the home screen."
+  },
+  "homeTopFaultsViewReports": "Ver relatos",
+  "@homeTopFaultsViewReports": {
+    "description": "Decorative footer label of each top fault card. No navigation in this slice."
+  },
+  "homeTopFaultsSemanticLabel": "Avarias mais reportadas",
+  "@homeTopFaultsSemanticLabel": {
+    "description": "Accessibility label announcing the most-reported-faults card list."
+  },
+  "homeFaultInjection": "Falha no sistema de injeção eletrónica",
+  "@homeFaultInjection": {
+    "description": "Mocked fault description (placeholder data, no source in this delivery) for the Volkswagen Gol top fault card."
+  },
+  "homeFaultBodyCorrosion": "Corrosão precoce na carroçaria",
+  "@homeFaultBodyCorrosion": {
+    "description": "Mocked fault description (placeholder data, no source in this delivery) for the Fiat Uno top fault card."
+  },
+  "homeFaultEngineCoverLeak": "Fuga de óleo na tampa do motor",
+  "@homeFaultEngineCoverLeak": {
+    "description": "Mocked fault description (placeholder data, no source in this delivery) for the Ford EcoSport top fault card."
+  },
+  "homeFaultRearBrakeWear": "Desgaste prematuro dos travões traseiros",
+  "@homeFaultRearBrakeWear": {
+    "description": "Mocked fault description (placeholder data, no source in this delivery) for the Toyota Corolla top fault card."
+  },
+  "homeFaultGearboxIntermittent": "Falha intermitente na caixa automática",
+  "@homeFaultGearboxIntermittent": {
+    "description": "Mocked fault description (placeholder data, no source in this delivery) for the Chevrolet Onix top fault card."
+  },
+  "homeFaultDashElectrical": "Problema elétrico no painel de instrumentos",
+  "@homeFaultDashElectrical": {
+    "description": "Mocked fault description (placeholder data, no source in this delivery) for the Renault Sandero top fault card."
+  },
   "loginHeroEyebrow": "CARFAULTS",
   "@loginHeroEyebrow": {
     "description": "Brand eyebrow shown over the login hero photo."
