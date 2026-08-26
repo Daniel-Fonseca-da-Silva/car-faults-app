@@ -12,6 +12,86 @@
   "@homeDisclaimer": {
     "description": "Legal disclaimer in the home footer about where the fault data comes from."
   },
+  "homeSearchTitle": "PESQUISAR VEÍCULO",
+  "@homeSearchTitle": {
+    "description": "Title of the vehicle search card on the home screen."
+  },
+  "homeSearchStatusActive": "Base de dados ativa",
+  "@homeSearchStatusActive": {
+    "description": "Fixed status indicator in the search card header. There is no availability check yet."
+  },
+  "homeSearchFieldBrand": "MARCA",
+  "@homeSearchFieldBrand": {
+    "description": "Label of the vehicle make field in the search card."
+  },
+  "homeSearchFieldBrandPlaceholder": "Ex.: Volkswagen",
+  "@homeSearchFieldBrandPlaceholder": {
+    "description": "Placeholder of the vehicle make field."
+  },
+  "homeSearchFieldModel": "MODELO",
+  "@homeSearchFieldModel": {
+    "description": "Label of the vehicle model field in the search card."
+  },
+  "homeSearchFieldModelPlaceholder": "Ex.: Gol, Civic, Corolla...",
+  "@homeSearchFieldModelPlaceholder": {
+    "description": "Placeholder of the vehicle model field."
+  },
+  "homeSearchFieldYear": "ANO",
+  "@homeSearchFieldYear": {
+    "description": "Label of the vehicle year field in the search card."
+  },
+  "homeSearchFieldYearPlaceholder": "Selecione o ano",
+  "@homeSearchFieldYearPlaceholder": {
+    "description": "Placeholder of the vehicle year field."
+  },
+  "homeSearchFieldEngine": "MOTOR",
+  "@homeSearchFieldEngine": {
+    "description": "Label of the engine field in the search card."
+  },
+  "homeSearchFieldEnginePlaceholder": "Ex.: 1.0, 1.6, 2.0 turbo...",
+  "@homeSearchFieldEnginePlaceholder": {
+    "description": "Placeholder of the engine field."
+  },
+  "homeSearchFieldFuel": "COMBUSTÍVEL",
+  "@homeSearchFieldFuel": {
+    "description": "Label of the fuel field in the search card."
+  },
+  "homeSearchFieldFuelPlaceholder": "Tipo de combustível",
+  "@homeSearchFieldFuelPlaceholder": {
+    "description": "Placeholder of the fuel field."
+  },
+  "homeSearchFieldDoors": "PORTAS",
+  "@homeSearchFieldDoors": {
+    "description": "Label of the doors field in the search card."
+  },
+  "homeSearchFieldDoorsPlaceholder": "Número de portas",
+  "@homeSearchFieldDoorsPlaceholder": {
+    "description": "Placeholder of the doors field."
+  },
+  "homeSearchFieldOptional": "opcional",
+  "@homeSearchFieldOptional": {
+    "description": "Badge next to the label of an optional field."
+  },
+  "homeFuelPetrol": "Gasolina",
+  "@homeFuelPetrol": {
+    "description": "Petrol option of the fuel dropdown."
+  },
+  "homeFuelDiesel": "Gasóleo",
+  "@homeFuelDiesel": {
+    "description": "Diesel option of the fuel dropdown. Portugal says 'gasóleo'."
+  },
+  "homeFuelElectric": "Elétrico",
+  "@homeFuelElectric": {
+    "description": "Electric option of the fuel dropdown."
+  },
+  "homeFuelLpg": "GPL",
+  "@homeFuelLpg": {
+    "description": "Liquefied petroleum gas option of the fuel dropdown."
+  },
+  "homeFuelHybrid": "Híbrido",
+  "@homeFuelHybrid": {
+    "description": "Hybrid option of the fuel dropdown."
+  },
   "loginHeroEyebrow": "CARFAULTS",
   "@loginHeroEyebrow": {
     "description": "Brand eyebrow shown over the login hero photo."

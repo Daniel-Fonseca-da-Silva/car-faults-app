@@ -7,4 +7,8 @@ abstract final class AppColors {
   static const primary = Color(0xFFE07830);
   static const onSurface = Color(0xFFF2EAE3);
   static const muted = Color(0xFFB0A296);
+
+  /// Green of the "database online" indicator. The `ColorScheme` has no green,
+  /// so the token lives here.
+  static const success = Color(0xFF4CAF7D);
 }
