@@ -112,6 +112,22 @@
   "@homeFuelHybrid": {
     "description": "Hybrid option of the fuel dropdown."
   },
+  "homeStatFaults": "Defeitos registados",
+  "@homeStatFaults": {
+    "description": "Label of the faults count in the home stats bar."
+  },
+  "homeStatModels": "Modelos catalogados",
+  "@homeStatModels": {
+    "description": "Label of the vehicle models count in the home stats bar."
+  },
+  "homeStatRecalls": "Recalls documentados",
+  "@homeStatRecalls": {
+    "description": "Label of the recalls count in the home stats bar. Kept as the product word in every locale."
+  },
+  "homeStatsSemanticLabel": "Estatísticas da plataforma",
+  "@homeStatsSemanticLabel": {
+    "description": "Accessibility label announcing the home stats group."
+  },
   "loginHeroEyebrow": "CARFAULTS",
   "@loginHeroEyebrow": {
     "description": "Brand eyebrow shown over the login hero photo."
