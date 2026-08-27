@@ -8,6 +8,7 @@ import '../../view_models/lookup_results_view_model.dart';
 import 'lookup_issue_sources.dart';
 import 'lookup_reviews_section.dart';
 import 'lookup_severity_badge.dart';
+import 'lookup_solutions_section.dart';
 
 /// One expansible card in the known-issues accordion: header (icon, title,
 /// severity badge, meta, chevron) and, when expanded, the description,
@@ -75,6 +76,10 @@ class LookupIssueCard extends StatelessWidget {
                     const Divider(color: AppColors.muted),
                     const SizedBox(height: 8),
                     LookupReviewsSection(issueId: issue.id),
+                    const SizedBox(height: 16),
+                    const Divider(color: AppColors.muted),
+                    const SizedBox(height: 8),
+                    LookupSolutionsSection(fixes: issue.fixes),
                   ],
                 ),
               ),
