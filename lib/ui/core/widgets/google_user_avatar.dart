@@ -6,12 +6,20 @@ import '../theme/app_colors.dart';
 /// Circular Google account photo, falling back to initials when [photoUrl]
 /// is missing or fails to load.
 class GoogleUserAvatar extends StatefulWidget {
-  const GoogleUserAvatar({super.key, required this.name, this.photoUrl});
+  const GoogleUserAvatar({
+    super.key,
+    required this.name,
+    this.photoUrl,
+    this.size = GoogleUserAvatar.defaultSize,
+  });
 
   final String name;
   final String? photoUrl;
 
-  static const size = 40.0;
+  /// Diameter of the avatar circle.
+  final double size;
+
+  static const defaultSize = 40.0;
 
   @override
   State<GoogleUserAvatar> createState() => _GoogleUserAvatarState();
@@ -19,6 +27,8 @@ class GoogleUserAvatar extends StatefulWidget {
 
 class _GoogleUserAvatarState extends State<GoogleUserAvatar> {
   var _imageFailed = false;
+
+  static const _initialsFontSizeFactor = 0.35;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +39,7 @@ class _GoogleUserAvatarState extends State<GoogleUserAvatar> {
       label: l10n.navAvatar(widget.name),
       image: true,
       child: CircleAvatar(
-        radius: GoogleUserAvatar.size / 2,
+        radius: widget.size / 2,
         backgroundColor: AppColors.surface,
         backgroundImage: showImage ? NetworkImage(widget.photoUrl!) : null,
         onBackgroundImageError: showImage
@@ -39,9 +49,10 @@ class _GoogleUserAvatarState extends State<GoogleUserAvatar> {
             ? null
             : Text(
                 _initials(widget.name),
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.onSurface,
                   fontWeight: FontWeight.w700,
+                  fontSize: widget.size * _initialsFontSizeFactor,
                 ),
               ),
       ),

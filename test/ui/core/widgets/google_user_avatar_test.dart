@@ -48,6 +48,22 @@ void main() {
     expect(find.text('DF'), findsNothing);
   });
 
+  testWidgets('defaults to a 40dp diameter', (WidgetTester tester) async {
+    await tester.pumpWidget(_app(const GoogleUserAvatar(name: 'Ana Silva')));
+
+    final avatar = tester.widget<CircleAvatar>(find.byType(CircleAvatar));
+    expect(avatar.radius, GoogleUserAvatar.defaultSize / 2);
+  });
+
+  testWidgets('uses the given size when provided', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      _app(const GoogleUserAvatar(name: 'Ana Silva', size: 64)),
+    );
+
+    final avatar = tester.widget<CircleAvatar>(find.byType(CircleAvatar));
+    expect(avatar.radius, 32);
+  });
+
   testWidgets('shows initials when the photo fails to load', (
     WidgetTester tester,
   ) async {

@@ -74,6 +74,20 @@
   "@profileEyebrow": {
     "description": "Eyebrow label above the Profile screen content."
   },
+  "profileOnlineStatus": "Online",
+  "@profileOnlineStatus": {
+    "description": "Accessibility label of the green online status dot on the profile identity card's avatar."
+  },
+  "profileMemberSince": "Membro desde {date}",
+  "@profileMemberSince": {
+    "description": "Pill on the profile identity card showing the month and year the account was created.",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "julho de 2026"
+      }
+    }
+  },
   "homeDisclaimer": "Dados obtidos de relatos públicos e entidades reguladoras. Não substitui uma avaliação técnica.",
   "@homeDisclaimer": {
     "description": "Legal disclaimer in the home footer about where the fault data comes from."
