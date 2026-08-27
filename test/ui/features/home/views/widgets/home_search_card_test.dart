@@ -1,21 +1,40 @@
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/widgets/app_autocomplete_field.dart';
 import 'package:car_faults_app/ui/core/widgets/app_dropdown_field.dart';
+import 'package:car_faults_app/ui/core/widgets/app_primary_button.dart';
 import 'package:car_faults_app/ui/core/widgets/app_text_field.dart';
 import 'package:car_faults_app/ui/core/widgets/labeled_field.dart';
 import 'package:car_faults_app/ui/features/home/home_search_options.dart';
+import 'package:car_faults_app/ui/features/home/view_models/home_search_view_model.dart';
 import 'package:car_faults_app/ui/features/home/views/widgets/home_search_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   Future<void> pumpCard(WidgetTester tester) {
     return tester.pumpWidget(
-      const MaterialApp(
-        locale: Locale('pt'),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(body: SingleChildScrollView(child: HomeSearchCard())),
+      ChangeNotifierProvider(
+        create: (_) => HomeSearchViewModel(),
+        child: const MaterialApp(
+          locale: Locale('pt'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Scaffold(
+            body: SingleChildScrollView(
+              child: HomeSearchCard(onSubmit: _noop),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  ElevatedButton submitButton(WidgetTester tester) {
+    return tester.widget<ElevatedButton>(
+      find.descendant(
+        of: find.byType(AppPrimaryButton),
+        matching: find.byType(ElevatedButton),
       ),
     );
   }
@@ -52,9 +71,26 @@ void main() {
   ) async {
     await pumpCard(tester);
 
-    expect(find.byIcon(Icons.search), findsOneWidget);
+    // One in the header, one on the submit button.
+    expect(find.byIcon(Icons.search), findsNWidgets(2));
     expect(find.text('PESQUISAR VEÍCULO'), findsOneWidget);
     expect(find.text('Base de dados ativa'), findsOneWidget);
+  });
+
+  testWidgets('shows the submit button with the search-faults copy and icon', (
+    WidgetTester tester,
+  ) async {
+    await pumpCard(tester);
+
+    expect(find.byType(AppPrimaryButton), findsOneWidget);
+    expect(find.text('Pesquisar defeitos'), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byType(AppPrimaryButton),
+        matching: find.byIcon(Icons.search),
+      ),
+      findsOneWidget,
+    );
   });
 
   testWidgets('shows the six field labels', (WidgetTester tester) async {
@@ -209,4 +245,24 @@ void main() {
 
     expect(find.text('$oldest'), findsOneWidget);
   });
+
+  testWidgets('submit button is disabled when the form is empty', (
+    WidgetTester tester,
+  ) async {
+    await pumpCard(tester);
+
+    expect(submitButton(tester).onPressed, isNull);
+  });
+
+  testWidgets('submit button enables after filling a single field', (
+    WidgetTester tester,
+  ) async {
+    await pumpCard(tester);
+    await tester.enterText(find.byType(AppAutocompleteField), 'Volkswagen');
+    await tester.pump();
+
+    expect(submitButton(tester).onPressed, isNotNull);
+  });
 }
+
+void _noop() {}
