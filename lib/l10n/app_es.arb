@@ -85,5 +85,11 @@
   "lookupSpecEngine": "Motor",
   "lookupSpecFuel": "Combustible",
   "lookupSpecDoors": "Puertas",
-  "lookupSpecPower": "Potencia"
+  "lookupSpecPower": "Potencia",
+  "lookupSummaryPrefix": "Encontramos",
+  "lookupSummaryKnownIssues": "{count} defectos conocidos",
+  "lookupSummaryMiddle": "para este vehículo, incluyendo",
+  "lookupSummaryCritical": "{count} crítico(s)",
+  "lookupSummaryAnd": "y",
+  "lookupSummaryHigh": "{count} de alta severidad"
 }

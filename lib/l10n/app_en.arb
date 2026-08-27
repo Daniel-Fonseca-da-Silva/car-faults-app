@@ -85,5 +85,11 @@
   "lookupSpecEngine": "Engine",
   "lookupSpecFuel": "Fuel",
   "lookupSpecDoors": "Doors",
-  "lookupSpecPower": "Power"
+  "lookupSpecPower": "Power",
+  "lookupSummaryPrefix": "We found",
+  "lookupSummaryKnownIssues": "{count} known faults",
+  "lookupSummaryMiddle": "for this vehicle, including",
+  "lookupSummaryCritical": "{count} critical",
+  "lookupSummaryAnd": "and",
+  "lookupSummaryHigh": "{count} high severity"
 }
