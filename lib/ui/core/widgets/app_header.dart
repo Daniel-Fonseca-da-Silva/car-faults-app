@@ -3,17 +3,14 @@ import 'package:flutter/material.dart';
 
 import '../constants/app_assets.dart';
 import '../theme/app_colors.dart';
+import 'app_menu_button.dart';
 import 'brand_wordmark.dart';
+import 'locale_switcher.dart';
 
 /// Top bar shared by every screen: brand logo + wordmark on the left,
-/// account avatar on the right.
-///
-/// The avatar is only interactive when [onAvatarTap] is given; on the login
-/// screen it stays decorative.
+/// language switcher and hamburger menu on the right.
 class AppHeader extends StatelessWidget {
-  const AppHeader({super.key, this.onAvatarTap});
-
-  final VoidCallback? onAvatarTap;
+  const AppHeader({super.key});
 
   static const _logoSize = 32.0;
   static const _minTouchTarget = 48.0;
@@ -30,9 +27,17 @@ class AppHeader extends StatelessWidget {
         children: [
           _logo(l10n.appHeaderLogo),
           const SizedBox(width: 8),
-          const BrandWordmark(),
-          const Spacer(),
-          _avatar(l10n.appHeaderAvatar),
+          const Flexible(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: BrandWordmark(fontSize: 16),
+            ),
+          ),
+          const SizedBox(width: 8),
+          const LocaleSwitcher(),
+          const SizedBox(width: 8),
+          const AppMenuButton(),
         ],
       ),
     );
@@ -47,27 +52,6 @@ class AppHeader extends StatelessWidget {
         width: _logoSize,
         height: _logoSize,
         fit: BoxFit.contain,
-      ),
-    );
-  }
-
-  Widget _avatar(String label) {
-    return Semantics(
-      label: label,
-      button: onAvatarTap != null,
-      child: InkWell(
-        onTap: onAvatarTap,
-        customBorder: const CircleBorder(),
-        child: const SizedBox(
-          width: _minTouchTarget,
-          height: _minTouchTarget,
-          child: Center(
-            child: CircleAvatar(
-              backgroundColor: AppColors.surface,
-              child: Icon(Icons.person, color: AppColors.muted),
-            ),
-          ),
-        ),
       ),
     );
   }

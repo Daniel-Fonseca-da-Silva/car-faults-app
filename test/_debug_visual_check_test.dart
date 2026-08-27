@@ -3,8 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
 import 'package:car_faults_app/data/repositories/auth_repository.dart';
+import 'package:car_faults_app/data/repositories/locale_repository.dart';
+import 'package:car_faults_app/data/services/locale_preferences_service.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/theme/app_theme.dart';
+import 'package:car_faults_app/ui/core/view_models/auth_session_view_model.dart';
+import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
 import 'package:car_faults_app/ui/features/login/view_models/login_view_model.dart';
 import 'package:car_faults_app/ui/features/login/views/login_view.dart';
 
@@ -18,8 +22,18 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
 
     await tester.pumpWidget(
-      ChangeNotifierProvider(
-        create: (_) => LoginViewModel(authRepository: AuthRepository()),
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => LoginViewModel(authRepository: AuthRepository()),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => LocaleViewModel(
+              repository: LocaleRepository(service: LocalePreferencesService()),
+            ),
+          ),
+          ChangeNotifierProvider(create: (_) => AuthSessionViewModel()),
+        ],
         child: MaterialApp(
           theme: AppTheme.dark,
           locale: const Locale('pt'),

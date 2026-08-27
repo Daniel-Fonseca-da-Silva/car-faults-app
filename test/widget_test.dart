@@ -3,12 +3,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
 import 'package:car_faults_app/data/repositories/auth_repository.dart';
+import 'package:car_faults_app/data/repositories/locale_repository.dart';
+import 'package:car_faults_app/data/services/locale_preferences_service.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/theme/app_theme.dart';
+import 'package:car_faults_app/ui/core/view_models/auth_session_view_model.dart';
+import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
 import 'package:car_faults_app/ui/core/widgets/app_footer.dart';
 import 'package:car_faults_app/ui/core/widgets/app_header.dart';
+import 'package:car_faults_app/ui/core/widgets/app_menu_button.dart';
 import 'package:car_faults_app/ui/core/widgets/brand_wordmark.dart';
 import 'package:car_faults_app/ui/core/widgets/google_sign_in_button.dart';
+import 'package:car_faults_app/ui/core/widgets/locale_switcher.dart';
 import 'package:car_faults_app/ui/core/widgets/section_eyebrow.dart';
 import 'package:car_faults_app/ui/core/widgets/stat_item.dart';
 import 'package:car_faults_app/ui/features/legal/views/legal_view.dart';
@@ -20,8 +26,18 @@ import 'package:car_faults_app/ui/features/login/views/widgets/login_sign_up_pro
 import 'package:car_faults_app/ui/features/login/views/widgets/login_stats_section.dart';
 
 Widget _loginApp() {
-  return ChangeNotifierProvider(
-    create: (_) => LoginViewModel(authRepository: AuthRepository()),
+  return MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (_) => LoginViewModel(authRepository: AuthRepository()),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => LocaleViewModel(
+          repository: LocaleRepository(service: LocalePreferencesService()),
+        ),
+      ),
+      ChangeNotifierProvider(create: (_) => AuthSessionViewModel()),
+    ],
     child: MaterialApp(
       theme: AppTheme.dark,
       locale: const Locale('pt'),
@@ -33,28 +49,45 @@ Widget _loginApp() {
 }
 
 void main() {
-  testWidgets('LoginView shows the header with logo, wordmark and avatar', (
-    WidgetTester tester,
-  ) async {
-    await tester.pumpWidget(_loginApp());
+  testWidgets(
+    'LoginView shows the header with logo, wordmark, locale switcher and menu',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(_loginApp());
 
-    expect(
-      find.descendant(of: find.byType(AppHeader), matching: find.byType(Image)),
-      findsOneWidget,
-    );
-    expect(find.byIcon(Icons.person), findsOneWidget);
-
-    final wordmark = tester.widget<Text>(
-      find.descendant(
-        of: find.descendant(
+      expect(
+        find.descendant(
           of: find.byType(AppHeader),
-          matching: find.byType(BrandWordmark),
+          matching: find.byType(Image),
         ),
-        matching: find.byType(Text),
-      ),
-    );
-    expect(wordmark.textSpan!.toPlainText(), 'AUTOCRÓNICA');
-  });
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(
+          of: find.byType(AppHeader),
+          matching: find.byType(LocaleSwitcher),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(
+          of: find.byType(AppHeader),
+          matching: find.byType(AppMenuButton),
+        ),
+        findsOneWidget,
+      );
+
+      final wordmark = tester.widget<Text>(
+        find.descendant(
+          of: find.descendant(
+            of: find.byType(AppHeader),
+            matching: find.byType(BrandWordmark),
+          ),
+          matching: find.byType(Text),
+        ),
+      );
+      expect(wordmark.textSpan!.toPlainText(), 'AUTOCRÓNICA');
+    },
+  );
 
   testWidgets('LoginView shows the hero photo, eyebrow and title', (
     WidgetTester tester,
