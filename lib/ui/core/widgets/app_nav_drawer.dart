@@ -6,6 +6,7 @@ import '../../../data/repositories/auth_repository.dart';
 import '../../features/about/views/about_view.dart';
 import '../../features/login/view_models/login_view_model.dart';
 import '../../features/login/views/login_view.dart';
+import '../../features/profile/views/profile_view.dart';
 import '../theme/app_colors.dart';
 import '../view_models/auth_session_view_model.dart';
 import 'app_nav_drawer_header.dart';
@@ -13,7 +14,7 @@ import 'app_nav_menu_item.dart';
 import 'google_user_avatar.dart';
 
 /// Right-side navigation drawer shared by every screen wrapped in
-/// [AppScaffold]: sign-in/account, "Defeitos" (home) and "Sobre".
+/// [AppScaffold]: sign-in/account, "Defeitos" (home), "Sobre" and "Perfil".
 class AppNavDrawer extends StatelessWidget {
   const AppNavDrawer({super.key});
 
@@ -42,6 +43,10 @@ class AppNavDrawer extends StatelessWidget {
             AppNavMenuItem(
               label: l10n.navAbout,
               onTap: () => _goToAbout(context),
+            ),
+            AppNavMenuItem(
+              label: l10n.navProfile,
+              onTap: () => _goToProfile(context),
             ),
             if (user != null) ...[
               const Spacer(),
@@ -99,6 +104,12 @@ class AppNavDrawer extends StatelessWidget {
     Navigator.of(context).pop();
     Navigator.of(context)
         .push(MaterialPageRoute<void>(builder: (_) => const AboutView()));
+  }
+
+  void _goToProfile(BuildContext context) {
+    Navigator.of(context).pop();
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(builder: (_) => const ProfileView()));
   }
 
   void _signOut(BuildContext context) {

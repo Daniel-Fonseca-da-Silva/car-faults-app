@@ -6,12 +6,18 @@ import '../theme/app_colors.dart';
 /// Circular Google account photo, falling back to initials when [photoUrl]
 /// is missing or fails to load.
 class GoogleUserAvatar extends StatefulWidget {
-  const GoogleUserAvatar({super.key, required this.name, this.photoUrl});
+  const GoogleUserAvatar({
+    super.key,
+    required this.name,
+    this.photoUrl,
+    this.size = defaultSize,
+  });
 
   final String name;
   final String? photoUrl;
+  final double size;
 
-  static const size = 40.0;
+  static const defaultSize = 40.0;
 
   @override
   State<GoogleUserAvatar> createState() => _GoogleUserAvatarState();
@@ -29,7 +35,7 @@ class _GoogleUserAvatarState extends State<GoogleUserAvatar> {
       label: l10n.navAvatar(widget.name),
       image: true,
       child: CircleAvatar(
-        radius: GoogleUserAvatar.size / 2,
+        radius: widget.size / 2,
         backgroundColor: AppColors.surface,
         backgroundImage: showImage ? NetworkImage(widget.photoUrl!) : null,
         onBackgroundImageError: showImage
