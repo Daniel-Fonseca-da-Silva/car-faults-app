@@ -80,5 +80,10 @@
   "legalRetry": "Intentar de nuevo",
   "lookupNewSearch": "Nueva búsqueda",
   "lookupVehicleFound": "Vehículo encontrado",
-  "lookupHeroImageAlt": "Fotografía de un Citroën 2CV"
+  "lookupHeroImageAlt": "Fotografía de un Citroën 2CV",
+  "lookupSpecYears": "Años",
+  "lookupSpecEngine": "Motor",
+  "lookupSpecFuel": "Combustible",
+  "lookupSpecDoors": "Puertas",
+  "lookupSpecPower": "Potencia"
 }
