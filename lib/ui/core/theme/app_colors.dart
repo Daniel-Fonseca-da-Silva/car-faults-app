@@ -11,4 +11,10 @@ abstract final class AppColors {
   /// Green of the "database online" indicator. The `ColorScheme` has no green,
   /// so the token lives here.
   static const success = Color(0xFF4CAF7D);
+
+  /// Severity badge color for [IssueSeverity.critical].
+  static const critical = Color(0xFFA64444);
+
+  /// Severity badge color for [IssueSeverity.medium].
+  static const warning = Color(0xFFC4A444);
 }
