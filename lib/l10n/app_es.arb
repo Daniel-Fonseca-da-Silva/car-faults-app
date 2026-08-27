@@ -36,6 +36,8 @@
   "homeSearchFieldDoors": "PUERTAS",
   "homeSearchFieldDoorsPlaceholder": "Número de puertas",
   "homeSearchFieldOptional": "opcional",
+  "homeSearchSubmit": "Buscar defectos",
+  "homeSearchSearching": "Buscando…",
   "homeFuelPetrol": "Gasolina",
   "homeFuelDiesel": "Diésel",
   "homeFuelElectric": "Eléctrico",
@@ -75,5 +77,6 @@
   "legalLinkPrivacy": "Privacidad",
   "legalLinkTerms": "Términos",
   "legalLoadError": "No se pudo cargar el documento legal.",
-  "legalRetry": "Intentar de nuevo"
+  "legalRetry": "Intentar de nuevo",
+  "lookupNewSearch": "Nueva búsqueda"
 }

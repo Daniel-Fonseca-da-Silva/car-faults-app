@@ -1,39 +1,27 @@
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_autocomplete_field.dart';
 import '../../../../core/widgets/app_dropdown_field.dart';
+import '../../../../core/widgets/app_primary_button.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/labeled_field.dart';
 import '../../home_search_options.dart';
+import '../../view_models/home_search_view_model.dart';
 
 /// Vehicle search card of the home screen.
 ///
-/// The selections live here for now; they move to the HomeSearchViewModel with
-/// the search form slice, which also brings validation and the submit button.
-class HomeSearchCard extends StatefulWidget {
-  const HomeSearchCard({super.key});
+/// Form state lives in [HomeSearchViewModel]. Submit is owned by the parent
+/// so the home view can show loading and then push the results screen.
+class HomeSearchCard extends StatelessWidget {
+  const HomeSearchCard({super.key, required this.onSubmit});
 
-  @override
-  State<HomeSearchCard> createState() => _HomeSearchCardState();
-}
+  final VoidCallback onSubmit;
 
-class _HomeSearchCardState extends State<HomeSearchCard> {
   static const _cardRadius = 14.0;
   static const _fieldGap = 12.0;
-
-  String? _brand;
-  int? _year;
-  FuelOption? _fuel;
-  int? _doors;
-
-  late final List<AppDropdownOption<int>> _yearOptions = _optionsOf(
-    HomeSearchOptions.years(),
-  );
-  late final List<AppDropdownOption<int>> _doorOptions = _optionsOf(
-    HomeSearchOptions.doors,
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -55,59 +43,89 @@ class _HomeSearchCardState extends State<HomeSearchCard> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: _fieldGap,
-            children: _fields(l10n),
+            children: _fields(context, l10n),
+          ),
+          const SizedBox(height: _fieldGap),
+          Consumer<HomeSearchViewModel>(
+            builder: (context, viewModel, _) {
+              final canPress = viewModel.canSubmit && !viewModel.isSearching;
+              return AppPrimaryButton(
+                icon: Icons.search,
+                label: l10n.homeSearchSubmit,
+                onPressed: canPress ? onSubmit : null,
+              );
+            },
           ),
         ],
       ),
     );
   }
 
-  List<Widget> _fields(AppLocalizations l10n) {
+  List<Widget> _fields(BuildContext context, AppLocalizations l10n) {
+    final viewModel = context.read<HomeSearchViewModel>();
+
     return [
       LabeledField(
         label: l10n.homeSearchFieldBrand,
         child: AppAutocompleteField(
           hintText: l10n.homeSearchFieldBrandPlaceholder,
           suggestionsFor: HomeSearchOptions.filterBrands,
-          value: _brand,
-          // No setState: the field renders the typed text on its own.
-          onChanged: (value) => _brand = value,
+          value: viewModel.brand,
+          onChanged: viewModel.setBrand,
         ),
       ),
       LabeledField(
         label: l10n.homeSearchFieldModel,
-        child: AppTextField(hintText: l10n.homeSearchFieldModelPlaceholder),
+        child: AppTextField(
+          hintText: l10n.homeSearchFieldModelPlaceholder,
+          onChanged: viewModel.setModel,
+        ),
       ),
       LabeledField(
         label: l10n.homeSearchFieldYear,
-        child: AppDropdownField<int>(
-          hintText: l10n.homeSearchFieldYearPlaceholder,
-          options: _yearOptions,
-          value: _year,
-          onChanged: (value) => setState(() => _year = value),
+        child: Consumer<HomeSearchViewModel>(
+          builder: (context, viewModel, _) {
+            return AppDropdownField<int>(
+              hintText: l10n.homeSearchFieldYearPlaceholder,
+              options: _optionsOf(HomeSearchOptions.years()),
+              value: viewModel.year,
+              onChanged: viewModel.setYear,
+            );
+          },
         ),
       ),
       LabeledField(
         label: l10n.homeSearchFieldEngine,
-        child: AppTextField(hintText: l10n.homeSearchFieldEnginePlaceholder),
+        child: AppTextField(
+          hintText: l10n.homeSearchFieldEnginePlaceholder,
+          onChanged: viewModel.setEngine,
+        ),
       ),
       LabeledField(
         label: l10n.homeSearchFieldFuel,
-        child: AppDropdownField<FuelOption>(
-          hintText: l10n.homeSearchFieldFuelPlaceholder,
-          options: _fuelOptions(l10n),
-          value: _fuel,
-          onChanged: (value) => setState(() => _fuel = value),
+        child: Consumer<HomeSearchViewModel>(
+          builder: (context, viewModel, _) {
+            return AppDropdownField<FuelOption>(
+              hintText: l10n.homeSearchFieldFuelPlaceholder,
+              options: _fuelOptions(l10n),
+              value: viewModel.fuel,
+              onChanged: viewModel.setFuel,
+            );
+          },
         ),
       ),
       LabeledField(
         label: l10n.homeSearchFieldDoors,
         showOptionalBadge: true,
-        child: AppDropdownField<int>(
-          hintText: l10n.homeSearchFieldDoorsPlaceholder,
-          options: _doorOptions,
-          value: _doors,
-          onChanged: (value) => setState(() => _doors = value),
+        child: Consumer<HomeSearchViewModel>(
+          builder: (context, viewModel, _) {
+            return AppDropdownField<int>(
+              hintText: l10n.homeSearchFieldDoorsPlaceholder,
+              options: _optionsOf(HomeSearchOptions.doors),
+              value: viewModel.doors,
+              onChanged: viewModel.setDoors,
+            );
+          },
         ),
       ),
     ];

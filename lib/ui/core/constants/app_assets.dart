@@ -5,6 +5,7 @@ abstract final class AppAssets {
   static const privacyHero = 'assets/images/privacy-term/Fiat-500-docs.webp';
   static const aboutFounderPhoto =
       'assets/images/about/daniel-fonseca-da-silva.jpg';
+  static const citroen2Cv = 'assets/images/show/citroen-2CV.webp';
 
   static const _supportedLegalLanguages = {'pt', 'en', 'es'};
   static const _defaultLegalLanguage = 'pt';
