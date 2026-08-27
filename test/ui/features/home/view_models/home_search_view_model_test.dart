@@ -50,9 +50,8 @@ void main() {
 
   test('search toggles isSearching around the injected delay', () async {
     final gate = Completer<void>();
-    final viewModel = HomeSearchViewModel(
-      delay: (_) => gate.future,
-    )..setYear(1996);
+    final viewModel = HomeSearchViewModel(delay: (_) => gate.future)
+      ..setYear(1996);
     var notifications = 0;
     viewModel.addListener(() => notifications++);
 

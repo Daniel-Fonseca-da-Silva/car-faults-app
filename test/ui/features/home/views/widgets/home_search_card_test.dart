@@ -21,9 +21,7 @@ void main() {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           home: Scaffold(
-            body: SingleChildScrollView(
-              child: HomeSearchCard(onSubmit: _noop),
-            ),
+            body: SingleChildScrollView(child: HomeSearchCard(onSubmit: _noop)),
           ),
         ),
       ),

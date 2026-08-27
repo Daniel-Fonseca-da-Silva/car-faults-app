@@ -59,11 +59,9 @@ class _HomeBody extends StatelessWidget {
     final viewModel = context.read<HomeSearchViewModel>();
     await viewModel.search();
     if (!context.mounted) return;
-    await Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => const LookupResultsView(),
-      ),
-    );
+    await Navigator.of(
+      context,
+    ).push(MaterialPageRoute<void>(builder: (_) => const LookupResultsView()));
   }
 }
 
