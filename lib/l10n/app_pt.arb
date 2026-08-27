@@ -513,5 +513,13 @@
         "example": "450"
       }
     }
+  },
+  "lookupCommentsTitle": "Comentários da comunidade",
+  "@lookupCommentsTitle": {
+    "description": "Title of the community comments section inside an expanded known issue card."
+  },
+  "lookupCommentsEmpty": "Ainda não há comentários. Sê o primeiro a partilhar a tua experiência.",
+  "@lookupCommentsEmpty": {
+    "description": "Empty state shown in the community comments section when a known issue has no comments yet."
   }
 }
