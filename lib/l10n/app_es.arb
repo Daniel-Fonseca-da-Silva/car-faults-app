@@ -17,6 +17,8 @@
   "aboutTitle": "Acerca de Auto Crónica",
   "aboutFounderPhoto": "Retrato de Daniel Fonseca da Silva",
   "profileEyebrow": "Cuenta",
+  "profileOnlineStatus": "En línea",
+  "profileMemberSince": "Miembro desde {date}",
   "homeDisclaimer": "Datos obtenidos de informes públicos y organismos reguladores. No sustituye una evaluación técnica.",
   "homeHeroEyebrow": "Base de datos de fiabilidad del automóvil",
   "homeHeroTitleBeforeHighlight": "Conozca los",
