@@ -335,5 +335,25 @@
   "lookupHeroImageAlt": "Fotografia de um Citroën 2CV",
   "@lookupHeroImageAlt": {
     "description": "Alt text for the results screen hero photo."
+  },
+  "lookupSpecYears": "Anos",
+  "@lookupSpecYears": {
+    "description": "Label of the years tech spec tile on the lookup results screen."
+  },
+  "lookupSpecEngine": "Motor",
+  "@lookupSpecEngine": {
+    "description": "Label of the engine tech spec tile on the lookup results screen."
+  },
+  "lookupSpecFuel": "Combustível",
+  "@lookupSpecFuel": {
+    "description": "Label of the fuel tech spec tile on the lookup results screen."
+  },
+  "lookupSpecDoors": "Portas",
+  "@lookupSpecDoors": {
+    "description": "Label of the doors tech spec tile on the lookup results screen."
+  },
+  "lookupSpecPower": "Potência",
+  "@lookupSpecPower": {
+    "description": "Label of the power tech spec tile on the lookup results screen."
   }
 }

@@ -7,6 +7,7 @@ import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
 import 'package:car_faults_app/ui/core/widgets/app_footer.dart';
 import 'package:car_faults_app/ui/features/lookup/views/lookup_results_view.dart';
 import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_back_link.dart';
+import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_tech_specs.dart';
 import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_vehicle_hero.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -56,6 +57,7 @@ void main() {
     expect(find.byType(LookupBackLink), findsOneWidget);
     expect(find.text('Nova busca'), findsOneWidget);
     expect(find.byType(LookupVehicleHero), findsOneWidget);
+    expect(find.byType(LookupTechSpecs), findsOneWidget);
     expect(find.byType(AppFooter), findsOneWidget);
     expect(
       find.text(
