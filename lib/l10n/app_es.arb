@@ -91,5 +91,20 @@
   "lookupSummaryMiddle": "para este vehículo, incluyendo",
   "lookupSummaryCritical": "{count} crítico(s)",
   "lookupSummaryAnd": "y",
-  "lookupSummaryHigh": "{count} de alta severidad"
+  "lookupSummaryHigh": "{count} de alta severidad",
+  "lookupSeverityLow": "Baja",
+  "lookupSeverityMedium": "Media",
+  "lookupSeverityHigh": "Alta",
+  "lookupSeverityCritical": "Crítica",
+  "lookupAtKm": "A los {km} km",
+  "lookupMileageIndependent": "Independiente del kilometraje — relacionado con la edad",
+  "lookupSolutionsCount": "{count} solución(es)",
+  "lookupSources": "Fuentes",
+  "lookupReviewsTitle": "Valorar este defecto",
+  "lookupReviewsCount": "{count} valoraciones",
+  "lookupReviewsEmpty": "Aún no hay valoraciones. Sé el primero en clasificar este defecto.",
+  "lookupReviewsYourRating": "Tu valoración",
+  "lookupReviewsYourBadge": "tu valoración",
+  "lookupReviewsCommentHint": "Añade un comentario breve (opcional)",
+  "lookupReviewsSubmit": "Enviar valoración"
 }
