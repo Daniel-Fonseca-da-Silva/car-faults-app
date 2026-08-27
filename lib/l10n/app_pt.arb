@@ -150,6 +150,14 @@
   "@homeSearchFieldOptional": {
     "description": "Badge next to the label of an optional field."
   },
+  "homeSearchSubmit": "Pesquisar defeitos",
+  "@homeSearchSubmit": {
+    "description": "Label of the search form's submit button."
+  },
+  "homeSearchSearching": "A pesquisar…",
+  "@homeSearchSearching": {
+    "description": "Loading copy shown on the home screen while the fake search runs."
+  },
   "homeFuelPetrol": "Gasolina",
   "@homeFuelPetrol": {
     "description": "Petrol option of the fuel dropdown."
@@ -315,5 +323,9 @@
   "legalRetry": "Tentar novamente",
   "@legalRetry": {
     "description": "Retry button label on the legal screen error state."
+  },
+  "lookupNewSearch": "Nova busca",
+  "@lookupNewSearch": {
+    "description": "Back link on the lookup results screen that returns to the search."
   }
 }
