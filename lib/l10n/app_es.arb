@@ -78,5 +78,7 @@
   "legalLinkTerms": "Términos",
   "legalLoadError": "No se pudo cargar el documento legal.",
   "legalRetry": "Intentar de nuevo",
-  "lookupNewSearch": "Nueva búsqueda"
+  "lookupNewSearch": "Nueva búsqueda",
+  "lookupVehicleFound": "Vehículo encontrado",
+  "lookupHeroImageAlt": "Fotografía de un Citroën 2CV"
 }
