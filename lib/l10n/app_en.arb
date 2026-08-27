@@ -8,6 +8,7 @@
   "navSignOut": "Log out",
   "navDefects": "Defects",
   "navAbout": "About",
+  "navProfile": "Profile",
   "navLanguage": "Language",
   "navAvatar": "{name}'s avatar",
   "localePt": "Português (PT)",
@@ -113,5 +114,15 @@
   "lookupHelpful": "Helpful?",
   "lookupCostEur": "€ {amount}",
   "lookupCommentsTitle": "Community comments",
-  "lookupCommentsEmpty": "There are no comments yet. Be the first to share your experience."
+  "lookupCommentsEmpty": "There are no comments yet. Be the first to share your experience.",
+  "profileEyebrow": "Account",
+  "profileOnlineStatus": "Online",
+  "profileMemberSince": "Member since {date}",
+  "profileAccountTitle": "Account information",
+  "profileEmail": "Email",
+  "profileCreatedAt": "Created on",
+  "profileUpdatedAt": "Updated on",
+  "profileAccountId": "Account ID",
+  "profileCopyId": "Copy account ID",
+  "profileCopied": "ID copied"
 }

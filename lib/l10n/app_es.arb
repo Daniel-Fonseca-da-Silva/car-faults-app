@@ -8,6 +8,7 @@
   "navSignOut": "Cerrar sesión",
   "navDefects": "Defectos",
   "navAbout": "Acerca de",
+  "navProfile": "Perfil",
   "navLanguage": "Idioma",
   "navAvatar": "Avatar de {name}",
   "localePt": "Português (PT)",
@@ -113,5 +114,15 @@
   "lookupHelpful": "¿Útil?",
   "lookupCostEur": "€ {amount}",
   "lookupCommentsTitle": "Comentarios de la comunidad",
-  "lookupCommentsEmpty": "Aún no hay comentarios. Sé el primero en compartir tu experiencia."
+  "lookupCommentsEmpty": "Aún no hay comentarios. Sé el primero en compartir tu experiencia.",
+  "profileEyebrow": "Cuenta",
+  "profileOnlineStatus": "En línea",
+  "profileMemberSince": "Miembro desde {date}",
+  "profileAccountTitle": "Información de la cuenta",
+  "profileEmail": "Correo electrónico",
+  "profileCreatedAt": "Creado el",
+  "profileUpdatedAt": "Actualizado el",
+  "profileAccountId": "ID de la cuenta",
+  "profileCopyId": "Copiar ID de la cuenta",
+  "profileCopied": "ID copiado"
 }
