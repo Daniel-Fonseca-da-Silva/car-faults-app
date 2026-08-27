@@ -4,9 +4,67 @@
   "@appHeaderLogo": {
     "description": "Accessibility label of the brand logo in the shared app header."
   },
-  "appHeaderAvatar": "Conta de utilizador",
-  "@appHeaderAvatar": {
-    "description": "Accessibility label of the avatar in the shared app header."
+  "navMenu": "Menu",
+  "@navMenu": {
+    "description": "Title of the right-side navigation drawer."
+  },
+  "navMenuOpen": "Abrir menu",
+  "@navMenuOpen": {
+    "description": "Accessibility label of the hamburger button that opens the navigation drawer."
+  },
+  "navClose": "Fechar",
+  "@navClose": {
+    "description": "Accessibility label of the button that closes the navigation drawer."
+  },
+  "navSignIn": "Entrar",
+  "@navSignIn": {
+    "description": "Navigation drawer item that opens the login screen, shown when signed out."
+  },
+  "navSignOut": "Sair",
+  "@navSignOut": {
+    "description": "Navigation drawer item that signs the user out, shown when signed in."
+  },
+  "navDefects": "Defeitos",
+  "@navDefects": {
+    "description": "Navigation drawer item that returns to the home (vehicle lookup) screen."
+  },
+  "navAbout": "Sobre",
+  "@navAbout": {
+    "description": "Navigation drawer item that opens the About screen."
+  },
+  "navLanguage": "Idioma",
+  "@navLanguage": {
+    "description": "Accessibility label of the language switcher in the header."
+  },
+  "navAvatar": "Avatar de {name}",
+  "@navAvatar": {
+    "description": "Accessibility label of the signed-in user's photo in the navigation drawer.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Daniel"
+      }
+    }
+  },
+  "localePt": "Português (PT)",
+  "@localePt": {
+    "description": "Label of the Portuguese option in the language switcher."
+  },
+  "localeEn": "English (UK)",
+  "@localeEn": {
+    "description": "Label of the English option in the language switcher."
+  },
+  "localeEs": "Español (ES)",
+  "@localeEs": {
+    "description": "Label of the Spanish option in the language switcher."
+  },
+  "aboutTitle": "Sobre a Auto Crónica",
+  "@aboutTitle": {
+    "description": "Title of the About screen."
+  },
+  "aboutFounderPhoto": "Retrato de Daniel Fonseca da Silva",
+  "@aboutFounderPhoto": {
+    "description": "Accessibility description of the founder's photo on the About screen."
   },
   "homeDisclaimer": "Dados obtidos de relatos públicos e entidades reguladoras. Não substitui uma avaliação técnica.",
   "@homeDisclaimer": {
