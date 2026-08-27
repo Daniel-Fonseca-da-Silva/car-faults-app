@@ -475,5 +475,43 @@
   "lookupReviewsSubmit": "Submeter avaliação",
   "@lookupReviewsSubmit": {
     "description": "Label of the review form's submit button."
+  },
+  "lookupCommunitySolutions": "Soluções da comunidade ({count})",
+  "@lookupCommunitySolutions": {
+    "description": "Title of the community fixes section inside an expanded known issue card.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "lookupViewSteps": "Ver passo a passo ({count} etapas)",
+  "@lookupViewSteps": {
+    "description": "Link to expand a fix card's numbered how-to steps.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "6"
+      }
+    }
+  },
+  "lookupHideSteps": "Ocultar passo a passo",
+  "@lookupHideSteps": {
+    "description": "Link to collapse a fix card's numbered how-to steps."
+  },
+  "lookupHelpful": "Útil?",
+  "@lookupHelpful": {
+    "description": "Label of the like/dislike vote row in a fix card."
+  },
+  "lookupCostEur": "€ {amount}",
+  "@lookupCostEur": {
+    "description": "Estimated cost badge on a fix card.",
+    "placeholders": {
+      "amount": {
+        "type": "int",
+        "example": "450"
+      }
+    }
   }
 }
