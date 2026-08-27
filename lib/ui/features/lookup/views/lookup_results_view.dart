@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import '../../../core/widgets/app_footer.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import 'widgets/lookup_back_link.dart';
+import 'widgets/lookup_issues_summary.dart';
 import 'widgets/lookup_tech_specs.dart';
 import 'widgets/lookup_vehicle_hero.dart';
 
 /// Fault lookup results screen: shared header, back-to-search link, vehicle
-/// hero, tech specs grid and shared footer.
+/// hero, tech specs grid, issues summary banner and shared footer.
 ///
-/// The body between the specs and the footer is filled in by later slices
-/// (defects, reviews, fixes, comments).
+/// The body between the summary banner and the footer is filled in by later
+/// slices (defects, reviews, fixes, comments).
 class LookupResultsView extends StatelessWidget {
   const LookupResultsView({super.key});
 
@@ -28,6 +29,8 @@ class LookupResultsView extends StatelessWidget {
             const LookupVehicleHero(),
             const SizedBox(height: 16),
             const LookupTechSpecs(),
+            const SizedBox(height: 16),
+            const LookupIssuesSummary(),
             AppFooter(disclaimer: l10n.homeDisclaimer),
           ],
         ),

@@ -355,5 +355,47 @@
   "lookupSpecPower": "Potência",
   "@lookupSpecPower": {
     "description": "Label of the power tech spec tile on the lookup results screen."
+  },
+  "lookupSummaryPrefix": "Encontramos",
+  "@lookupSummaryPrefix": {
+    "description": "Opening word of the issues summary banner on the lookup results screen."
+  },
+  "lookupSummaryKnownIssues": "{count} defeitos conhecidos",
+  "@lookupSummaryKnownIssues": {
+    "description": "Total known issues clause of the issues summary banner.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "lookupSummaryMiddle": "para este veículo, incluindo",
+  "@lookupSummaryMiddle": {
+    "description": "Connector clause of the issues summary banner, between the total and the breakdown."
+  },
+  "lookupSummaryCritical": "{count} crítico(s)",
+  "@lookupSummaryCritical": {
+    "description": "Critical issues clause of the issues summary banner.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "lookupSummaryAnd": "e",
+  "@lookupSummaryAnd": {
+    "description": "Conjunction between the critical and high severity clauses of the issues summary banner."
+  },
+  "lookupSummaryHigh": "{count} de alta severidade",
+  "@lookupSummaryHigh": {
+    "description": "High severity issues clause of the issues summary banner.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
   }
 }
