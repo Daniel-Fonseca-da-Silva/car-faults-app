@@ -32,6 +32,10 @@
   "@navAbout": {
     "description": "Navigation drawer item that opens the About screen."
   },
+  "navProfile": "Perfil",
+  "@navProfile": {
+    "description": "Navigation drawer item that opens the Profile screen."
+  },
   "navLanguage": "Idioma",
   "@navLanguage": {
     "description": "Accessibility label of the language switcher in the header."
@@ -65,6 +69,10 @@
   "aboutFounderPhoto": "Retrato de Daniel Fonseca da Silva",
   "@aboutFounderPhoto": {
     "description": "Accessibility description of the founder's photo on the About screen."
+  },
+  "profileEyebrow": "Conta",
+  "@profileEyebrow": {
+    "description": "Eyebrow label above the Profile screen content."
   },
   "homeDisclaimer": "Dados obtidos de relatos públicos e entidades reguladoras. Não substitui uma avaliação técnica.",
   "@homeDisclaimer": {
