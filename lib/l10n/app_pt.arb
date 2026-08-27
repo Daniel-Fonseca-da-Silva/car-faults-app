@@ -397,5 +397,83 @@
         "example": "1"
       }
     }
+  },
+  "lookupSeverityLow": "Baixa",
+  "@lookupSeverityLow": {
+    "description": "Label of the low severity badge on a known issue card."
+  },
+  "lookupSeverityMedium": "Média",
+  "@lookupSeverityMedium": {
+    "description": "Label of the medium severity badge on a known issue card."
+  },
+  "lookupSeverityHigh": "Alta",
+  "@lookupSeverityHigh": {
+    "description": "Label of the high severity badge on a known issue card."
+  },
+  "lookupSeverityCritical": "Crítica",
+  "@lookupSeverityCritical": {
+    "description": "Label of the critical severity badge on a known issue card."
+  },
+  "lookupAtKm": "Aos {km} km",
+  "@lookupAtKm": {
+    "description": "Meta clause of a known issue card showing the mileage it typically appears at.",
+    "placeholders": {
+      "km": {
+        "type": "int",
+        "example": "120000"
+      }
+    }
+  },
+  "lookupMileageIndependent": "Independente da quilometragem — relacionado à idade",
+  "@lookupMileageIndependent": {
+    "description": "Meta clause of a known issue card whose onset is age-related rather than tied to a mileage threshold."
+  },
+  "lookupSolutionsCount": "{count} solução(ões)",
+  "@lookupSolutionsCount": {
+    "description": "Meta clause of a known issue card showing how many community fixes it has.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "lookupSources": "Fontes",
+  "@lookupSources": {
+    "description": "Label of the sources list inside an expanded known issue card."
+  },
+  "lookupReviewsTitle": "Avaliar este defeito",
+  "@lookupReviewsTitle": {
+    "description": "Title of the reviews section inside an expanded known issue card."
+  },
+  "lookupReviewsCount": "{count} avaliações",
+  "@lookupReviewsCount": {
+    "description": "Review count shown under the average rating in the reviews section.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "lookupReviewsEmpty": "Sem avaliações ainda. Sê o primeiro a classificar este defeito.",
+  "@lookupReviewsEmpty": {
+    "description": "Empty state shown in the reviews section when a known issue has no reviews yet."
+  },
+  "lookupReviewsYourRating": "A tua classificação",
+  "@lookupReviewsYourRating": {
+    "description": "Label above the star picker in the review form."
+  },
+  "lookupReviewsYourBadge": "a tua avaliação",
+  "@lookupReviewsYourBadge": {
+    "description": "Badge on the demo user's own review in the reviews list."
+  },
+  "lookupReviewsCommentHint": "Adiciona um comentário curto (opcional)",
+  "@lookupReviewsCommentHint": {
+    "description": "Placeholder of the comment field in the review form."
+  },
+  "lookupReviewsSubmit": "Submeter avaliação",
+  "@lookupReviewsSubmit": {
+    "description": "Label of the review form's submit button."
   }
 }

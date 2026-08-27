@@ -7,6 +7,7 @@ import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
 import 'package:car_faults_app/ui/core/widgets/app_footer.dart';
 import 'package:car_faults_app/ui/features/lookup/views/lookup_results_view.dart';
 import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_back_link.dart';
+import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_issue_card.dart';
 import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_issues_summary.dart';
 import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_tech_specs.dart';
 import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_vehicle_hero.dart';
@@ -60,6 +61,7 @@ void main() {
     expect(find.byType(LookupVehicleHero), findsOneWidget);
     expect(find.byType(LookupTechSpecs), findsOneWidget);
     expect(find.byType(LookupIssuesSummary), findsOneWidget);
+    expect(find.byType(LookupIssueCard), findsNWidgets(3));
     expect(find.byType(AppFooter), findsOneWidget);
     expect(
       find.text(

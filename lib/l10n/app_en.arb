@@ -91,5 +91,20 @@
   "lookupSummaryMiddle": "for this vehicle, including",
   "lookupSummaryCritical": "{count} critical",
   "lookupSummaryAnd": "and",
-  "lookupSummaryHigh": "{count} high severity"
+  "lookupSummaryHigh": "{count} high severity",
+  "lookupSeverityLow": "Low",
+  "lookupSeverityMedium": "Medium",
+  "lookupSeverityHigh": "High",
+  "lookupSeverityCritical": "Critical",
+  "lookupAtKm": "At {km} km",
+  "lookupMileageIndependent": "Independent of mileage — age-related",
+  "lookupSolutionsCount": "{count} solution(s)",
+  "lookupSources": "Sources",
+  "lookupReviewsTitle": "Rate this fault",
+  "lookupReviewsCount": "{count} reviews",
+  "lookupReviewsEmpty": "No ratings yet. Be the first to rate this fault.",
+  "lookupReviewsYourRating": "Your rating",
+  "lookupReviewsYourBadge": "your review",
+  "lookupReviewsCommentHint": "Add a short comment (optional)",
+  "lookupReviewsSubmit": "Submit rating"
 }
