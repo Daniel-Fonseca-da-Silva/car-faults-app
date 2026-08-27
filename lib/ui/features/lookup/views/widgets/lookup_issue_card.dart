@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../view_models/lookup_results_view_model.dart';
+import 'lookup_comments_empty.dart';
 import 'lookup_issue_sources.dart';
 import 'lookup_reviews_section.dart';
 import 'lookup_severity_badge.dart';
@@ -80,6 +81,10 @@ class LookupIssueCard extends StatelessWidget {
                     const Divider(color: AppColors.muted),
                     const SizedBox(height: 8),
                     LookupSolutionsSection(fixes: issue.fixes),
+                    const SizedBox(height: 16),
+                    const Divider(color: AppColors.muted),
+                    const SizedBox(height: 8),
+                    const LookupCommentsEmpty(),
                   ],
                 ),
               ),
