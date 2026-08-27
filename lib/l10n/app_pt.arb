@@ -327,5 +327,13 @@
   "lookupNewSearch": "Nova busca",
   "@lookupNewSearch": {
     "description": "Back link on the lookup results screen that returns to the search."
+  },
+  "lookupVehicleFound": "Veículo encontrado",
+  "@lookupVehicleFound": {
+    "description": "Eyebrow label above the matched vehicle's name in the results hero."
+  },
+  "lookupHeroImageAlt": "Fotografia de um Citroën 2CV",
+  "@lookupHeroImageAlt": {
+    "description": "Alt text for the results screen hero photo."
   }
 }
