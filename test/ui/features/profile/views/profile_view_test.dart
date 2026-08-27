@@ -44,4 +44,13 @@ void main() {
       findsOneWidget,
     );
   });
+
+  testWidgets('shows the demo user name and email on the identity card', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app());
+
+    expect(find.text('Ana Silva'), findsOneWidget);
+    expect(find.text('ana@example.com'), findsOneWidget);
+  });
 }
