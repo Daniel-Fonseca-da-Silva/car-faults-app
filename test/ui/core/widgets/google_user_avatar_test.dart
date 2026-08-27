@@ -48,6 +48,26 @@ void main() {
     expect(find.text('DF'), findsNothing);
   });
 
+  testWidgets('uses the default size when none is given', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      _app(const GoogleUserAvatar(name: 'Daniel Fonseca')),
+    );
+
+    final avatar = tester.widget<CircleAvatar>(find.byType(CircleAvatar));
+    expect(avatar.radius, GoogleUserAvatar.defaultSize / 2);
+  });
+
+  testWidgets('applies a custom size when given', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      _app(const GoogleUserAvatar(name: 'Daniel Fonseca', size: 64)),
+    );
+
+    final avatar = tester.widget<CircleAvatar>(find.byType(CircleAvatar));
+    expect(avatar.radius, 32);
+  });
+
   testWidgets('shows initials when the photo fails to load', (
     WidgetTester tester,
   ) async {

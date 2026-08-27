@@ -10,6 +10,7 @@ import 'package:car_faults_app/ui/core/widgets/app_scaffold.dart';
 import 'package:car_faults_app/ui/core/widgets/google_user_avatar.dart';
 import 'package:car_faults_app/ui/features/about/views/about_view.dart';
 import 'package:car_faults_app/ui/features/login/views/login_view.dart';
+import 'package:car_faults_app/ui/features/profile/views/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -82,6 +83,27 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(AboutView), findsOneWidget);
+  });
+
+  testWidgets('shows Perfil for signed-out users too', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app());
+    await _openDrawer(tester);
+
+    expect(find.text('Perfil'), findsOneWidget);
+  });
+
+  testWidgets('tapping Perfil opens the ProfileView', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app());
+    await _openDrawer(tester);
+
+    await tester.tap(find.text('Perfil'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ProfileView), findsOneWidget);
   });
 
   testWidgets('tapping Defeitos returns to the first route', (
