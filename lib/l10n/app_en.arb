@@ -106,5 +106,10 @@
   "lookupReviewsYourRating": "Your rating",
   "lookupReviewsYourBadge": "your review",
   "lookupReviewsCommentHint": "Add a short comment (optional)",
-  "lookupReviewsSubmit": "Submit rating"
+  "lookupReviewsSubmit": "Submit rating",
+  "lookupCommunitySolutions": "Community solutions ({count})",
+  "lookupViewSteps": "View step-by-step ({count} steps)",
+  "lookupHideSteps": "Hide step-by-step",
+  "lookupHelpful": "Helpful?",
+  "lookupCostEur": "€ {amount}"
 }

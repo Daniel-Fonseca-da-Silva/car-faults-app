@@ -106,5 +106,10 @@
   "lookupReviewsYourRating": "Tu valoración",
   "lookupReviewsYourBadge": "tu valoración",
   "lookupReviewsCommentHint": "Añade un comentario breve (opcional)",
-  "lookupReviewsSubmit": "Enviar valoración"
+  "lookupReviewsSubmit": "Enviar valoración",
+  "lookupCommunitySolutions": "Soluciones de la comunidad ({count})",
+  "lookupViewSteps": "Ver paso a paso ({count} etapas)",
+  "lookupHideSteps": "Ocultar paso a paso",
+  "lookupHelpful": "¿Útil?",
+  "lookupCostEur": "€ {amount}"
 }
