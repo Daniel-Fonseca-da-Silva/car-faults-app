@@ -7,6 +7,7 @@ import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
 import 'package:car_faults_app/ui/features/profile/views/profile_view.dart';
 import 'package:car_faults_app/ui/features/profile/views/widgets/profile_account_info_card.dart';
 import 'package:car_faults_app/ui/features/profile/views/widgets/profile_identity_card.dart';
+import 'package:car_faults_app/ui/features/profile/views/widgets/profile_saved_vehicles_card.dart';
 import 'package:car_faults_app/ui/features/profile/views/widgets/profile_stats_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,6 +43,7 @@ void main() {
     expect(find.byType(ProfileIdentityCard), findsOneWidget);
     expect(find.byType(ProfileAccountInfoCard), findsOneWidget);
     expect(find.byType(ProfileStatsGrid), findsOneWidget);
+    expect(find.byType(ProfileSavedVehiclesCard), findsOneWidget);
     expect(
       find.text(
         'Dados obtidos de relatos públicos e entidades reguladoras. '
