@@ -629,5 +629,37 @@
         "example": "Polo"
       }
     }
+  },
+  "profileDangerTitle": "Zona de risco",
+  "@profileDangerTitle": {
+    "description": "Uppercase title of the danger-zone card on the profile screen."
+  },
+  "profileDeleteAccount": "Excluir conta",
+  "@profileDeleteAccount": {
+    "description": "Label of the delete-account button and its bold heading inside the danger-zone card."
+  },
+  "profileDeleteAccountDescription": "Apaga permanentemente todos os seus dados. Esta acção não pode ser desfeita.",
+  "@profileDeleteAccountDescription": {
+    "description": "Muted description under the delete-account heading, warning that the action is permanent."
+  },
+  "profileDeleteConfirmTitle": "Tem a certeza?",
+  "@profileDeleteConfirmTitle": {
+    "description": "Title of the confirmation dialog shown before deleting the account."
+  },
+  "profileDeleteConfirmDescription": "A sua conta e todos os dados serão apagados de imediato. Esta acção não pode ser desfeita.",
+  "@profileDeleteConfirmDescription": {
+    "description": "Body of the confirmation dialog shown before deleting the account."
+  },
+  "profileDeleteConfirmCancel": "Cancelar",
+  "@profileDeleteConfirmCancel": {
+    "description": "Cancel action of the delete-account confirmation dialog."
+  },
+  "profileDeleteConfirmDelete": "Sim, excluir conta",
+  "@profileDeleteConfirmDelete": {
+    "description": "Confirm action of the delete-account confirmation dialog, triggering the delete command."
+  },
+  "profileDeleteComingSoon": "Exclusão de conta em breve.",
+  "@profileDeleteComingSoon": {
+    "description": "SnackBar shown after confirming account deletion, since the API does not support it yet."
   }
 }

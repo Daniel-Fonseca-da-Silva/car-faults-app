@@ -133,5 +133,13 @@
   "profileVehiclesCount": "{count} vehicles",
   "profileVehiclesEmpty": "You haven't saved any vehicles yet.",
   "profileKnownIssuesCount": "{count} defects",
-  "profileViewVehicleDetails": "View details for {brand} {model}"
+  "profileViewVehicleDetails": "View details for {brand} {model}",
+  "profileDangerTitle": "Danger zone",
+  "profileDeleteAccount": "Delete account",
+  "profileDeleteAccountDescription": "Permanently deletes all of your data. This action cannot be undone.",
+  "profileDeleteConfirmTitle": "Are you sure?",
+  "profileDeleteConfirmDescription": "Your account and all data will be deleted immediately. This action cannot be undone.",
+  "profileDeleteConfirmCancel": "Cancel",
+  "profileDeleteConfirmDelete": "Yes, delete account",
+  "profileDeleteComingSoon": "Account deletion coming soon."
 }
