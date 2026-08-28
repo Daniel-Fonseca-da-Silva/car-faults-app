@@ -70,6 +70,24 @@
   "@aboutFounderPhoto": {
     "description": "Accessibility description of the founder's photo on the About screen."
   },
+  "profileEyebrow": "Conta",
+  "@profileEyebrow": {
+    "description": "Eyebrow label above the Profile screen content."
+  },
+  "profileOnlineStatus": "Online",
+  "@profileOnlineStatus": {
+    "description": "Accessibility label of the green online status dot on the profile identity card's avatar."
+  },
+  "profileMemberSince": "Membro desde {date}",
+  "@profileMemberSince": {
+    "description": "Pill on the profile identity card showing the month and year the account was created.",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "julho de 2026"
+      }
+    }
+  },
   "homeDisclaimer": "Dados obtidos de relatos públicos e entidades reguladoras. Não substitui uma avaliação técnica.",
   "@homeDisclaimer": {
     "description": "Legal disclaimer in the home footer about where the fault data comes from."
@@ -525,24 +543,6 @@
   "lookupCommentsEmpty": "Ainda não há comentários. Sê o primeiro a partilhar a tua experiência.",
   "@lookupCommentsEmpty": {
     "description": "Empty state shown in the community comments section when a known issue has no comments yet."
-  },
-  "profileEyebrow": "Conta",
-  "@profileEyebrow": {
-    "description": "Section eyebrow above the profile screen's content."
-  },
-  "profileOnlineStatus": "Online",
-  "@profileOnlineStatus": {
-    "description": "Accessibility label of the online status dot over the profile avatar."
-  },
-  "profileMemberSince": "Membro desde {date}",
-  "@profileMemberSince": {
-    "description": "\"Member since\" pill on the profile identity card.",
-    "placeholders": {
-      "date": {
-        "type": "String",
-        "example": "julho de 2026"
-      }
-    }
   },
   "profileAccountTitle": "Informações da conta",
   "@profileAccountTitle": {

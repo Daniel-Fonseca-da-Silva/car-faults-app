@@ -16,13 +16,29 @@ Widget _app() {
 }
 
 void main() {
-  testWidgets('shows the name, email and member-since text', (
+  testWidgets('shows the name, email and member since pill', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(_app());
 
     expect(find.text('Ana Silva'), findsOneWidget);
     expect(find.text('ana@example.com'), findsOneWidget);
-    expect(find.textContaining('Membro desde'), findsOneWidget);
+    expect(find.text('Membro desde julho de 2026'), findsOneWidget);
+  });
+
+  testWidgets('shows the initials avatar when there is no photo', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app());
+
+    expect(find.text('AS'), findsOneWidget);
+  });
+
+  testWidgets('exposes the online status via semantics', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app());
+
+    expect(find.bySemanticsLabel('Online'), findsOneWidget);
   });
 }

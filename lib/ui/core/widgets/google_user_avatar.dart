@@ -10,11 +10,13 @@ class GoogleUserAvatar extends StatefulWidget {
     super.key,
     required this.name,
     this.photoUrl,
-    this.size = defaultSize,
+    this.size = GoogleUserAvatar.defaultSize,
   });
 
   final String name;
   final String? photoUrl;
+
+  /// Diameter of the avatar circle.
   final double size;
 
   static const defaultSize = 40.0;
@@ -25,6 +27,8 @@ class GoogleUserAvatar extends StatefulWidget {
 
 class _GoogleUserAvatarState extends State<GoogleUserAvatar> {
   var _imageFailed = false;
+
+  static const _initialsFontSizeFactor = 0.35;
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +49,10 @@ class _GoogleUserAvatarState extends State<GoogleUserAvatar> {
             ? null
             : Text(
                 _initials(widget.name),
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.onSurface,
                   fontWeight: FontWeight.w700,
+                  fontSize: widget.size * _initialsFontSizeFactor,
                 ),
               ),
       ),

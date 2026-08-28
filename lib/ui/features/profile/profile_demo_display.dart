@@ -3,17 +3,19 @@ import '../../../domain/models/saved_vehicle.dart';
 import '../../../domain/models/user.dart';
 import '../../../domain/models/user_stats.dart';
 
-/// Mocked profile data shown on the profile screen, regardless of who is
-/// signed in.
+/// Mocked profile snapshot shown on the profile screen, regardless of the
+/// signed-in account.
 ///
 /// Placeholder data: there is no profile backend in this delivery.
 abstract final class ProfileDemoDisplay {
+  static const _user = User(
+    id: 'b3a5c1d2-4e6f-4a8b-9c0d-1e2f3a4b5c6d',
+    name: 'Ana Silva',
+    email: 'ana@example.com',
+  );
+
   static final snapshot = ProfileSnapshot(
-    user: const User(
-      id: 'b3a5c1d2-4e6f-4a8b-9c0d-1e2f3a4b5c6d',
-      name: 'Ana Silva',
-      email: 'ana@example.com',
-    ),
+    user: _user,
     createdAt: DateTime.utc(2026, 7, 17),
     updatedAt: DateTime.utc(2026, 7, 17),
     stats: const UserStats(

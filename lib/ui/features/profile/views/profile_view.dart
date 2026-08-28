@@ -20,16 +20,14 @@ class ProfileView extends StatelessWidget {
 
     return AppScaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+        padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 20,
           children: [
             SectionEyebrow(text: l10n.profileEyebrow),
-            const SizedBox(height: 16),
             ProfileIdentityCard(snapshot: snapshot),
-            const SizedBox(height: 16),
             ProfileAccountInfoCard(snapshot: snapshot),
-            const SizedBox(height: 24),
             AppFooter(disclaimer: l10n.homeDisclaimer),
           ],
         ),

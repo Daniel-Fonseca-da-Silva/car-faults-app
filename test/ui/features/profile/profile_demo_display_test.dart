@@ -10,7 +10,7 @@ void main() {
     expect(user.photoUrl, isNull);
   });
 
-  test('has 4 usage stats', () {
+  test('has the 4 activity stats', () {
     final stats = ProfileDemoDisplay.snapshot.stats;
 
     expect(stats.searchesCount, 47);
@@ -21,6 +21,7 @@ void main() {
 
   test('has exactly 3 saved vehicles', () {
     expect(ProfileDemoDisplay.snapshot.vehicles, hasLength(3));
+    expect(ProfileDemoDisplay.snapshot.vehicles.first.name, 'Polo 6N1');
   });
 
   test('created and updated dates are set', () {

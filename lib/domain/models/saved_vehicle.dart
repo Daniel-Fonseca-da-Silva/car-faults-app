@@ -1,4 +1,5 @@
-/// Vehicle saved by the user, shown in the profile's saved-vehicles list.
+/// A vehicle the user bookmarked from a fault lookup, shown on the profile
+/// screen.
 class SavedVehicle {
   const SavedVehicle({
     required this.id,

@@ -46,7 +46,7 @@ class AppNavDrawer extends StatelessWidget {
             ),
             AppNavMenuItem(
               label: l10n.navProfile,
-              onTap: () => _goToProfile(context),
+              onTap: () => _openProfile(context),
             ),
             if (user != null) ...[
               const Spacer(),
@@ -106,7 +106,7 @@ class AppNavDrawer extends StatelessWidget {
         .push(MaterialPageRoute<void>(builder: (_) => const AboutView()));
   }
 
-  void _goToProfile(BuildContext context) {
+  void _openProfile(BuildContext context) {
     Navigator.of(context).pop();
     Navigator.of(context)
         .push(MaterialPageRoute<void>(builder: (_) => const ProfileView()));

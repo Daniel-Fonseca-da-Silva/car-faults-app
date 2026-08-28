@@ -61,6 +61,7 @@ void main() {
     expect(find.byType(GoogleUserAvatar), findsNothing);
     expect(find.text('Defeitos'), findsOneWidget);
     expect(find.text('Sobre'), findsOneWidget);
+    expect(find.text('Perfil'), findsOneWidget);
   });
 
   testWidgets('tapping Entrar opens the LoginView', (
@@ -83,15 +84,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(AboutView), findsOneWidget);
-  });
-
-  testWidgets('shows Perfil for signed-out users too', (
-    WidgetTester tester,
-  ) async {
-    await tester.pumpWidget(_app());
-    await _openDrawer(tester);
-
-    expect(find.text('Perfil'), findsOneWidget);
   });
 
   testWidgets('tapping Perfil opens the ProfileView', (
@@ -134,6 +126,7 @@ void main() {
     expect(find.text('Sair'), findsOneWidget);
     expect(find.byIcon(Icons.logout), findsOneWidget);
     expect(find.text('Entrar'), findsNothing);
+    expect(find.text('Perfil'), findsOneWidget);
   });
 
   testWidgets('tapping Sair signs the user out', (WidgetTester tester) async {

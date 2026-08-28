@@ -1,4 +1,4 @@
-/// Aggregate usage counters shown in the profile stats grid.
+/// Aggregate activity counters shown on the profile screen.
 class UserStats {
   const UserStats({
     required this.searchesCount,

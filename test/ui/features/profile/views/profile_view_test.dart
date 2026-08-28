@@ -40,6 +40,13 @@ void main() {
     expect(find.text('CONTA'), findsOneWidget);
     expect(find.byType(ProfileIdentityCard), findsOneWidget);
     expect(find.byType(ProfileAccountInfoCard), findsOneWidget);
+    expect(
+      find.text(
+        'Dados obtidos de relatos públicos e entidades reguladoras. '
+        'Não substitui uma avaliação técnica.',
+      ),
+      findsOneWidget,
+    );
   });
 
   testWidgets('shows the name once and the email in both cards', (
