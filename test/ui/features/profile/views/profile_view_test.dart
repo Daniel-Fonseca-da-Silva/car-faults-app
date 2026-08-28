@@ -1,11 +1,14 @@
+import 'package:car_faults_app/data/repositories/auth_repository.dart';
 import 'package:car_faults_app/data/repositories/locale_repository.dart';
 import 'package:car_faults_app/data/services/locale_preferences_service.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/theme/app_theme.dart';
 import 'package:car_faults_app/ui/core/view_models/auth_session_view_model.dart';
 import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
+import 'package:car_faults_app/ui/features/profile/view_models/profile_view_model.dart';
 import 'package:car_faults_app/ui/features/profile/views/profile_view.dart';
 import 'package:car_faults_app/ui/features/profile/views/widgets/profile_account_info_card.dart';
+import 'package:car_faults_app/ui/features/profile/views/widgets/profile_danger_zone.dart';
 import 'package:car_faults_app/ui/features/profile/views/widgets/profile_identity_card.dart';
 import 'package:car_faults_app/ui/features/profile/views/widgets/profile_saved_vehicles_card.dart';
 import 'package:car_faults_app/ui/features/profile/views/widgets/profile_stats_grid.dart';
@@ -13,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
-Widget _app() {
+Widget _app({ProfileViewModel? viewModel}) {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -22,6 +25,9 @@ Widget _app() {
         ),
       ),
       ChangeNotifierProvider(create: (_) => AuthSessionViewModel()),
+      ChangeNotifierProvider.value(
+        value: viewModel ?? ProfileViewModel(authRepository: AuthRepository()),
+      ),
     ],
     child: MaterialApp(
       theme: AppTheme.dark,
@@ -44,6 +50,7 @@ void main() {
     expect(find.byType(ProfileAccountInfoCard), findsOneWidget);
     expect(find.byType(ProfileStatsGrid), findsOneWidget);
     expect(find.byType(ProfileSavedVehiclesCard), findsOneWidget);
+    expect(find.byType(ProfileDangerZone), findsOneWidget);
     expect(
       find.text(
         'Dados obtidos de relatos públicos e entidades reguladoras. '
@@ -71,5 +78,20 @@ void main() {
     expect(find.text('128'), findsOneWidget);
     expect(find.text('6'), findsOneWidget);
     expect(find.text('23'), findsOneWidget);
+  });
+
+  testWidgets('confirming account deletion shows the comingSoon snackbar', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app());
+
+    final deleteButton = find.text('Excluir conta').last;
+    await tester.ensureVisible(deleteButton);
+    await tester.tap(deleteButton);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Sim, excluir conta'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Exclusão de conta em breve.'), findsOneWidget);
   });
 }
