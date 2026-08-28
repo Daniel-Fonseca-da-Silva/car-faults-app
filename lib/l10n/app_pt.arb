@@ -543,5 +543,33 @@
   "lookupCommentsEmpty": "Ainda não há comentários. Sê o primeiro a partilhar a tua experiência.",
   "@lookupCommentsEmpty": {
     "description": "Empty state shown in the community comments section when a known issue has no comments yet."
+  },
+  "profileAccountTitle": "Informações da conta",
+  "@profileAccountTitle": {
+    "description": "Title of the account information card on the profile screen."
+  },
+  "profileEmail": "E-mail",
+  "@profileEmail": {
+    "description": "Label of the email row in the account information card."
+  },
+  "profileCreatedAt": "Criado em",
+  "@profileCreatedAt": {
+    "description": "Label of the account creation date row in the account information card."
+  },
+  "profileUpdatedAt": "Actualizado em",
+  "@profileUpdatedAt": {
+    "description": "Label of the account last-updated date row in the account information card."
+  },
+  "profileAccountId": "ID da conta",
+  "@profileAccountId": {
+    "description": "Label above the account ID box in the account information card."
+  },
+  "profileCopyId": "Copiar ID da conta",
+  "@profileCopyId": {
+    "description": "Accessibility label of the copy button next to the account ID, before it is tapped."
+  },
+  "profileCopied": "ID copiado",
+  "@profileCopied": {
+    "description": "Accessibility label of the copy button next to the account ID, right after it is tapped."
   }
 }

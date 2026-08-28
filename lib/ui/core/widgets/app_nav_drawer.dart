@@ -14,7 +14,7 @@ import 'app_nav_menu_item.dart';
 import 'google_user_avatar.dart';
 
 /// Right-side navigation drawer shared by every screen wrapped in
-/// [AppScaffold]: sign-in/account, "Defeitos" (home) and "Sobre".
+/// [AppScaffold]: sign-in/account, "Defeitos" (home), "Sobre" and "Perfil".
 class AppNavDrawer extends StatelessWidget {
   const AppNavDrawer({super.key});
 

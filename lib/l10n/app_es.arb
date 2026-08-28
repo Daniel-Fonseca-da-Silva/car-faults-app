@@ -117,5 +117,12 @@
   "lookupHelpful": "¿Útil?",
   "lookupCostEur": "€ {amount}",
   "lookupCommentsTitle": "Comentarios de la comunidad",
-  "lookupCommentsEmpty": "Aún no hay comentarios. Sé el primero en compartir tu experiencia."
+  "lookupCommentsEmpty": "Aún no hay comentarios. Sé el primero en compartir tu experiencia.",
+  "profileAccountTitle": "Información de la cuenta",
+  "profileEmail": "Correo electrónico",
+  "profileCreatedAt": "Creado el",
+  "profileUpdatedAt": "Actualizado el",
+  "profileAccountId": "ID de la cuenta",
+  "profileCopyId": "Copiar ID de la cuenta",
+  "profileCopied": "ID copiado"
 }

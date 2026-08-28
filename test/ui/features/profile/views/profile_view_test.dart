@@ -5,6 +5,8 @@ import 'package:car_faults_app/ui/core/theme/app_theme.dart';
 import 'package:car_faults_app/ui/core/view_models/auth_session_view_model.dart';
 import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
 import 'package:car_faults_app/ui/features/profile/views/profile_view.dart';
+import 'package:car_faults_app/ui/features/profile/views/widgets/profile_account_info_card.dart';
+import 'package:car_faults_app/ui/features/profile/views/widgets/profile_identity_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -30,12 +32,14 @@ Widget _app() {
 }
 
 void main() {
-  testWidgets('shows the account eyebrow and the footer disclaimer', (
+  testWidgets('shows the identity card, the account card and the eyebrow', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(_app());
 
     expect(find.text('CONTA'), findsOneWidget);
+    expect(find.byType(ProfileIdentityCard), findsOneWidget);
+    expect(find.byType(ProfileAccountInfoCard), findsOneWidget);
     expect(
       find.text(
         'Dados obtidos de relatos públicos e entidades reguladoras. '
@@ -45,12 +49,12 @@ void main() {
     );
   });
 
-  testWidgets('shows the demo user name and email on the identity card', (
+  testWidgets('shows the name once and the email in both cards', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(_app());
 
     expect(find.text('Ana Silva'), findsOneWidget);
-    expect(find.text('ana@example.com'), findsOneWidget);
+    expect(find.text('ana@example.com'), findsNWidgets(2));
   });
 }
