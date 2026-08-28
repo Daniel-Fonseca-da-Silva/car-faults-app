@@ -12,4 +12,13 @@ class AuthRepository {
   Future<AuthResult> signInWithGoogle() async {
     return AuthResult.comingSoon;
   }
+
+  /// Stub for the profile screen's account-deletion command.
+  ///
+  /// There is no mobile API for account deletion yet, so this returns an
+  /// explicit [AuthResult] instead of making a network call, mirroring
+  /// [signInWithGoogle].
+  Future<AuthResult> deleteAccount() async {
+    return AuthResult.comingSoon;
+  }
 }

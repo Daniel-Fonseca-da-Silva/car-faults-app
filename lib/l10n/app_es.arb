@@ -133,5 +133,13 @@
   "profileVehiclesCount": "{count} vehículos",
   "profileVehiclesEmpty": "Todavía no has guardado ningún vehículo.",
   "profileKnownIssuesCount": "{count} defectos",
-  "profileViewVehicleDetails": "Ver detalles de {brand} {model}"
+  "profileViewVehicleDetails": "Ver detalles de {brand} {model}",
+  "profileDangerTitle": "Zona de riesgo",
+  "profileDeleteAccount": "Eliminar cuenta",
+  "profileDeleteAccountDescription": "Elimina permanentemente todos tus datos. Esta acción no se puede deshacer.",
+  "profileDeleteConfirmTitle": "¿Estás seguro?",
+  "profileDeleteConfirmDescription": "Tu cuenta y todos los datos se eliminarán de inmediato. Esta acción no se puede deshacer.",
+  "profileDeleteConfirmCancel": "Cancelar",
+  "profileDeleteConfirmDelete": "Sí, eliminar cuenta",
+  "profileDeleteComingSoon": "Eliminación de cuenta próximamente."
 }
