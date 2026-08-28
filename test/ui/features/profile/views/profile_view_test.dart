@@ -7,6 +7,7 @@ import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
 import 'package:car_faults_app/ui/features/profile/views/profile_view.dart';
 import 'package:car_faults_app/ui/features/profile/views/widgets/profile_account_info_card.dart';
 import 'package:car_faults_app/ui/features/profile/views/widgets/profile_identity_card.dart';
+import 'package:car_faults_app/ui/features/profile/views/widgets/profile_stats_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -40,6 +41,7 @@ void main() {
     expect(find.text('CONTA'), findsOneWidget);
     expect(find.byType(ProfileIdentityCard), findsOneWidget);
     expect(find.byType(ProfileAccountInfoCard), findsOneWidget);
+    expect(find.byType(ProfileStatsGrid), findsOneWidget);
     expect(
       find.text(
         'Dados obtidos de relatos públicos e entidades reguladoras. '
@@ -56,5 +58,16 @@ void main() {
 
     expect(find.text('Ana Silva'), findsOneWidget);
     expect(find.text('ana@example.com'), findsNWidgets(2));
+  });
+
+  testWidgets('shows the four stats from the demo snapshot', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app());
+
+    expect(find.text('47'), findsOneWidget);
+    expect(find.text('128'), findsOneWidget);
+    expect(find.text('6'), findsOneWidget);
+    expect(find.text('23'), findsOneWidget);
   });
 }
