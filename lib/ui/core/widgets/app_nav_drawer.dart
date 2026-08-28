@@ -6,6 +6,7 @@ import '../../../data/repositories/auth_repository.dart';
 import '../../features/about/views/about_view.dart';
 import '../../features/login/view_models/login_view_model.dart';
 import '../../features/login/views/login_view.dart';
+import '../../features/profile/view_models/profile_view_model.dart';
 import '../../features/profile/views/profile_view.dart';
 import '../theme/app_colors.dart';
 import '../view_models/auth_session_view_model.dart';
@@ -108,8 +109,14 @@ class AppNavDrawer extends StatelessWidget {
 
   void _openProfile(BuildContext context) {
     Navigator.of(context).pop();
-    Navigator.of(context)
-        .push(MaterialPageRoute<void>(builder: (_) => const ProfileView()));
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => ChangeNotifierProvider(
+          create: (_) => ProfileViewModel(authRepository: AuthRepository()),
+          child: const ProfileView(),
+        ),
+      ),
+    );
   }
 
   void _signOut(BuildContext context) {
