@@ -124,5 +124,9 @@
   "profileUpdatedAt": "Actualizado el",
   "profileAccountId": "ID de la cuenta",
   "profileCopyId": "Copiar ID de la cuenta",
-  "profileCopied": "ID copiado"
+  "profileCopied": "ID copiado",
+  "profileStatSearches": "Búsquedas realizadas",
+  "profileStatDefectsConsulted": "Defectos consultados",
+  "profileStatSavedVehicles": "Vehículos guardados",
+  "profileStatVotes": "Votos emitidos"
 }

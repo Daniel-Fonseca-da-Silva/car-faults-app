@@ -571,5 +571,21 @@
   "profileCopied": "ID copiado",
   "@profileCopied": {
     "description": "Accessibility label of the copy button next to the account ID, right after it is tapped."
+  },
+  "profileStatSearches": "Buscas realizadas",
+  "@profileStatSearches": {
+    "description": "Label of the searches-made stat card on the profile screen."
+  },
+  "profileStatDefectsConsulted": "Defeitos consultados",
+  "@profileStatDefectsConsulted": {
+    "description": "Label of the defects-consulted stat card on the profile screen."
+  },
+  "profileStatSavedVehicles": "Veículos salvos",
+  "@profileStatSavedVehicles": {
+    "description": "Label of the saved-vehicles stat card on the profile screen."
+  },
+  "profileStatVotes": "Votos dados",
+  "@profileStatVotes": {
+    "description": "Label of the votes-cast stat card on the profile screen."
   }
 }
