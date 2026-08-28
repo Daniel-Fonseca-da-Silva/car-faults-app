@@ -587,5 +587,47 @@
   "profileStatVotes": "Votos dados",
   "@profileStatVotes": {
     "description": "Label of the votes-cast stat card on the profile screen."
+  },
+  "profileVehiclesTitle": "Veículos salvos",
+  "@profileVehiclesTitle": {
+    "description": "Title of the saved-vehicles card on the profile screen."
+  },
+  "profileVehiclesCount": "{count} veículos",
+  "@profileVehiclesCount": {
+    "description": "Vehicle count shown at the top-right of the saved-vehicles card header.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "profileVehiclesEmpty": "Ainda não guardou nenhum veículo.",
+  "@profileVehiclesEmpty": {
+    "description": "Empty state of the saved-vehicles card when there are no saved vehicles."
+  },
+  "profileKnownIssuesCount": "{count} defeitos",
+  "@profileKnownIssuesCount": {
+    "description": "Known-issues count pill on a saved vehicle row.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "profileViewVehicleDetails": "Ver detalhes de {brand} {model}",
+  "@profileViewVehicleDetails": {
+    "description": "Accessibility label of a saved vehicle row, announcing the tap target's destination.",
+    "placeholders": {
+      "brand": {
+        "type": "String",
+        "example": "Volkswagen"
+      },
+      "model": {
+        "type": "String",
+        "example": "Polo"
+      }
+    }
   }
 }

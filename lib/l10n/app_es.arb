@@ -128,5 +128,10 @@
   "profileStatSearches": "Búsquedas realizadas",
   "profileStatDefectsConsulted": "Defectos consultados",
   "profileStatSavedVehicles": "Vehículos guardados",
-  "profileStatVotes": "Votos emitidos"
+  "profileStatVotes": "Votos emitidos",
+  "profileVehiclesTitle": "Vehículos guardados",
+  "profileVehiclesCount": "{count} vehículos",
+  "profileVehiclesEmpty": "Todavía no has guardado ningún vehículo.",
+  "profileKnownIssuesCount": "{count} defectos",
+  "profileViewVehicleDetails": "Ver detalles de {brand} {model}"
 }
