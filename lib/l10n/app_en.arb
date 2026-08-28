@@ -128,5 +128,10 @@
   "profileStatSearches": "Searches made",
   "profileStatDefectsConsulted": "Defects consulted",
   "profileStatSavedVehicles": "Saved vehicles",
-  "profileStatVotes": "Votes cast"
+  "profileStatVotes": "Votes cast",
+  "profileVehiclesTitle": "Saved vehicles",
+  "profileVehiclesCount": "{count} vehicles",
+  "profileVehiclesEmpty": "You haven't saved any vehicles yet.",
+  "profileKnownIssuesCount": "{count} defects",
+  "profileViewVehicleDetails": "View details for {brand} {model}"
 }

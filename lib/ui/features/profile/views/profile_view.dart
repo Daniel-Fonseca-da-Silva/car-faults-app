@@ -7,10 +7,11 @@ import '../../../core/widgets/section_eyebrow.dart';
 import '../profile_demo_display.dart';
 import 'widgets/profile_account_info_card.dart';
 import 'widgets/profile_identity_card.dart';
+import 'widgets/profile_saved_vehicles_card.dart';
 import 'widgets/profile_stats_grid.dart';
 
-/// Profile ("Conta") screen: identity card, account details, stats grid
-/// and — in later slices — saved vehicles and the danger zone.
+/// Profile ("Conta") screen: identity card, account details, stats grid,
+/// saved vehicles and — in a later slice — the danger zone.
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
 
@@ -30,6 +31,7 @@ class ProfileView extends StatelessWidget {
             ProfileIdentityCard(snapshot: snapshot),
             ProfileAccountInfoCard(snapshot: snapshot),
             ProfileStatsGrid(snapshot: snapshot),
+            ProfileSavedVehiclesCard(vehicles: snapshot.vehicles),
             AppFooter(disclaimer: l10n.homeDisclaimer),
           ],
         ),
