@@ -665,5 +665,17 @@
   "profileDeleteComingSoon": "Exclusão de conta em breve.",
   "@profileDeleteComingSoon": {
     "description": "SnackBar shown after confirming account deletion, since the API does not support it yet."
+  },
+  "garageEyebrow": "Garagem",
+  "@garageEyebrow": {
+    "description": "Uppercase eyebrow label on the garage screen's hero card."
+  },
+  "garageEmptyTitle": "A sua garagem está vazia",
+  "@garageEmptyTitle": {
+    "description": "Hero title shown when the garage has no saved vehicles."
+  },
+  "garageHeroImageAlt": "Garagem com um Volkswagen Beetle clássico",
+  "@garageHeroImageAlt": {
+    "description": "Alt text for the garage screen hero photo."
   }
 }

@@ -142,5 +142,8 @@
   "profileDeleteConfirmDescription": "Your account and all data will be deleted immediately. This action cannot be undone.",
   "profileDeleteConfirmCancel": "Cancel",
   "profileDeleteConfirmDelete": "Yes, delete account",
-  "profileDeleteComingSoon": "Account deletion coming soon."
+  "profileDeleteComingSoon": "Account deletion coming soon.",
+  "garageEyebrow": "Garage",
+  "garageEmptyTitle": "Your garage is empty",
+  "garageHeroImageAlt": "Garage with a classic Volkswagen Beetle"
 }

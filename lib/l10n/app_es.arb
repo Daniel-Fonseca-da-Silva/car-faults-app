@@ -142,5 +142,8 @@
   "profileDeleteConfirmDescription": "Tu cuenta y todos los datos se eliminarán de inmediato. Esta acción no se puede deshacer.",
   "profileDeleteConfirmCancel": "Cancelar",
   "profileDeleteConfirmDelete": "Sí, eliminar cuenta",
-  "profileDeleteComingSoon": "Eliminación de cuenta próximamente."
+  "profileDeleteComingSoon": "Eliminación de cuenta próximamente.",
+  "garageEyebrow": "Garaje",
+  "garageEmptyTitle": "Tu garaje está vacío",
+  "garageHeroImageAlt": "Garaje con un Volkswagen Beetle clásico"
 }
