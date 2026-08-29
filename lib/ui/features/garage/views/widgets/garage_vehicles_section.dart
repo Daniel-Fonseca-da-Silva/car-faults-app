@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 import '../../../../../domain/models/saved_vehicle.dart';
 import '../../../../core/theme/app_colors.dart';
-import 'garage_favourite_vehicle_card.dart';
+import 'garage_vehicle_card.dart';
 
-/// "Your favourite vehicles" section of the garage screen: a title and
-/// either an empty-state message or a list of [GarageFavouriteVehicleCard]s.
-class GarageFavouritesSection extends StatelessWidget {
-  const GarageFavouritesSection({
+/// "Your vehicles" section of the garage screen: a title and either an
+/// empty-state message or a list of [GarageVehicleCard]s.
+class GarageVehiclesSection extends StatelessWidget {
+  const GarageVehiclesSection({
     super.key,
     required this.vehicles,
     required this.onRemoveVehicle,
@@ -30,7 +30,7 @@ class GarageFavouritesSection extends StatelessWidget {
       spacing: 12,
       children: [
         Text(
-          l10n.garageFavouritesTitle.toUpperCase(),
+          l10n.garageVehiclesTitle.toUpperCase(),
           style: const TextStyle(
             color: AppColors.primary,
             fontWeight: FontWeight.w700,
@@ -50,7 +50,7 @@ class GarageFavouritesSection extends StatelessWidget {
               ),
             ),
             child: Text(
-              l10n.garageFavouritesEmpty,
+              l10n.garageVehiclesEmpty,
               style: const TextStyle(color: AppColors.muted, fontSize: 13),
             ),
           )
@@ -59,7 +59,7 @@ class GarageFavouritesSection extends StatelessWidget {
             spacing: 12,
             children: [
               for (final vehicle in vehicles)
-                GarageFavouriteVehicleCard(
+                GarageVehicleCard(
                   vehicle: vehicle,
                   onRemove: () => onRemoveVehicle(vehicle.id),
                 ),

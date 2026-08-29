@@ -5,9 +5,9 @@ import 'package:provider/provider.dart';
 import '../../../core/widgets/app_footer.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../view_models/garage_view_model.dart';
-import 'widgets/garage_favourites_section.dart';
 import 'widgets/garage_hero_card.dart';
 import 'widgets/garage_known_issues_section.dart';
+import 'widgets/garage_vehicles_section.dart';
 
 /// Garage ("Garagem") screen: the user's saved vehicles and known issues.
 class GarageView extends StatelessWidget {
@@ -29,7 +29,7 @@ class GarageView extends StatelessWidget {
               spacing: 20,
               children: [
                 GarageHeroCard(selectedVehicle: viewModel.selectedVehicle),
-                GarageFavouritesSection(
+                GarageVehiclesSection(
                   vehicles: viewModel.vehicles,
                   onRemoveVehicle: viewModel.removeVehicle,
                 ),

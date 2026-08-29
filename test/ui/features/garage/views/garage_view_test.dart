@@ -66,7 +66,7 @@ void main() {
   });
 
   testWidgets(
-    'removing the only vehicle empties the hero and the favourites list',
+    'removing the only vehicle empties the hero and the vehicles list',
     (WidgetTester tester) async {
       await tester.pumpWidget(_app());
 

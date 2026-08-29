@@ -5,7 +5,7 @@ import '../../../../../domain/models/saved_vehicle.dart';
 import '../../../../core/theme/app_colors.dart';
 import 'profile_saved_vehicle_row.dart';
 
-/// "Veículos salvos" card: header with the saved-vehicles count and a list
+/// "Os meus veículos" card: header with the saved-vehicles count and a list
 /// of [ProfileSavedVehicleRow]s, or an empty-state message.
 ///
 /// Static UI only in this slice: [vehicles] comes from
