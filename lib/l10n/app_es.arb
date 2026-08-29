@@ -145,5 +145,8 @@
   "profileDeleteComingSoon": "Eliminación de cuenta próximamente.",
   "garageEyebrow": "Garaje",
   "garageEmptyTitle": "Tu garaje está vacío",
-  "garageHeroImageAlt": "Garaje con un Volkswagen Beetle clásico"
+  "garageHeroImageAlt": "Garaje con un Volkswagen Beetle clásico",
+  "garageFavouritesTitle": "Tus vehículos favoritos",
+  "garageFavouritesEmpty": "Todavía no tienes vehículos en el garaje.",
+  "garageRemoveVehicle": "Quitar {brand} {model} del garaje"
 }
