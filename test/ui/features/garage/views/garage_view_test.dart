@@ -78,4 +78,24 @@ void main() {
       expect(find.text('Fiat Punto'), findsNothing);
     },
   );
+
+  testWidgets('default view model shows the known issues section', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app());
+
+    expect(find.text('DEFEITOS CONHECIDOS'), findsOneWidget);
+    expect(find.text('Timing belt wear and failure'), findsOneWidget);
+  });
+
+  testWidgets('removing the only vehicle hides the known issues section', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app());
+
+    await tester.tap(find.byIcon(Icons.delete_outline));
+    await tester.pump();
+
+    expect(find.text('DEFEITOS CONHECIDOS'), findsNothing);
+  });
 }
