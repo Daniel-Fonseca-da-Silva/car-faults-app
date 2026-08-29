@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import '../../../../../domain/models/saved_vehicle.dart';
 import '../../../../core/theme/app_colors.dart';
 
-/// One favourite vehicle on the garage screen: name, year, known-issues
-/// pill and a delete action.
+/// One owned vehicle on the garage screen: name, year, known-issues pill
+/// and a delete action.
 ///
 /// Tapping the row does nothing; only the delete icon is interactive in
 /// this slice.
-class GarageFavouriteVehicleCard extends StatelessWidget {
-  const GarageFavouriteVehicleCard({
+class GarageVehicleCard extends StatelessWidget {
+  const GarageVehicleCard({
     super.key,
     required this.vehicle,
     required this.onRemove,

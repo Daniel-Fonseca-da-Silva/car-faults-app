@@ -39,7 +39,7 @@ void main() {
     (WidgetTester tester) async {
       await tester.pumpWidget(_app(ProfileDemoDisplay.snapshot.vehicles));
 
-      expect(find.text('VEÍCULOS SALVOS'), findsOneWidget);
+      expect(find.text('OS MEUS VEÍCULOS'), findsOneWidget);
       expect(find.text('3 veículos'), findsOneWidget);
       expect(find.byType(ProfileSavedVehicleRow), findsNWidgets(3));
 
@@ -62,7 +62,7 @@ void main() {
   ) async {
     await tester.pumpWidget(_app(const []));
 
-    expect(find.text('Ainda não guardou nenhum veículo.'), findsOneWidget);
+    expect(find.text('Ainda não tem nenhum veículo.'), findsOneWidget);
     expect(find.text('0 veículos'), findsOneWidget);
     expect(find.byType(ProfileSavedVehicleRow), findsNothing);
   });

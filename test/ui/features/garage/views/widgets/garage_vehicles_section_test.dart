@@ -1,6 +1,6 @@
 import 'package:car_faults_app/domain/models/saved_vehicle.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
-import 'package:car_faults_app/ui/features/garage/views/widgets/garage_favourites_section.dart';
+import 'package:car_faults_app/ui/features/garage/views/widgets/garage_vehicles_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -23,7 +23,7 @@ Widget _app({
     localizationsDelegates: AppLocalizations.localizationsDelegates,
     supportedLocales: AppLocalizations.supportedLocales,
     home: Scaffold(
-      body: GarageFavouritesSection(
+      body: GarageVehiclesSection(
         vehicles: vehicles,
         onRemoveVehicle: onRemoveVehicle ?? (_) {},
       ),
@@ -32,6 +32,12 @@ Widget _app({
 }
 
 void main() {
+  testWidgets('shows the section title', (WidgetTester tester) async {
+    await tester.pumpWidget(_app());
+
+    expect(find.text('OS TEUS VEÍCULOS'), findsOneWidget);
+  });
+
   testWidgets('empty list shows the empty message and no vehicle', (
     WidgetTester tester,
   ) async {
