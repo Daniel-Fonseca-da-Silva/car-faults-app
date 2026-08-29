@@ -7,11 +7,9 @@ import '../../../core/widgets/app_scaffold.dart';
 import '../view_models/garage_view_model.dart';
 import 'widgets/garage_favourites_section.dart';
 import 'widgets/garage_hero_card.dart';
+import 'widgets/garage_known_issues_section.dart';
 
 /// Garage ("Garagem") screen: the user's saved vehicles and known issues.
-///
-/// This slice adds the favourite vehicles section; known issues land in a
-/// later slice.
 class GarageView extends StatelessWidget {
   const GarageView({super.key});
 
@@ -35,6 +33,7 @@ class GarageView extends StatelessWidget {
                   vehicles: viewModel.vehicles,
                   onRemoveVehicle: viewModel.removeVehicle,
                 ),
+                GarageKnownIssuesSection(issues: viewModel.issues),
                 AppFooter(disclaimer: l10n.homeDisclaimer),
               ],
             ),

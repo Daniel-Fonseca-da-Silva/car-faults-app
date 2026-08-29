@@ -148,5 +148,8 @@
   "garageHeroImageAlt": "Garaje con un Volkswagen Beetle clásico",
   "garageFavouritesTitle": "Tus vehículos favoritos",
   "garageFavouritesEmpty": "Todavía no tienes vehículos en el garaje.",
-  "garageRemoveVehicle": "Quitar {brand} {model} del garaje"
+  "garageRemoveVehicle": "Quitar {brand} {model} del garaje",
+  "garageKnownIssuesTitle": "Fallos conocidos",
+  "garageViewDetails": "Ver detalles",
+  "garageIssueSources": "Fuentes: {sources}"
 }

@@ -699,5 +699,23 @@
         "example": "Punto"
       }
     }
+  },
+  "garageKnownIssuesTitle": "Defeitos conhecidos",
+  "@garageKnownIssuesTitle": {
+    "description": "Uppercase title of the known-issues section on the garage screen."
+  },
+  "garageViewDetails": "Ver detalhes",
+  "@garageViewDetails": {
+    "description": "Link that opens the full lookup results for the garage's selected vehicle."
+  },
+  "garageIssueSources": "Fontes: {sources}",
+  "@garageIssueSources": {
+    "description": "Sources line under a compact known-issue row on the garage screen.",
+    "placeholders": {
+      "sources": {
+        "type": "String",
+        "example": "Fiat workshop manual"
+      }
+    }
   }
 }
