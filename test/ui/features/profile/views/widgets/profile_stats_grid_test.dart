@@ -27,7 +27,7 @@ void main() {
     expect(find.text('128'), findsOneWidget);
     expect(find.text('Defeitos consultados'), findsOneWidget);
     expect(find.text('6'), findsOneWidget);
-    expect(find.text('Veículos salvos'), findsOneWidget);
+    expect(find.text('Os meus veículos'), findsOneWidget);
     expect(find.text('23'), findsOneWidget);
     expect(find.text('Votos dados'), findsOneWidget);
     expect(find.byType(ProfileStatCard), findsNWidgets(4));
