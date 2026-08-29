@@ -9,6 +9,7 @@ import 'package:car_faults_app/ui/core/widgets/app_menu_button.dart';
 import 'package:car_faults_app/ui/core/widgets/app_scaffold.dart';
 import 'package:car_faults_app/ui/core/widgets/google_user_avatar.dart';
 import 'package:car_faults_app/ui/features/about/views/about_view.dart';
+import 'package:car_faults_app/ui/features/garage/views/garage_view.dart';
 import 'package:car_faults_app/ui/features/login/views/login_view.dart';
 import 'package:car_faults_app/ui/features/profile/views/profile_view.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +63,31 @@ void main() {
     expect(find.text('Defeitos'), findsOneWidget);
     expect(find.text('Sobre'), findsOneWidget);
     expect(find.text('Perfil'), findsOneWidget);
+    expect(find.text('Garagem'), findsOneWidget);
+  });
+
+  testWidgets('shows Garagem right after Perfil', (WidgetTester tester) async {
+    await tester.pumpWidget(_app());
+    await _openDrawer(tester);
+
+    final labels = tester
+        .widgetList<Text>(find.byType(Text))
+        .map((text) => text.data)
+        .toList();
+
+    expect(labels.indexOf('Garagem'), labels.indexOf('Perfil') + 1);
+  });
+
+  testWidgets('tapping Garagem opens the GarageView', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app());
+    await _openDrawer(tester);
+
+    await tester.tap(find.text('Garagem'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(GarageView), findsOneWidget);
   });
 
   testWidgets('tapping Entrar opens the LoginView', (
@@ -127,6 +153,7 @@ void main() {
     expect(find.byIcon(Icons.logout), findsOneWidget);
     expect(find.text('Entrar'), findsNothing);
     expect(find.text('Perfil'), findsOneWidget);
+    expect(find.text('Garagem'), findsOneWidget);
   });
 
   testWidgets('tapping Sair signs the user out', (WidgetTester tester) async {

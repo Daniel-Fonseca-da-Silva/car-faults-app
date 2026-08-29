@@ -36,6 +36,10 @@
   "@navProfile": {
     "description": "Navigation drawer item that opens the Profile screen."
   },
+  "navGarage": "Garagem",
+  "@navGarage": {
+    "description": "Navigation drawer item that opens the Garage screen."
+  },
   "navLanguage": "Idioma",
   "@navLanguage": {
     "description": "Accessibility label of the language switcher in the header."

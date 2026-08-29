@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 
 import '../../../data/repositories/auth_repository.dart';
 import '../../features/about/views/about_view.dart';
+import '../../features/garage/view_models/garage_view_model.dart';
+import '../../features/garage/views/garage_view.dart';
 import '../../features/login/view_models/login_view_model.dart';
 import '../../features/login/views/login_view.dart';
 import '../../features/profile/view_models/profile_view_model.dart';
@@ -15,7 +17,8 @@ import 'app_nav_menu_item.dart';
 import 'google_user_avatar.dart';
 
 /// Right-side navigation drawer shared by every screen wrapped in
-/// [AppScaffold]: sign-in/account, "Defeitos" (home), "Sobre" and "Perfil".
+/// [AppScaffold]: sign-in/account, "Defeitos" (home), "Sobre", "Perfil" and
+/// "Garagem".
 class AppNavDrawer extends StatelessWidget {
   const AppNavDrawer({super.key});
 
@@ -48,6 +51,10 @@ class AppNavDrawer extends StatelessWidget {
             AppNavMenuItem(
               label: l10n.navProfile,
               onTap: () => _openProfile(context),
+            ),
+            AppNavMenuItem(
+              label: l10n.navGarage,
+              onTap: () => _openGarage(context),
             ),
             if (user != null) ...[
               const Spacer(),
@@ -114,6 +121,18 @@ class AppNavDrawer extends StatelessWidget {
         builder: (_) => ChangeNotifierProvider(
           create: (_) => ProfileViewModel(authRepository: AuthRepository()),
           child: const ProfileView(),
+        ),
+      ),
+    );
+  }
+
+  void _openGarage(BuildContext context) {
+    Navigator.of(context).pop();
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => ChangeNotifierProvider(
+          create: (_) => GarageViewModel(),
+          child: const GarageView(),
         ),
       ),
     );
