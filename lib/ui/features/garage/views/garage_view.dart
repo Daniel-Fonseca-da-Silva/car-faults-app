@@ -5,11 +5,12 @@ import 'package:provider/provider.dart';
 import '../../../core/widgets/app_footer.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../view_models/garage_view_model.dart';
+import 'widgets/garage_hero_card.dart';
 
 /// Garage ("Garagem") screen: the user's saved vehicles and known issues.
 ///
-/// This slice only wires the screen shell and its view model; the hero,
-/// favourites and known issues sections land in later slices.
+/// This slice adds the hero card; favourites and known issues sections land
+/// in later slices.
 class GarageView extends StatelessWidget {
   const GarageView({super.key});
 
@@ -26,7 +27,11 @@ class GarageView extends StatelessWidget {
             padding: const EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [AppFooter(disclaimer: l10n.homeDisclaimer)],
+              spacing: 20,
+              children: [
+                GarageHeroCard(selectedVehicle: viewModel.selectedVehicle),
+                AppFooter(disclaimer: l10n.homeDisclaimer),
+              ],
             ),
           );
         },
