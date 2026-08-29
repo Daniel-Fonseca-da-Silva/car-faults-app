@@ -677,5 +677,27 @@
   "garageHeroImageAlt": "Garagem com um Volkswagen Beetle clássico",
   "@garageHeroImageAlt": {
     "description": "Alt text for the garage screen hero photo."
+  },
+  "garageFavouritesTitle": "Os seus veículos favoritos",
+  "@garageFavouritesTitle": {
+    "description": "Uppercase title of the favourite vehicles section on the garage screen."
+  },
+  "garageFavouritesEmpty": "Ainda não tem veículos na garagem.",
+  "@garageFavouritesEmpty": {
+    "description": "Empty state message shown when there are no favourite vehicles in the garage."
+  },
+  "garageRemoveVehicle": "Remover {brand} {model} da garagem",
+  "@garageRemoveVehicle": {
+    "description": "Accessibility label / tooltip of the delete icon on a favourite vehicle card.",
+    "placeholders": {
+      "brand": {
+        "type": "String",
+        "example": "Fiat"
+      },
+      "model": {
+        "type": "String",
+        "example": "Punto"
+      }
+    }
   }
 }
