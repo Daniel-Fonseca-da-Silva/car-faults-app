@@ -41,4 +41,20 @@ void main() {
       findsOneWidget,
     );
   });
+
+  testWidgets('default view model shows the demo vehicle in the hero', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app());
+
+    expect(find.text('Fiat Punto'), findsOneWidget);
+  });
+
+  testWidgets('empty view model shows the empty hero title', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app(viewModel: GarageViewModel(vehicles: [])));
+
+    expect(find.text('A sua garagem está vazia'), findsOneWidget);
+  });
 }
