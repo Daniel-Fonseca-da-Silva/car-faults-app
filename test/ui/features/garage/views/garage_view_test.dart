@@ -5,6 +5,7 @@ import 'package:car_faults_app/ui/core/theme/app_theme.dart';
 import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
 import 'package:car_faults_app/ui/features/garage/view_models/garage_view_model.dart';
 import 'package:car_faults_app/ui/features/garage/views/garage_view.dart';
+import 'package:car_faults_app/ui/features/garage/views/widgets/garage_hero_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -47,7 +48,13 @@ void main() {
   ) async {
     await tester.pumpWidget(_app());
 
-    expect(find.text('Fiat Punto'), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byType(GarageHeroCard),
+        matching: find.text('Fiat Punto'),
+      ),
+      findsOneWidget,
+    );
   });
 
   testWidgets('empty view model shows the empty hero title', (
@@ -57,4 +64,18 @@ void main() {
 
     expect(find.text('A sua garagem está vazia'), findsOneWidget);
   });
+
+  testWidgets(
+    'removing the only vehicle empties the hero and the favourites list',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(_app());
+
+      await tester.tap(find.byIcon(Icons.delete_outline));
+      await tester.pump();
+
+      expect(find.text('A sua garagem está vazia'), findsOneWidget);
+      expect(find.text('Ainda não tem veículos na garagem.'), findsOneWidget);
+      expect(find.text('Fiat Punto'), findsNothing);
+    },
+  );
 }
