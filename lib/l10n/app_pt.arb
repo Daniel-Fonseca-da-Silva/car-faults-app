@@ -584,7 +584,7 @@
   "@profileStatDefectsConsulted": {
     "description": "Label of the defects-consulted stat card on the profile screen."
   },
-  "profileStatSavedVehicles": "Veículos salvos",
+  "profileStatSavedVehicles": "Os meus veículos",
   "@profileStatSavedVehicles": {
     "description": "Label of the saved-vehicles stat card on the profile screen."
   },
@@ -592,7 +592,7 @@
   "@profileStatVotes": {
     "description": "Label of the votes-cast stat card on the profile screen."
   },
-  "profileVehiclesTitle": "Veículos salvos",
+  "profileVehiclesTitle": "Os meus veículos",
   "@profileVehiclesTitle": {
     "description": "Title of the saved-vehicles card on the profile screen."
   },
@@ -606,7 +606,7 @@
       }
     }
   },
-  "profileVehiclesEmpty": "Ainda não guardou nenhum veículo.",
+  "profileVehiclesEmpty": "Ainda não tem nenhum veículo.",
   "@profileVehiclesEmpty": {
     "description": "Empty state of the saved-vehicles card when there are no saved vehicles."
   },
@@ -678,17 +678,17 @@
   "@garageHeroImageAlt": {
     "description": "Alt text for the garage screen hero photo."
   },
-  "garageFavouritesTitle": "Os seus veículos favoritos",
-  "@garageFavouritesTitle": {
-    "description": "Uppercase title of the favourite vehicles section on the garage screen."
+  "garageVehiclesTitle": "Os teus veículos",
+  "@garageVehiclesTitle": {
+    "description": "Uppercase title of the owned-vehicles section on the garage screen."
   },
-  "garageFavouritesEmpty": "Ainda não tem veículos na garagem.",
-  "@garageFavouritesEmpty": {
-    "description": "Empty state message shown when there are no favourite vehicles in the garage."
+  "garageVehiclesEmpty": "Ainda não tem veículos na garagem.",
+  "@garageVehiclesEmpty": {
+    "description": "Empty state message shown when there are no vehicles in the garage."
   },
   "garageRemoveVehicle": "Remover {brand} {model} da garagem",
   "@garageRemoveVehicle": {
-    "description": "Accessibility label / tooltip of the delete icon on a favourite vehicle card.",
+    "description": "Accessibility label / tooltip of the delete icon on a garage vehicle card.",
     "placeholders": {
       "brand": {
         "type": "String",
