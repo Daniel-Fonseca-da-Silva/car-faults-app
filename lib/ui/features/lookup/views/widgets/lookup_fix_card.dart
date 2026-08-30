@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/require_sign_in.dart';
 import '../../view_models/lookup_results_view_model.dart';
 
 /// One card inside [LookupSolutionsSection]: check icon, summary, price
@@ -129,15 +130,21 @@ class LookupFixCard extends StatelessWidget {
               _VoteButton(
                 icon: Icons.thumb_up_outlined,
                 count: viewModel.likesFor(fix.id),
-                onTap: () =>
-                    context.read<LookupResultsViewModel>().voteLike(fix.id),
+                onTap: () => requireSignIn(
+                  context,
+                  () => context.read<LookupResultsViewModel>().voteLike(fix.id),
+                ),
               ),
               const SizedBox(width: 8),
               _VoteButton(
                 icon: Icons.thumb_down_outlined,
                 count: viewModel.dislikesFor(fix.id),
-                onTap: () =>
-                    context.read<LookupResultsViewModel>().voteDislike(fix.id),
+                onTap: () => requireSignIn(
+                  context,
+                  () => context.read<LookupResultsViewModel>().voteDislike(
+                    fix.id,
+                  ),
+                ),
               ),
             ],
           ),

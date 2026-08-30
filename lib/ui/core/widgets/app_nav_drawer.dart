@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +8,6 @@ import '../../../data/repositories/auth_repository.dart';
 import '../../features/about/views/about_view.dart';
 import '../../features/garage/view_models/garage_view_model.dart';
 import '../../features/garage/views/garage_view.dart';
-import '../../features/login/view_models/login_view_model.dart';
 import '../../features/login/views/login_view.dart';
 import '../../features/profile/view_models/profile_view_model.dart';
 import '../../features/profile/views/profile_view.dart';
@@ -92,14 +93,7 @@ class AppNavDrawer extends StatelessWidget {
 
   void _openLogin(BuildContext context) {
     Navigator.of(context).pop();
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => ChangeNotifierProvider(
-          create: (_) => LoginViewModel(authRepository: AuthRepository()),
-          child: const LoginView(),
-        ),
-      ),
-    );
+    pushLoginView(context);
   }
 
   void _goToDefects(BuildContext context) {
@@ -119,7 +113,8 @@ class AppNavDrawer extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => ChangeNotifierProvider(
-          create: (_) => ProfileViewModel(authRepository: AuthRepository()),
+          create: (context) =>
+              ProfileViewModel(authRepository: context.read<AuthRepository>()),
           child: const ProfileView(),
         ),
       ),
@@ -139,7 +134,9 @@ class AppNavDrawer extends StatelessWidget {
   }
 
   void _signOut(BuildContext context) {
+    final authRepository = context.read<AuthRepository>();
     context.read<AuthSessionViewModel>().signOut();
     Navigator.of(context).pop();
+    unawaited(authRepository.signOut());
   }
 }

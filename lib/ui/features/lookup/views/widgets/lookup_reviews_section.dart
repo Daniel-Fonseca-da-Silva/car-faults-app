@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/require_sign_in.dart';
 import '../../lookup_demo_display.dart';
 import '../../view_models/lookup_results_view_model.dart';
 import 'lookup_review_form.dart';
@@ -86,12 +87,14 @@ class LookupReviewsSection extends StatelessWidget {
         if (!hasOwnReview) ...[
           const SizedBox(height: 12),
           LookupReviewForm(
-            onSubmit: (rating, comment) =>
-                context.read<LookupResultsViewModel>().submitReview(
-                  issueId: issueId,
-                  rating: rating,
-                  comment: comment,
-                ),
+            onSubmit: (rating, comment) => requireSignIn(
+              context,
+              () => context.read<LookupResultsViewModel>().submitReview(
+                issueId: issueId,
+                rating: rating,
+                comment: comment,
+              ),
+            ),
           ),
         ],
       ],
