@@ -300,25 +300,13 @@
   "@loginSignUp": {
     "description": "Tappable link of the sign-up prompt. Triggers the same Google command as loginGoogle."
   },
-  "loginGoogleSoon": "Login com Google em breve disponível.",
-  "@loginGoogleSoon": {
-    "description": "SnackBar shown after tapping the Google button — the API has no mobile-facing OAuth endpoint yet."
+  "loginGoogleErrorNetwork": "Não foi possível ligar ao servidor. Verifica a tua ligação e tenta novamente.",
+  "@loginGoogleErrorNetwork": {
+    "description": "SnackBar shown when the Google sign-in request fails due to a network/connectivity error."
   },
-  "loginStatFaults": "defeitos",
-  "@loginStatFaults": {
-    "description": "Label of the faults count in the login stats bar."
-  },
-  "loginStatModels": "modelos",
-  "@loginStatModels": {
-    "description": "Label of the vehicle models count in the login stats bar."
-  },
-  "loginStatRecalls": "recalls",
-  "@loginStatRecalls": {
-    "description": "Label of the recalls count in the login stats bar. Kept as the product word in every locale."
-  },
-  "loginStatsSemanticLabel": "Estatísticas da plataforma",
-  "@loginStatsSemanticLabel": {
-    "description": "Accessibility label announcing the login stats group."
+  "loginGoogleErrorGeneric": "Não foi possível iniciar sessão com o Google. Tenta novamente.",
+  "@loginGoogleErrorGeneric": {
+    "description": "SnackBar shown when the Google sign-in request fails for any other reason (server error, unexpected error)."
   },
   "loginDisclaimer": "Dados obtidos de relatos públicos, fóruns ou pelo uso de agentes e IA.",
   "@loginDisclaimer": {
