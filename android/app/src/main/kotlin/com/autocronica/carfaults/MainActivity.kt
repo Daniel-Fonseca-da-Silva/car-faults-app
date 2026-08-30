@@ -1,4 +1,4 @@
-package com.example.car_faults_app
+package com.autocronica.carfaults
 
 import io.flutter.embedding.android.FlutterActivity
 
