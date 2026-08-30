@@ -31,7 +31,7 @@ void main() {
       await viewModel.deleteAccount();
 
       expect(viewModel.isDeleting, isFalse);
-      expect(viewModel.lastResult, AuthResult.comingSoon);
+      expect(viewModel.lastResult, const AuthComingSoon());
     },
   );
 
@@ -44,11 +44,11 @@ void main() {
     expect(viewModel.isDeleting, isTrue);
     expect(viewModel.lastResult, isNull);
 
-    repository.completer.complete(AuthResult.comingSoon);
+    repository.completer.complete(const AuthComingSoon());
     await future;
 
     expect(viewModel.isDeleting, isFalse);
-    expect(viewModel.lastResult, AuthResult.comingSoon);
+    expect(viewModel.lastResult, const AuthComingSoon());
   });
 
   test('deleteAccount ignores a second call while one is in flight', () async {
@@ -58,7 +58,7 @@ void main() {
     final first = viewModel.deleteAccount();
     final second = viewModel.deleteAccount();
 
-    repository.completer.complete(AuthResult.comingSoon);
+    repository.completer.complete(const AuthComingSoon());
     await first;
     await second;
 

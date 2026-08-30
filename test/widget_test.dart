@@ -16,20 +16,27 @@ import 'package:car_faults_app/ui/core/widgets/brand_wordmark.dart';
 import 'package:car_faults_app/ui/core/widgets/google_sign_in_button.dart';
 import 'package:car_faults_app/ui/core/widgets/locale_switcher.dart';
 import 'package:car_faults_app/ui/core/widgets/section_eyebrow.dart';
-import 'package:car_faults_app/ui/core/widgets/stat_item.dart';
 import 'package:car_faults_app/ui/features/legal/views/legal_view.dart';
 import 'package:car_faults_app/ui/features/login/view_models/login_view_model.dart';
 import 'package:car_faults_app/ui/features/login/views/login_view.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_access_section.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_hero_section.dart';
 import 'package:car_faults_app/ui/features/login/views/widgets/login_sign_up_prompt.dart';
-import 'package:car_faults_app/ui/features/login/views/widgets/login_stats_section.dart';
 
-Widget _loginApp() {
+/// Resolves to a network failure without touching the real Google Sign-In
+/// SDK or network, so the SnackBar error path can be tested deterministically.
+class _FailingAuthRepository extends AuthRepository {
+  @override
+  Future<AuthResult?> signInWithGoogle() async =>
+      const AuthFailure(AuthFailureReason.network);
+}
+
+Widget _loginApp({AuthRepository? authRepository}) {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(
-        create: (_) => LoginViewModel(authRepository: AuthRepository()),
+        create: (_) =>
+            LoginViewModel(authRepository: authRepository ?? AuthRepository()),
       ),
       ChangeNotifierProvider(
         create: (_) => LocaleViewModel(
@@ -132,35 +139,23 @@ void main() {
     },
   );
 
-  testWidgets(
-    'tapping the Google button shows a SnackBar with the stub result',
-    (WidgetTester tester) async {
-      await tester.pumpWidget(_loginApp());
-
-      await tester.tap(find.text('Continuar com Google'));
-      await tester.pumpAndSettle();
-
-      expect(
-        find.text('Login com Google em breve disponível.'),
-        findsOneWidget,
-      );
-    },
-  );
-
-  testWidgets('LoginView shows the three stats with their labels', (
+  testWidgets('tapping the Google button shows a SnackBar on failure', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(_loginApp());
+    await tester.pumpWidget(
+      _loginApp(authRepository: _FailingAuthRepository()),
+    );
 
-    expect(find.byType(LoginStatsSection), findsOneWidget);
-    expect(find.byType(StatItem), findsNWidgets(3));
+    await tester.tap(find.text('Continuar com Google'));
+    await tester.pumpAndSettle();
 
-    expect(find.text('1.2M+'), findsOneWidget);
-    expect(find.text('defeitos'), findsOneWidget);
-    expect(find.text('8.4K+'), findsOneWidget);
-    expect(find.text('modelos'), findsOneWidget);
-    expect(find.text('34K+'), findsOneWidget);
-    expect(find.text('recalls'), findsOneWidget);
+    expect(
+      find.text(
+        'Não foi possível ligar ao servidor. '
+        'Verifica a tua ligação e tenta novamente.',
+      ),
+      findsOneWidget,
+    );
   });
 
   testWidgets('LoginView shows the footer wordmark, disclaimer and copyright', (
@@ -223,11 +218,19 @@ void main() {
   testWidgets('tapping "Cadastre-se grátis" triggers the same Google command', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(_loginApp());
+    await tester.pumpWidget(
+      _loginApp(authRepository: _FailingAuthRepository()),
+    );
 
     await tester.tap(find.text('Cadastre-se grátis'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Login com Google em breve disponível.'), findsOneWidget);
+    expect(
+      find.text(
+        'Não foi possível ligar ao servidor. '
+        'Verifica a tua ligação e tenta novamente.',
+      ),
+      findsOneWidget,
+    );
   });
 }

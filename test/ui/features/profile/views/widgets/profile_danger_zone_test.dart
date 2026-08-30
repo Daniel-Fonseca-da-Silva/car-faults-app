@@ -76,6 +76,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(AlertDialog), findsNothing);
-    expect(viewModel.lastResult, AuthResult.comingSoon);
+    expect(viewModel.lastResult, const AuthComingSoon());
   });
 }

@@ -1,8 +1,11 @@
+import 'package:car_faults_app/data/repositories/auth_repository.dart';
 import 'package:car_faults_app/data/repositories/locale_repository.dart';
 import 'package:car_faults_app/data/services/locale_preferences_service.dart';
+import 'package:car_faults_app/domain/models/user.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/view_models/auth_session_view_model.dart';
 import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
+import 'package:car_faults_app/ui/features/login/views/login_view.dart';
 import 'package:car_faults_app/ui/features/lookup/views/lookup_results_view.dart';
 import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_fix_card.dart';
 import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_issue_card.dart';
@@ -10,7 +13,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
-Widget _app() {
+const _signedInUser = User(
+  id: 'u1',
+  name: 'Daniel Fonseca',
+  email: 'daniel@example.com',
+);
+
+Widget _app({AuthSessionViewModel? session}) {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -18,7 +27,8 @@ Widget _app() {
           repository: LocaleRepository(service: LocalePreferencesService()),
         ),
       ),
-      ChangeNotifierProvider(create: (_) => AuthSessionViewModel()),
+      ChangeNotifierProvider.value(value: session ?? AuthSessionViewModel()),
+      Provider<AuthRepository>.value(value: AuthRepository()),
     ],
     child: const MaterialApp(
       locale: Locale('pt'),
@@ -110,23 +120,44 @@ void main() {
     },
   );
 
-  testWidgets('tapping the thumbs up button increments its count', (
-    WidgetTester tester,
-  ) async {
-    await tester.pumpWidget(_app());
+  testWidgets(
+    'tapping the thumbs up button while signed in increments its count',
+    (WidgetTester tester) async {
+      final session = AuthSessionViewModel()..setUser(_signedInUser);
+      await tester.pumpWidget(_app(session: session));
 
-    await _openIssue(tester, gearboxTitle);
+      await _openIssue(tester, gearboxTitle);
 
-    expect(_inCard(gearboxTitle, find.text('312')), findsOneWidget);
+      expect(_inCard(gearboxTitle, find.text('312')), findsOneWidget);
 
-    final thumbsUp = _inCard(
-      gearboxTitle,
-      find.byIcon(Icons.thumb_up_outlined),
-    ).first;
-    await tester.ensureVisible(thumbsUp);
-    await tester.tap(thumbsUp);
-    await tester.pump();
+      final thumbsUp = _inCard(
+        gearboxTitle,
+        find.byIcon(Icons.thumb_up_outlined),
+      ).first;
+      await tester.ensureVisible(thumbsUp);
+      await tester.tap(thumbsUp);
+      await tester.pump();
 
-    expect(_inCard(gearboxTitle, find.text('313')), findsOneWidget);
-  });
+      expect(_inCard(gearboxTitle, find.text('313')), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'tapping the thumbs up button while signed out asks to sign in first',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(_app());
+
+      await _openIssue(tester, gearboxTitle);
+
+      final thumbsUp = _inCard(
+        gearboxTitle,
+        find.byIcon(Icons.thumb_up_outlined),
+      ).first;
+      await tester.ensureVisible(thumbsUp);
+      await tester.tap(thumbsUp);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(LoginView), findsOneWidget);
+    },
+  );
 }
