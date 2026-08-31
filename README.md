@@ -84,10 +84,18 @@ Requires the [Flutter SDK](https://docs.flutter.dev/get-started/install) matchin
 
 ```bash
 flutter pub get
-flutter run
+cp env/dev.example.json env/dev.json   # first time only — fill in your values
+flutter run --dart-define-from-file=env/dev.json
 ```
 
-Lookups will use `car-faults-api`. The web app's local default is `http://localhost:3001` (see `car-faults-api/.env.example`). There is no `.env` in this repo yet.
+Local config lives in `env/dev.json` (gitignored). Copy `env/dev.example.json` and set:
+
+| Key | Value |
+|-----|-------|
+| `API_BASE_URL` | Your PC's LAN IP + API port (e.g. `http://192.168.1.207:3005` on a physical phone; use `http://10.0.2.2:3005` on the Android emulator) |
+| `GOOGLE_SERVER_CLIENT_ID` | Same as `GOOGLE_CLIENT_ID` in `car-faults-api/.env` |
+
+VS Code / Cursor: use the **car_faults_app (dev)** launch configuration (`.vscode/launch.json`).
 
 Agent skills are optional: they're defined in `skills-lock.json` and installed into `.agents/` (gitignored) via `npx skills update`, not required to run or build the app.
 

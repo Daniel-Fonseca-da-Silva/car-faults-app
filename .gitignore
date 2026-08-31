@@ -44,7 +44,9 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Widget Preview related
+# Local dev config (copy from env/dev.example.json)
+env/dev.json
+
 .widget_preview/
 prompts
 

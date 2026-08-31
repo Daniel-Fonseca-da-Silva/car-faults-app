@@ -1,3 +1,4 @@
+import 'package:car_faults_app/data/repositories/auth_repository.dart';
 import 'package:car_faults_app/data/repositories/locale_repository.dart';
 import 'package:car_faults_app/data/services/locale_preferences_service.dart';
 import 'package:car_faults_app/domain/models/user.dart';
@@ -33,6 +34,7 @@ Widget _app({AuthSessionViewModel? session}) {
         ),
       ),
       ChangeNotifierProvider.value(value: session ?? AuthSessionViewModel()),
+      Provider<AuthRepository>.value(value: AuthRepository()),
     ],
     child: MaterialApp(
       theme: AppTheme.dark,

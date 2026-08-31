@@ -4,29 +4,36 @@ import 'package:car_faults_app/data/repositories/auth_repository.dart';
 import 'package:car_faults_app/ui/features/login/view_models/login_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+/// Resolves [signInWithGoogle] immediately, without touching the real
+/// Google Sign-In SDK or network, so [LoginViewModel] plumbing (loading
+/// state, notifications, result handling) can be tested in isolation.
+class _ImmediateAuthRepository extends AuthRepository {
+  @override
+  Future<AuthResult?> signInWithGoogle() async => const AuthComingSoon();
+}
+
 class _DelayedAuthRepository extends AuthRepository {
-  final completer = Completer<AuthResult>();
+  final completer = Completer<AuthResult?>();
   var callCount = 0;
 
   @override
-  Future<AuthResult> signInWithGoogle() {
+  Future<AuthResult?> signInWithGoogle() {
     callCount++;
     return completer.future;
   }
 }
 
 void main() {
-  test(
-    'continueWithGoogle resolves to comingSoon via the real repository',
-    () async {
-      final viewModel = LoginViewModel(authRepository: AuthRepository());
+  test('continueWithGoogle resolves via the injected repository', () async {
+    final viewModel = LoginViewModel(
+      authRepository: _ImmediateAuthRepository(),
+    );
 
-      await viewModel.continueWithGoogle();
+    await viewModel.continueWithGoogle();
 
-      expect(viewModel.isSigningIn, isFalse);
-      expect(viewModel.lastResult, AuthResult.comingSoon);
-    },
-  );
+    expect(viewModel.isSigningIn, isFalse);
+    expect(viewModel.lastResult, const AuthComingSoon());
+  });
 
   test(
     'continueWithGoogle sets isSigningIn while the call is in flight',
@@ -39,11 +46,11 @@ void main() {
       expect(viewModel.isSigningIn, isTrue);
       expect(viewModel.lastResult, isNull);
 
-      repository.completer.complete(AuthResult.comingSoon);
+      repository.completer.complete(const AuthComingSoon());
       await future;
 
       expect(viewModel.isSigningIn, isFalse);
-      expect(viewModel.lastResult, AuthResult.comingSoon);
+      expect(viewModel.lastResult, const AuthComingSoon());
     },
   );
 
@@ -56,7 +63,7 @@ void main() {
       final first = viewModel.continueWithGoogle();
       final second = viewModel.continueWithGoogle();
 
-      repository.completer.complete(AuthResult.comingSoon);
+      repository.completer.complete(const AuthComingSoon());
       await first;
       await second;
 
@@ -67,7 +74,9 @@ void main() {
   test(
     'continueWithGoogle notifies listeners on start and on completion',
     () async {
-      final viewModel = LoginViewModel(authRepository: AuthRepository());
+      final viewModel = LoginViewModel(
+        authRepository: _ImmediateAuthRepository(),
+      );
       var notifications = 0;
       viewModel.addListener(() => notifications++);
 
@@ -78,7 +87,9 @@ void main() {
   );
 
   test('acknowledgeResult clears lastResult without notifying', () async {
-    final viewModel = LoginViewModel(authRepository: AuthRepository());
+    final viewModel = LoginViewModel(
+      authRepository: _ImmediateAuthRepository(),
+    );
     await viewModel.continueWithGoogle();
 
     var notified = false;

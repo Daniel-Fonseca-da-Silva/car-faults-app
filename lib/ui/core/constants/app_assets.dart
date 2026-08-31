@@ -6,6 +6,7 @@ abstract final class AppAssets {
   static const aboutFounderPhoto =
       'assets/images/about/daniel-fonseca-da-silva.jpg';
   static const citroen2Cv = 'assets/images/show/citroen-2CV.webp';
+  static const googleLogo = 'assets/images/auth/google_logo.svg';
 
   static const _supportedLegalLanguages = {'pt', 'en', 'es'};
   static const _defaultLegalLanguage = 'pt';

@@ -2,6 +2,7 @@ import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'data/repositories/auth_repository.dart';
 import 'data/repositories/locale_repository.dart';
 import 'data/services/locale_preferences_service.dart';
 import 'domain/models/app_locale.dart';
@@ -19,10 +20,22 @@ Future<void> main() async {
   );
   final initialLocale = await localeRepository.load();
 
+  final authSessionViewModel = AuthSessionViewModel();
+  final authRepository = AuthRepository(
+    onUnauthorized: authSessionViewModel.signOut,
+  );
+
+  final restoredUser = await authRepository.restoreSession();
+  if (restoredUser != null) {
+    authSessionViewModel.setUser(restoredUser);
+  }
+
   runApp(
     CarFaultsApp(
       localeRepository: localeRepository,
       initialLocale: initialLocale,
+      authRepository: authRepository,
+      authSessionViewModel: authSessionViewModel,
     ),
   );
 }
@@ -32,12 +45,18 @@ class CarFaultsApp extends StatelessWidget {
     super.key,
     LocaleRepository? localeRepository,
     this.initialLocale = AppLocale.pt,
+    AuthRepository? authRepository,
+    AuthSessionViewModel? authSessionViewModel,
   }) : localeRepository =
            localeRepository ??
-           LocaleRepository(service: LocalePreferencesService());
+           LocaleRepository(service: LocalePreferencesService()),
+       authRepository = authRepository ?? AuthRepository(),
+       authSessionViewModel = authSessionViewModel ?? AuthSessionViewModel();
 
   final LocaleRepository localeRepository;
   final AppLocale initialLocale;
+  final AuthRepository authRepository;
+  final AuthSessionViewModel authSessionViewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +68,8 @@ class CarFaultsApp extends StatelessWidget {
             initialLocale: initialLocale,
           ),
         ),
-        ChangeNotifierProvider(create: (_) => AuthSessionViewModel()),
+        ChangeNotifierProvider.value(value: authSessionViewModel),
+        Provider.value(value: authRepository),
       ],
       child: Consumer<LocaleViewModel>(
         builder: (context, localeViewModel, _) {

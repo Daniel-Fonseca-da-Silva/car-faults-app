@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
+import '../constants/app_assets.dart';
 import '../theme/app_colors.dart';
-
-/// Google's brand blue, used for the compact "G" mark on [GoogleSignInButton].
-///
-/// No Google logo asset ships with the app (native `google_sign_in` is out
-/// of scope for this slice), so the mark is a plain colored "G" rather than
-/// the official multi-color logotype.
-const _googleBlue = Color(0xFF4285F4);
 
 /// Full-width outlined button used for the login screen's only auth CTA.
 class GoogleSignInButton extends StatelessWidget {
@@ -54,7 +49,11 @@ class GoogleSignInButton extends StatelessWidget {
                 ),
               )
             else
-              const _GoogleMark(size: _logoSize),
+              SvgPicture.asset(
+                AppAssets.googleLogo,
+                width: _logoSize,
+                height: _logoSize,
+              ),
             const SizedBox(width: 12),
             Flexible(
               child: Text(
@@ -68,34 +67,6 @@ class GoogleSignInButton extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _GoogleMark extends StatelessWidget {
-  const _GoogleMark({required this.size});
-
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      alignment: Alignment.center,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.circle,
-      ),
-      child: Text(
-        'G',
-        style: TextStyle(
-          color: _googleBlue,
-          fontWeight: FontWeight.w800,
-          fontSize: size * 0.62,
-          height: 1,
         ),
       ),
     );

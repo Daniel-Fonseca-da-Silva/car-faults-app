@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.car_faults_app"
+    namespace = "com.autocronica.carfaults"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -15,8 +15,10 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.car_faults_app"
+        // Real package: register this exact ID + the debug/release SHA-1
+        // fingerprints (`./gradlew signingReport`) as an Android OAuth
+        // client in Google Cloud Console for Google Sign-In to work.
+        applicationId = "com.autocronica.carfaults"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

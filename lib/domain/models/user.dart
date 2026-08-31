@@ -14,4 +14,16 @@ class User {
   final String name;
   final String email;
   final String? photoUrl;
+
+  /// Builds a [User] from `car-faults-api`'s `UserResponseDto` JSON.
+  ///
+  /// The API's field is named `avatarUrl`; this app calls it [photoUrl].
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      email: json['email'] as String,
+      photoUrl: json['avatarUrl'] as String?,
+    );
+  }
 }
