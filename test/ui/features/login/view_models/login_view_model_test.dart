@@ -9,7 +9,8 @@ import 'package:flutter_test/flutter_test.dart';
 /// state, notifications, result handling) can be tested in isolation.
 class _ImmediateAuthRepository extends AuthRepository {
   @override
-  Future<AuthResult?> signInWithGoogle() async => const AuthComingSoon();
+  Future<AuthResult?> signInWithGoogle() async =>
+      const AuthFailure(AuthFailureReason.unknown);
 }
 
 class _DelayedAuthRepository extends AuthRepository {
@@ -32,7 +33,7 @@ void main() {
     await viewModel.continueWithGoogle();
 
     expect(viewModel.isSigningIn, isFalse);
-    expect(viewModel.lastResult, const AuthComingSoon());
+    expect(viewModel.lastResult, const AuthFailure(AuthFailureReason.unknown));
   });
 
   test(
@@ -46,11 +47,16 @@ void main() {
       expect(viewModel.isSigningIn, isTrue);
       expect(viewModel.lastResult, isNull);
 
-      repository.completer.complete(const AuthComingSoon());
+      repository.completer.complete(
+        const AuthFailure(AuthFailureReason.unknown),
+      );
       await future;
 
       expect(viewModel.isSigningIn, isFalse);
-      expect(viewModel.lastResult, const AuthComingSoon());
+      expect(
+        viewModel.lastResult,
+        const AuthFailure(AuthFailureReason.unknown),
+      );
     },
   );
 
@@ -63,7 +69,9 @@ void main() {
       final first = viewModel.continueWithGoogle();
       final second = viewModel.continueWithGoogle();
 
-      repository.completer.complete(const AuthComingSoon());
+      repository.completer.complete(
+        const AuthFailure(AuthFailureReason.unknown),
+      );
       await first;
       await second;
 

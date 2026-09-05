@@ -6,6 +6,15 @@ import 'package:car_faults_app/ui/features/profile/views/widgets/profile_danger_
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+/// Resolves [deleteAccount] immediately without a real network call, so
+/// [ProfileDangerZone]'s confirmation-dialog flow can be tested in
+/// isolation.
+class _FakeAuthRepository extends AuthRepository {
+  @override
+  Future<DeleteAccountResult> deleteAccount() async =>
+      const DeleteAccountSuccess();
+}
+
 Widget _app(ProfileViewModel viewModel) {
   return MaterialApp(
     theme: AppTheme.dark,
@@ -20,7 +29,7 @@ void main() {
   testWidgets('shows the danger-zone title, description and button', (
     WidgetTester tester,
   ) async {
-    final viewModel = ProfileViewModel(authRepository: AuthRepository());
+    final viewModel = ProfileViewModel(authRepository: _FakeAuthRepository());
     await tester.pumpWidget(_app(viewModel));
 
     expect(find.text('ZONA DE RISCO'), findsOneWidget);
@@ -37,7 +46,7 @@ void main() {
   testWidgets('tapping the button opens the confirmation dialog', (
     WidgetTester tester,
   ) async {
-    final viewModel = ProfileViewModel(authRepository: AuthRepository());
+    final viewModel = ProfileViewModel(authRepository: _FakeAuthRepository());
     await tester.pumpWidget(_app(viewModel));
 
     await tester.tap(find.text('Excluir conta').last);
@@ -50,7 +59,7 @@ void main() {
   testWidgets('Cancelar closes the dialog without calling the repository', (
     WidgetTester tester,
   ) async {
-    final viewModel = ProfileViewModel(authRepository: AuthRepository());
+    final viewModel = ProfileViewModel(authRepository: _FakeAuthRepository());
     await tester.pumpWidget(_app(viewModel));
 
     await tester.tap(find.text('Excluir conta').last);
@@ -63,10 +72,10 @@ void main() {
     expect(viewModel.lastResult, isNull);
   });
 
-  testWidgets('confirming calls deleteAccount and resolves to comingSoon', (
+  testWidgets('confirming calls deleteAccount and resolves to success', (
     WidgetTester tester,
   ) async {
-    final viewModel = ProfileViewModel(authRepository: AuthRepository());
+    final viewModel = ProfileViewModel(authRepository: _FakeAuthRepository());
     await tester.pumpWidget(_app(viewModel));
 
     await tester.tap(find.text('Excluir conta').last);
@@ -76,6 +85,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(AlertDialog), findsNothing);
-    expect(viewModel.lastResult, const AuthComingSoon());
+    expect(viewModel.lastResult, const DeleteAccountSuccess());
   });
 }
