@@ -104,12 +104,19 @@ class AuthRepository {
     }
   }
 
-  /// Clears the stored token and the Google Sign-In session.
+  /// Revokes the server-side session, then clears the stored token and the
+  /// Google Sign-In session.
   ///
-  /// The local token is always cleared first; revoking the Google session
-  /// is best-effort so a transient plugin/network failure never leaves the
-  /// app stuck showing a signed-in state the user just asked to leave.
+  /// Revoking the API token and the Google session are both best-effort so
+  /// a transient plugin/network failure never leaves the app stuck showing
+  /// a signed-in state the user just asked to leave — the local token is
+  /// cleared regardless of whether either call succeeds.
   Future<void> signOut() async {
+    try {
+      await _authApiService.logout();
+    } catch (_) {
+      // Best-effort — local session is still cleared below.
+    }
     await _tokenStorage.deleteToken();
     try {
       await _googleAuthService.signOut();
