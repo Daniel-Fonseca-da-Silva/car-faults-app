@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 
 import 'data/repositories/auth_repository.dart';
 import 'data/repositories/locale_repository.dart';
+import 'data/repositories/lookup_repository.dart';
+import 'data/repositories/platform_repository.dart';
 import 'data/services/locale_preferences_service.dart';
 import 'domain/models/app_locale.dart';
 import 'ui/core/constants/app_brand.dart';
@@ -47,16 +49,22 @@ class CarFaultsApp extends StatelessWidget {
     this.initialLocale = AppLocale.pt,
     AuthRepository? authRepository,
     AuthSessionViewModel? authSessionViewModel,
+    LookupRepository? lookupRepository,
+    PlatformRepository? platformRepository,
   }) : localeRepository =
            localeRepository ??
            LocaleRepository(service: LocalePreferencesService()),
        authRepository = authRepository ?? AuthRepository(),
-       authSessionViewModel = authSessionViewModel ?? AuthSessionViewModel();
+       authSessionViewModel = authSessionViewModel ?? AuthSessionViewModel(),
+       lookupRepository = lookupRepository ?? LookupRepository(),
+       platformRepository = platformRepository ?? PlatformRepository();
 
   final LocaleRepository localeRepository;
   final AppLocale initialLocale;
   final AuthRepository authRepository;
   final AuthSessionViewModel authSessionViewModel;
+  final LookupRepository lookupRepository;
+  final PlatformRepository platformRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +78,8 @@ class CarFaultsApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(value: authSessionViewModel),
         Provider.value(value: authRepository),
+        Provider.value(value: lookupRepository),
+        Provider.value(value: platformRepository),
       ],
       child: Consumer<LocaleViewModel>(
         builder: (context, localeViewModel, _) {

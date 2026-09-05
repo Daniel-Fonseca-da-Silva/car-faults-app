@@ -1,14 +1,18 @@
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../lookup_demo_display.dart';
+import '../../../../../data/mappers/lookup_mapper.dart';
+import '../../../home/home_search_options.dart';
+import '../../view_models/lookup_results_view_model.dart';
 import 'lookup_spec_tile.dart';
 
 /// Grid of tech spec tiles below [LookupVehicleHero]: years, engine, fuel,
 /// doors and power. 2 columns on phones, 5 on tablets.
 ///
-/// Static UI only in this slice: data comes from [LookupDemoDisplay], not a
-/// ViewModel or search backend.
+/// The vehicle comes from [LookupResultsViewModel]. [LookupVehicle.fuelType]
+/// is raw API data, so it's mapped back to a [FuelOption] here to show a
+/// localized label; an unrecognized value falls back to the raw string.
 class LookupTechSpecs extends StatelessWidget {
   const LookupTechSpecs({super.key});
 
@@ -21,7 +25,8 @@ class LookupTechSpecs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final vehicle = LookupDemoDisplay.vehicle;
+    final vehicle = context.watch<LookupResultsViewModel>().vehicle;
+    final fuelOption = fuelOptionFromApiValue(vehicle.fuelType);
 
     final tiles = [
       LookupSpecTile(
@@ -37,7 +42,7 @@ class LookupTechSpecs extends StatelessWidget {
       LookupSpecTile(
         icon: Icons.local_gas_station,
         label: l10n.lookupSpecFuel,
-        value: l10n.homeFuelPetrol,
+        value: fuelOption?.label(l10n) ?? vehicle.fuelType,
       ),
       LookupSpecTile(
         icon: Icons.sensor_door,

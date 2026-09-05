@@ -1,15 +1,18 @@
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/section_eyebrow.dart';
 import '../../lookup_demo_display.dart';
+import '../../view_models/lookup_results_view_model.dart';
 
 /// Card at the top of the results screen showing the matched vehicle's
 /// photo, name and model, matching [LoginHeroSection]'s gradient pattern.
 ///
-/// Static UI only in this slice: data comes from [LookupDemoDisplay], not a
-/// ViewModel or search backend.
+/// The vehicle comes from [LookupResultsViewModel]; the hero photo is still
+/// a fixed placeholder ([LookupDemoDisplay.vehicleImage]) since the API's
+/// vehicle image isn't wired up yet.
 class LookupVehicleHero extends StatelessWidget {
   const LookupVehicleHero({super.key});
 
@@ -20,7 +23,7 @@ class LookupVehicleHero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final vehicle = LookupDemoDisplay.vehicle;
+    final vehicle = context.watch<LookupResultsViewModel>().vehicle;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),

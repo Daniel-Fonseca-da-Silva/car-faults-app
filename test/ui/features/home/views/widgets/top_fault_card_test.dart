@@ -1,27 +1,25 @@
-import 'package:car_faults_app/l10n/app_localizations.dart';
-import 'package:car_faults_app/ui/features/home/home_top_faults_display.dart';
+import 'package:car_faults_app/domain/models/issue_severity.dart';
+import 'package:car_faults_app/domain/models/top_fault.dart';
 import 'package:car_faults_app/ui/features/home/views/widgets/top_fault_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  const entry = TopFaultEntry(
-    brand: 'Volkswagen',
-    model: 'Gol',
-    year: 2015,
+  const fault = TopFault(
+    id: 'injection',
+    title: 'Falha no sistema de injeção eletrónica',
+    severity: IssueSeverity.high,
     reportCount: 1842,
-    faultDescription: _unusedDescription,
+    vehicleBrand: 'Volkswagen',
+    vehicleModel: 'Gol',
+    vehicleYearFrom: 2015,
   );
 
   Future<void> pumpCard(WidgetTester tester) {
     return tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(
-          body: TopFaultCard(
-            entry: entry,
-            description: 'Falha no sistema de injeção eletrónica',
-            viewReportsLabel: 'Ver relatos',
-          ),
+          body: TopFaultCard(fault: fault, viewReportsLabel: 'Ver relatos'),
         ),
       ),
     );
@@ -56,5 +54,3 @@ void main() {
     semanticsHandle.dispose();
   });
 }
-
-String _unusedDescription(AppLocalizations l10n) => '';

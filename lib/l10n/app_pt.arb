@@ -180,9 +180,25 @@
   "@homeSearchSubmit": {
     "description": "Label of the search form's submit button."
   },
-  "homeSearchSearching": "A pesquisar…",
+  "homeSearchSearching": "A analisar o veículo…",
   "@homeSearchSearching": {
-    "description": "Loading copy shown on the home screen while the fake search runs."
+    "description": "Loading copy shown on the home screen while the search request is in flight (may trigger AI generation server-side for a new vehicle)."
+  },
+  "homeSearchErrorRateLimited": "Demasiadas pesquisas. Tenta novamente dentro de momentos.",
+  "@homeSearchErrorRateLimited": {
+    "description": "SnackBar shown when the lookup request is rejected for exceeding the mobile AI rate limit (HTTP 429)."
+  },
+  "homeSearchErrorUnavailable": "Serviço temporariamente indisponível.",
+  "@homeSearchErrorUnavailable": {
+    "description": "SnackBar shown when the lookup request fails because the AI provider is unavailable (HTTP 503)."
+  },
+  "homeSearchErrorNotFound": "Veículo não encontrado.",
+  "@homeSearchErrorNotFound": {
+    "description": "SnackBar shown when the lookup request returns no vehicle (HTTP 404)."
+  },
+  "homeSearchErrorGeneric": "Ocorreu um erro. Tenta novamente.",
+  "@homeSearchErrorGeneric": {
+    "description": "SnackBar shown when the lookup request fails for any other reason (network error, unexpected error)."
   },
   "homeFuelPetrol": "Gasolina",
   "@homeFuelPetrol": {
@@ -220,6 +236,10 @@
   "@homeStatsSemanticLabel": {
     "description": "Accessibility label announcing the home stats group."
   },
+  "homeStatsLoadError": "Não foi possível carregar as estatísticas.",
+  "@homeStatsLoadError": {
+    "description": "Error message shown in the home stats bar when the platform stats request fails."
+  },
   "homeTopFaultsTitle": "AVARIAS MAIS REPORTADAS",
   "@homeTopFaultsTitle": {
     "description": "Title of the most-reported-faults section on the home screen."
@@ -232,29 +252,9 @@
   "@homeTopFaultsSemanticLabel": {
     "description": "Accessibility label announcing the most-reported-faults card list."
   },
-  "homeFaultInjection": "Falha no sistema de injeção eletrónica",
-  "@homeFaultInjection": {
-    "description": "Mocked fault description (placeholder data, no source in this delivery) for the Volkswagen Gol top fault card."
-  },
-  "homeFaultBodyCorrosion": "Corrosão precoce na carroçaria",
-  "@homeFaultBodyCorrosion": {
-    "description": "Mocked fault description (placeholder data, no source in this delivery) for the Fiat Uno top fault card."
-  },
-  "homeFaultEngineCoverLeak": "Fuga de óleo na tampa do motor",
-  "@homeFaultEngineCoverLeak": {
-    "description": "Mocked fault description (placeholder data, no source in this delivery) for the Ford EcoSport top fault card."
-  },
-  "homeFaultRearBrakeWear": "Desgaste prematuro dos travões traseiros",
-  "@homeFaultRearBrakeWear": {
-    "description": "Mocked fault description (placeholder data, no source in this delivery) for the Toyota Corolla top fault card."
-  },
-  "homeFaultGearboxIntermittent": "Falha intermitente na caixa automática",
-  "@homeFaultGearboxIntermittent": {
-    "description": "Mocked fault description (placeholder data, no source in this delivery) for the Chevrolet Onix top fault card."
-  },
-  "homeFaultDashElectrical": "Problema elétrico no painel de instrumentos",
-  "@homeFaultDashElectrical": {
-    "description": "Mocked fault description (placeholder data, no source in this delivery) for the Renault Sandero top fault card."
+  "homeTopFaultsLoadError": "Não foi possível carregar as avarias mais reportadas.",
+  "@homeTopFaultsLoadError": {
+    "description": "Error message shown in the most-reported-faults section when the request fails."
   },
   "loginHeroEyebrow": "CARFAULTS",
   "@loginHeroEyebrow": {

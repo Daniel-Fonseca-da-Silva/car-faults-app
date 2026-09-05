@@ -1,15 +1,20 @@
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/constants/app_assets.dart';
+import 'package:car_faults_app/ui/features/lookup/view_models/lookup_results_view_model.dart';
 import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_vehicle_hero.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
 
 Widget _app() {
-  return const MaterialApp(
-    locale: Locale('pt'),
-    localizationsDelegates: AppLocalizations.localizationsDelegates,
-    supportedLocales: AppLocalizations.supportedLocales,
-    home: Scaffold(body: LookupVehicleHero()),
+  return ChangeNotifierProvider(
+    create: (_) => LookupResultsViewModel(),
+    child: const MaterialApp(
+      locale: Locale('pt'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: Scaffold(body: LookupVehicleHero()),
+    ),
   );
 }
 

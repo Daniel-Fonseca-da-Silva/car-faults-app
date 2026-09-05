@@ -1,15 +1,15 @@
 import 'package:car_faults_app/domain/models/issue_severity.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import '../../lookup_demo_display.dart';
+import '../../view_models/lookup_results_view_model.dart';
 
 /// Warning card below [LookupTechSpecs] summarising how many known issues
 /// were found for the vehicle, and how many are critical or high severity.
 ///
-/// Static UI only in this slice: counts are derived from
-/// [LookupDemoDisplay.issues], not a ViewModel or search backend.
+/// Counts are derived from [LookupResultsViewModel.issues].
 class LookupIssuesSummary extends StatelessWidget {
   const LookupIssuesSummary({super.key});
 
@@ -20,7 +20,7 @@ class LookupIssuesSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final issues = LookupDemoDisplay.issues;
+    final issues = context.watch<LookupResultsViewModel>().issues;
     final total = issues.length;
     final critical = issues
         .where((issue) => issue.severity == IssueSeverity.critical)
