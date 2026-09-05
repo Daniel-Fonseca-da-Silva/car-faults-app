@@ -37,10 +37,10 @@ const _issue = KnownIssue(
 );
 
 class _FakeGarageRepository extends GarageRepository {
-  _FakeGarageRepository({this.vehicles, this.issues = const [_issue]});
+  _FakeGarageRepository({this.vehicles});
 
   List<SavedVehicle>? vehicles;
-  List<KnownIssue> issues;
+  List<KnownIssue> issues = const [_issue];
 
   @override
   Future<List<SavedVehicle>?> fetchVehicles() async => vehicles;
