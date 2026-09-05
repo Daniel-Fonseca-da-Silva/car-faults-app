@@ -7,6 +7,25 @@ import '../services/api_client.dart';
 import '../services/secure_token_storage.dart';
 import '../services/user_vehicles_api_service.dart';
 
+/// Outcome of [GarageRepository.addVehicle].
+sealed class AddToGarageResult {
+  const AddToGarageResult();
+}
+
+class AddToGarageSuccess extends AddToGarageResult {
+  const AddToGarageSuccess(this.vehicle);
+  final SavedVehicle vehicle;
+}
+
+/// The vehicle is already in the signed-in user's garage (`409 Conflict`).
+class AddToGarageDuplicate extends AddToGarageResult {
+  const AddToGarageDuplicate();
+}
+
+class AddToGarageFailure extends AddToGarageResult {
+  const AddToGarageFailure();
+}
+
 /// Loads and manages the garage screen's saved vehicles via
 /// `car-faults-api`'s `/v1/user-vehicles` endpoints.
 ///
@@ -64,6 +83,39 @@ class GarageRepository {
       return true;
     } on DioException {
       return false;
+    }
+  }
+
+  /// `GET /v1/user-vehicles/status`. Returns `null` on failure.
+  Future<bool?> checkGarageStatus({
+    required String vehicleModelId,
+    required int year,
+  }) async {
+    try {
+      final json = await _apiService.status(
+        vehicleModelId: vehicleModelId,
+        year: year,
+      );
+      return json['owned'] as bool;
+    } on DioException {
+      return null;
+    }
+  }
+
+  /// `POST /v1/user-vehicles`, adding a catalog vehicle to the garage.
+  Future<AddToGarageResult> addVehicle({
+    required String vehicleModelId,
+    required int year,
+  }) async {
+    try {
+      final json = await _apiService.create(
+        vehicleModelId: vehicleModelId,
+        year: year,
+      );
+      return AddToGarageSuccess(SavedVehicle.fromUserVehicleJson(json));
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 409) return const AddToGarageDuplicate();
+      return const AddToGarageFailure();
     }
   }
 }

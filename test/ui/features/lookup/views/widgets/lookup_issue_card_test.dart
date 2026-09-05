@@ -1,6 +1,9 @@
+import 'package:car_faults_app/data/repositories/activity_log_repository.dart';
 import 'package:car_faults_app/data/repositories/community_repository.dart';
+import 'package:car_faults_app/data/repositories/garage_repository.dart';
 import 'package:car_faults_app/data/repositories/locale_repository.dart';
 import 'package:car_faults_app/data/services/locale_preferences_service.dart';
+import 'package:car_faults_app/domain/models/comment.dart';
 import 'package:car_faults_app/domain/models/issue_review.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/view_models/auth_session_view_model.dart';
@@ -13,10 +16,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
-/// Never reaches a real network: leaves the seeded demo reviews in place.
+/// Never reaches a real network: leaves the seeded demo reviews/comments in
+/// place.
 class _FakeCommunityRepository extends CommunityRepository {
   @override
   Future<List<IssueReview>?> fetchReviews(String knownIssueId) async => null;
+
+  @override
+  Future<List<Comment>?> fetchComments(String knownIssueId) async => null;
+}
+
+/// Never reaches a real network: the add-to-garage button isn't exercised
+/// by these tests.
+class _FakeGarageRepository extends GarageRepository {
+  @override
+  Future<bool?> checkGarageStatus({
+    required String vehicleModelId,
+    required int year,
+  }) async => null;
+}
+
+/// Never reaches a real network.
+class _FakeActivityLogRepository extends ActivityLogRepository {
+  @override
+  Future<bool> recordDefectConsulted(String knownIssueId) async => true;
 }
 
 Widget _app() {
@@ -38,6 +61,8 @@ Widget _app() {
           vehicle: LookupDemoDisplay.vehicle,
           issues: LookupDemoDisplay.issues,
           repository: _FakeCommunityRepository(),
+          garageRepository: _FakeGarageRepository(),
+          activityLogRepository: _FakeActivityLogRepository(),
         ),
       ),
     ),

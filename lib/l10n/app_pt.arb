@@ -578,6 +578,50 @@
   "@lookupCommentsEmpty": {
     "description": "Empty state shown in the community comments section when a known issue has no comments yet."
   },
+  "lookupCommentsYourComment": "O teu comentário",
+  "@lookupCommentsYourComment": {
+    "description": "Label above the body field in the comment form."
+  },
+  "lookupCommentsYourBadge": "o teu comentário",
+  "@lookupCommentsYourBadge": {
+    "description": "Badge on the signed-in user's own comment in the comments list."
+  },
+  "lookupCommentsHint": "Partilha a tua experiência com este defeito",
+  "@lookupCommentsHint": {
+    "description": "Placeholder of the body field in the comment form."
+  },
+  "lookupCommentsAddImage": "Adicionar foto",
+  "@lookupCommentsAddImage": {
+    "description": "Label of the button to attach an image to a new comment."
+  },
+  "lookupCommentsImageAlt": "Imagem do comentário",
+  "@lookupCommentsImageAlt": {
+    "description": "Accessibility label of a comment's attached image."
+  },
+  "lookupCommentsSubmit": "Publicar comentário",
+  "@lookupCommentsSubmit": {
+    "description": "Label of the comment form's submit button."
+  },
+  "lookupCommentsSubmitError": "Não foi possível publicar o teu comentário. Tenta novamente.",
+  "@lookupCommentsSubmitError": {
+    "description": "Generic error shown when submitting a comment fails."
+  },
+  "lookupAddToGarage": "Adicionar à garagem",
+  "@lookupAddToGarage": {
+    "description": "Label of the button to add the looked-up vehicle to the user's garage."
+  },
+  "lookupAddToGarageAlready": "Já está na tua garagem",
+  "@lookupAddToGarageAlready": {
+    "description": "Label of the add-to-garage button once the vehicle is already in the user's garage."
+  },
+  "lookupAddToGarageDuplicate": "Este veículo já está na tua garagem.",
+  "@lookupAddToGarageDuplicate": {
+    "description": "Error shown when the signed-in user tries to add a vehicle that's already in their garage (API 409)."
+  },
+  "lookupAddToGarageError": "Não foi possível adicionar este veículo à garagem. Tenta novamente.",
+  "@lookupAddToGarageError": {
+    "description": "Generic error shown when adding a vehicle to the garage fails."
+  },
   "profileAccountTitle": "Informações da conta",
   "@profileAccountTitle": {
     "description": "Title of the account information card on the profile screen."

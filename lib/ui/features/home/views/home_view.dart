@@ -90,6 +90,7 @@ class _HomeBody extends StatelessWidget {
               viewModel: LookupResultsViewModel(
                 vehicle: vehicle,
                 issues: issues,
+                searchedYear: viewModel.year,
               ),
             ),
           ),

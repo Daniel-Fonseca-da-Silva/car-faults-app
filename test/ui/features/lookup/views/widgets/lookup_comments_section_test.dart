@@ -15,7 +15,6 @@ import 'package:car_faults_app/ui/features/lookup/lookup_demo_display.dart';
 import 'package:car_faults_app/ui/features/lookup/view_models/lookup_results_view_model.dart';
 import 'package:car_faults_app/ui/features/lookup/views/lookup_results_view.dart';
 import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_issue_card.dart';
-import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_star_rating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -26,9 +25,9 @@ const _signedInUser = User(
   email: 'daniel@example.com',
 );
 
-/// Never reaches a real network: [fetchReviews] returns `null`, leaving
-/// whatever reviews the view model was seeded with (the demo data) in
-/// place, and [submitReview] echoes back a review as the signed-in user.
+/// Never reaches a real network: [fetchReviews]/[fetchComments] return
+/// `null` (stay empty) and [submitComment] echoes back a comment as the
+/// signed-in user.
 class _FakeCommunityRepository extends CommunityRepository {
   @override
   Future<List<IssueReview>?> fetchReviews(String knownIssueId) async => null;
@@ -37,27 +36,25 @@ class _FakeCommunityRepository extends CommunityRepository {
   Future<List<Comment>?> fetchComments(String knownIssueId) async => null;
 
   @override
-  Future<SubmitReviewResult> submitReview({
+  Future<SubmitCommentResult> submitComment({
     required String knownIssueId,
-    required int rating,
-    String? comment,
+    required String body,
+    String? imageUrl,
   }) async {
-    return SubmitReviewSuccess(
-      IssueReview(
-        id: 'review-own',
+    return SubmitCommentSuccess(
+      Comment(
+        id: 'comment-own',
         userId: _signedInUser.id,
         userName: _signedInUser.name,
         initials: 'DF',
-        rating: rating,
-        comment: comment ?? '',
+        body: body,
+        imageUrl: imageUrl,
         submittedAt: DateTime.now(),
       ),
     );
   }
 }
 
-/// Never reaches a real network: the add-to-garage button isn't exercised
-/// by these tests.
 class _FakeGarageRepository extends GarageRepository {
   @override
   Future<bool?> checkGarageStatus({
@@ -66,7 +63,6 @@ class _FakeGarageRepository extends GarageRepository {
   }) async => null;
 }
 
-/// Never reaches a real network.
 class _FakeActivityLogRepository extends ActivityLogRepository {
   @override
   Future<bool> recordDefectConsulted(String knownIssueId) async => true;
@@ -111,15 +107,6 @@ Finder _inCard(String title, Finder matching) {
   return find.descendant(of: _card(title), matching: matching);
 }
 
-/// The review form's submit button within [title]'s card — distinct from
-/// the comment form's submit button.
-Finder _submitButtonIn(String title) {
-  return _inCard(
-    title,
-    find.widgetWithText(ElevatedButton, 'Submeter avaliação'),
-  );
-}
-
 Future<void> _openIssue(WidgetTester tester, String title) async {
   final titleFinder = find.text(title);
   await tester.ensureVisible(titleFinder);
@@ -128,87 +115,95 @@ Future<void> _openIssue(WidgetTester tester, String title) async {
   await tester.pumpAndSettle();
 }
 
+/// The comment body field within [title]'s card — distinct from the review
+/// form's comment field rendered in the same expanded card.
+Finder _bodyFieldIn(String title) {
+  return _inCard(
+    title,
+    find.byWidgetPredicate(
+      (widget) =>
+          widget is TextField &&
+          widget.decoration?.hintText ==
+              'Partilha a tua experiência com este defeito',
+    ),
+  );
+}
+
+/// The comment form's submit button within [title]'s card — distinct from
+/// the review form's submit button.
+Finder _submitButtonIn(String title) {
+  return _inCard(
+    title,
+    find.widgetWithText(ElevatedButton, 'Publicar comentário'),
+  );
+}
+
 void main() {
   const gearboxTitle = 'Caixa de câmbio problemática';
-  const corrosionTitle = 'Corrosão na estrutura do assoalho';
   const emptyState =
-      'Sem avaliações ainda. Sê o primeiro a classificar este defeito.';
+      'Ainda não há comentários. Sê o primeiro a partilhar a tua experiência.';
 
   testWidgets(
-    'the gearbox issue shows the 4.3 average and the 3 reviewer names',
-    (WidgetTester tester) async {
-      await tester.pumpWidget(_app());
-
-      await _openIssue(tester, gearboxTitle);
-
-      expect(_inCard(gearboxTitle, find.text('4.3')), findsOneWidget);
-      expect(_inCard(gearboxTitle, find.text('3 avaliações')), findsOneWidget);
-      expect(_inCard(gearboxTitle, find.text('Ricardo Moura')), findsOneWidget);
-      expect(_inCard(gearboxTitle, find.text('Fábio Lopes')), findsOneWidget);
-      expect(_inCard(gearboxTitle, find.text('Ana Silva')), findsOneWidget);
-    },
-  );
-
-  testWidgets(
-    'the corrosion issue shows the empty state and a form; submitting it '
-    'while signed in reveals the "a tua avaliação" badge',
+    'shows the empty state and a comment form; submitting it while signed '
+    'in reveals the "o teu comentário" badge',
     (WidgetTester tester) async {
       final session = AuthSessionViewModel()..setUser(_signedInUser);
       await tester.pumpWidget(_app(session: session));
 
-      await _openIssue(tester, corrosionTitle);
+      await _openIssue(tester, gearboxTitle);
 
-      expect(_inCard(corrosionTitle, find.text(emptyState)), findsOneWidget);
+      expect(_inCard(gearboxTitle, find.text(emptyState)), findsOneWidget);
       expect(
-        _inCard(corrosionTitle, find.text('a tua avaliação')),
+        _inCard(gearboxTitle, find.text('o teu comentário')),
         findsNothing,
       );
-      expect(
-        _inCard(corrosionTitle, find.text('Submeter avaliação')),
-        findsOneWidget,
-      );
 
-      final submitButtonFinder = _submitButtonIn(corrosionTitle);
-      final submitButton = tester.widget<ElevatedButton>(submitButtonFinder);
-      expect(submitButton.onPressed, isNull);
-
-      final fourthStar = _inCard(corrosionTitle, find.byType(IconButton)).at(3);
-      await tester.ensureVisible(fourthStar);
-      await tester.tap(fourthStar);
+      final bodyFieldFinder = _bodyFieldIn(gearboxTitle);
+      await tester.ensureVisible(bodyFieldFinder);
+      await tester.enterText(bodyFieldFinder, 'Confirmo, aconteceu-me também.');
       await tester.pump();
 
+      final submitButtonFinder = _submitButtonIn(gearboxTitle);
       await tester.ensureVisible(submitButtonFinder);
       await tester.tap(submitButtonFinder);
       await tester.pumpAndSettle();
 
       expect(
-        _inCard(corrosionTitle, find.text('a tua avaliação')),
+        _inCard(gearboxTitle, find.text('o teu comentário')),
         findsOneWidget,
       );
       expect(
-        _inCard(corrosionTitle, find.byType(LookupStarRating)),
-        findsWidgets,
-      );
-      expect(
-        _inCard(corrosionTitle, find.text('Submeter avaliação')),
-        findsNothing,
+        _inCard(gearboxTitle, find.text('Confirmo, aconteceu-me também.')),
+        findsOneWidget,
       );
     },
   );
 
-  testWidgets('submitting a review while signed out asks to sign in first', (
+  testWidgets('the submit button stays disabled with an empty body', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(_app());
 
-    await _openIssue(tester, corrosionTitle);
+    await _openIssue(tester, gearboxTitle);
 
-    final fourthStar = _inCard(corrosionTitle, find.byType(IconButton)).at(3);
-    await tester.ensureVisible(fourthStar);
-    await tester.tap(fourthStar);
+    final submitButtonFinder = _submitButtonIn(gearboxTitle);
+    final submitButton = tester.widget<ElevatedButton>(submitButtonFinder);
+    expect(submitButton.onPressed, isNull);
+  });
+
+  testWidgets('submitting a comment while signed out asks to sign in first', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app());
+
+    await _openIssue(tester, gearboxTitle);
+
+    final bodyFieldFinder = _bodyFieldIn(gearboxTitle);
+    await tester.ensureVisible(bodyFieldFinder);
+    await tester.enterText(bodyFieldFinder, 'Confirmo, aconteceu-me também.');
     await tester.pump();
 
-    final submitButtonFinder = _submitButtonIn(corrosionTitle);
+    final submitButtonFinder = _submitButtonIn(gearboxTitle);
     await tester.ensureVisible(submitButtonFinder);
     await tester.tap(submitButtonFinder);
     await tester.pumpAndSettle();
