@@ -1,3 +1,4 @@
+import 'package:car_faults_app/data/repositories/lookup_repository.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/widgets/app_autocomplete_field.dart';
 import 'package:car_faults_app/ui/core/widgets/app_dropdown_field.dart';
@@ -12,10 +13,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  Future<void> pumpCard(WidgetTester tester) {
+  Future<void> pumpCard(WidgetTester tester, {HomeSearchViewModel? viewModel}) {
     return tester.pumpWidget(
       ChangeNotifierProvider(
-        create: (_) => HomeSearchViewModel(),
+        create: (_) =>
+            viewModel ?? HomeSearchViewModel(repository: LookupRepository()),
         child: const MaterialApp(
           locale: Locale('pt'),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -252,12 +254,17 @@ void main() {
     expect(submitButton(tester).onPressed, isNull);
   });
 
-  testWidgets('submit button enables after filling a single field', (
+  testWidgets('submit button enables when required fields are filled', (
     WidgetTester tester,
   ) async {
-    await pumpCard(tester);
-    await tester.enterText(find.byType(AppAutocompleteField), 'Volkswagen');
-    await tester.pump();
+    final viewModel = HomeSearchViewModel(repository: LookupRepository())
+      ..setBrand('Volkswagen')
+      ..setModel('Polo')
+      ..setYear(1996)
+      ..setEngine('1.6')
+      ..setFuel(FuelOption.petrol);
+
+    await pumpCard(tester, viewModel: viewModel);
 
     expect(submitButton(tester).onPressed, isNotNull);
   });
