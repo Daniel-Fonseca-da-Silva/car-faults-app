@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 
+import '../../../../data/repositories/community_repository.dart';
+import '../../../../domain/models/fix_vote_value.dart';
 import '../../../../domain/models/issue_fix.dart';
 import '../../../../domain/models/issue_review.dart';
 import '../../../../domain/models/known_issue.dart';
@@ -8,19 +12,22 @@ import '../lookup_demo_display.dart';
 
 /// Owns [LookupResultsView]'s matched vehicle and known issues, and the
 /// interactive state of the known-issues accordion: which cards are
-/// expanded, each issue's reviews, and each fix's expanded steps and ÚTIL?
-/// vote.
+/// expanded, each issue's reviews and each fix's expanded steps and vote.
 ///
 /// [vehicle] and [issues] fall back to [LookupDemoDisplay] when not passed —
 /// used by screens that don't yet navigate here with real search results
-/// (garage, profile). Reviews are seeded from the passed [issues] and kept
-/// in memory only — there is no review backend in this delivery, so
-/// [submitReview] never persists. Votes work the same way: [voteLike] and
-/// [voteDislike] only move a local flag, they never call an API.
+/// (garage, profile). Reviews are seeded from the passed [issues] and then
+/// lazily refreshed from [CommunityRepository] the first time each issue is
+/// expanded (and cached — see [toggleIssue]); fix votes always go through
+/// [CommunityRepository].
 class LookupResultsViewModel extends ChangeNotifier {
-  LookupResultsViewModel({LookupVehicle? vehicle, List<KnownIssue>? issues})
-    : vehicle = vehicle ?? LookupDemoDisplay.vehicle,
-      _issues = issues ?? LookupDemoDisplay.issues {
+  LookupResultsViewModel({
+    LookupVehicle? vehicle,
+    List<KnownIssue>? issues,
+    CommunityRepository? repository,
+  }) : vehicle = vehicle ?? LookupDemoDisplay.vehicle,
+       _issues = issues ?? LookupDemoDisplay.issues,
+       _repository = repository ?? CommunityRepository() {
     for (final issue in _issues) {
       _reviews[issue.id] = List<IssueReview>.from(issue.reviews);
       for (final fix in issue.fixes) {
@@ -29,24 +36,48 @@ class LookupResultsViewModel extends ChangeNotifier {
     }
   }
 
+  final CommunityRepository _repository;
   final LookupVehicle vehicle;
   final List<KnownIssue> _issues;
   List<KnownIssue> get issues => List.unmodifiable(_issues);
   final Set<String> _expandedIssueIds = {};
   final Map<String, List<IssueReview>> _reviews = {};
+  final Set<String> _loadedReviewIds = {};
+  final Set<String> _loadingReviewIds = {};
   final Map<String, IssueFix> _fixes = {};
   final Set<String> _expandedFixIds = {};
 
-  /// `true` = the demo user liked that fix, `false` = disliked it, absent =
-  /// no vote yet.
-  final Map<String, bool> _fixVotes = {};
-  var _nextOwnReviewId = 0;
-
   bool isIssueExpanded(String id) => _expandedIssueIds.contains(id);
 
+  /// Expands or collapses [id]. The first time it expands, this triggers a
+  /// `GET /v1/reviews` fetch in the background — see [isLoadingReviews] —
+  /// whose result replaces the seeded reviews once it lands (or is dropped
+  /// on failure, leaving whatever was already shown).
   void toggleIssue(String id) {
-    if (!_expandedIssueIds.add(id)) {
+    final isExpanding = !_expandedIssueIds.contains(id);
+    if (isExpanding) {
+      _expandedIssueIds.add(id);
+      if (!_loadedReviewIds.contains(id)) {
+        unawaited(_loadReviews(id));
+      }
+    } else {
       _expandedIssueIds.remove(id);
+    }
+    notifyListeners();
+  }
+
+  bool isLoadingReviews(String issueId) => _loadingReviewIds.contains(issueId);
+
+  Future<void> _loadReviews(String issueId) async {
+    _loadingReviewIds.add(issueId);
+    notifyListeners();
+
+    final reviews = await _repository.fetchReviews(issueId);
+
+    _loadingReviewIds.remove(issueId);
+    if (reviews != null) {
+      _reviews[issueId] = reviews;
+      _loadedReviewIds.add(issueId);
     }
     notifyListeners();
   }
@@ -63,32 +94,34 @@ class LookupResultsViewModel extends ChangeNotifier {
     return total / reviews.length;
   }
 
-  bool hasOwnReview(String issueId) {
+  /// Whether [currentUserId] (the signed-in user, or `null` when signed
+  /// out) already has a review among [reviewsFor].
+  bool hasOwnReview(String issueId, String? currentUserId) {
+    if (currentUserId == null) return false;
     return (_reviews[issueId] ?? const []).any(
-      (review) => review.userId == LookupDemoDisplay.currentUserId,
+      (review) => review.userId == currentUserId,
     );
   }
 
-  void submitReview({
+  /// `POST /v1/reviews`. On [SubmitReviewSuccess], the new review is
+  /// appended to [reviewsFor] without a full refetch.
+  Future<SubmitReviewResult> submitReview({
     required String issueId,
     required int rating,
     String? comment,
-  }) {
-    if (hasOwnReview(issueId)) return;
-
-    final reviews = _reviews.putIfAbsent(issueId, () => []);
-    reviews.add(
-      IssueReview(
-        id: 'review-own-${_nextOwnReviewId++}',
-        userId: LookupDemoDisplay.currentUserId,
-        userName: LookupDemoDisplay.currentUserName,
-        initials: LookupDemoDisplay.currentUserInitials,
-        rating: rating,
-        comment: comment ?? '',
-        submittedAgo: '',
-      ),
+  }) async {
+    final result = await _repository.submitReview(
+      knownIssueId: issueId,
+      rating: rating,
+      comment: comment,
     );
-    notifyListeners();
+    if (result is SubmitReviewSuccess) {
+      final reviews = _reviews.putIfAbsent(issueId, () => []);
+      reviews.add(result.review);
+      _loadedReviewIds.add(issueId);
+      notifyListeners();
+    }
+    return result;
   }
 
   bool isFixExpanded(String fixId) => _expandedFixIds.contains(fixId);
@@ -100,26 +133,43 @@ class LookupResultsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Switches the vote to like, as if it were the first vote for that fix
-  /// or the opposite side was previously active. Tapping the same side
-  /// again is a no-op — undoing a vote is out of scope for this demo.
-  void voteLike(String fixId) {
-    _fixVotes[fixId] = true;
+  FixVoteValue? myVoteFor(String fixId) => _fixes[fixId]?.myVote;
+
+  int likesFor(String fixId) => _fixes[fixId]!.likes;
+
+  int dislikesFor(String fixId) => _fixes[fixId]!.dislikes;
+
+  /// Likes [fixId] via `POST /v1/fixes/:id/vote`, or removes an existing
+  /// like via `DELETE /v1/fixes/:id/vote` when tapped again.
+  Future<void> voteLike(String fixId) => _toggleVote(fixId, FixVoteValue.like);
+
+  /// Dislikes [fixId], or removes an existing dislike when tapped again —
+  /// see [voteLike].
+  Future<void> voteDislike(String fixId) =>
+      _toggleVote(fixId, FixVoteValue.dislike);
+
+  Future<void> _toggleVote(String fixId, FixVoteValue value) async {
+    final current = _fixes[fixId];
+    if (current == null) return;
+
+    if (current.myVote == value) {
+      final removed = await _repository.removeFixVote(fixId);
+      if (!removed) return;
+      _fixes[fixId] = IssueFix(
+        id: current.id,
+        summary: current.summary,
+        steps: current.steps,
+        estimatedCostEur: current.estimatedCostEur,
+        likes: value == FixVoteValue.like ? current.likes - 1 : current.likes,
+        dislikes: value == FixVoteValue.dislike
+            ? current.dislikes - 1
+            : current.dislikes,
+      );
+    } else {
+      final updated = await _repository.voteFix(fixId, value);
+      if (updated == null) return;
+      _fixes[fixId] = updated;
+    }
     notifyListeners();
-  }
-
-  void voteDislike(String fixId) {
-    _fixVotes[fixId] = false;
-    notifyListeners();
-  }
-
-  int likesFor(String fixId) {
-    final base = _fixes[fixId]!.likes;
-    return _fixVotes[fixId] == true ? base + 1 : base;
-  }
-
-  int dislikesFor(String fixId) {
-    final base = _fixes[fixId]!.dislikes;
-    return _fixVotes[fixId] == false ? base + 1 : base;
   }
 }

@@ -1,3 +1,4 @@
+import '../../domain/models/fix_vote_value.dart';
 import '../../domain/models/issue_fix.dart';
 import '../../domain/models/issue_severity.dart';
 import '../../domain/models/known_issue.dart';
@@ -85,13 +86,16 @@ KnownIssue _mapKnownIssue(Map<String, dynamic> json) {
     sources:
         sourcesJson?.map((source) => source as String).toList() ?? const [],
     fixes: fixesJson
-        .map((fix) => _mapFix(fix as Map<String, dynamic>))
+        .map((fix) => mapFixResponse(fix as Map<String, dynamic>))
         .toList(),
     reviews: const [],
   );
 }
 
-IssueFix _mapFix(Map<String, dynamic> json) {
+/// Maps a `FixResponseDto` JSON body to [IssueFix] — shared by the embedded
+/// fixes in `GET /v1/lookups` and the standalone `car-faults-api` fix-vote
+/// responses (`myVote` is absent from the former, so it maps to `null`).
+IssueFix mapFixResponse(Map<String, dynamic> json) {
   final rawSteps = json['steps'] as String;
   final steps = rawSteps
       .split('\n')
@@ -106,6 +110,7 @@ IssueFix _mapFix(Map<String, dynamic> json) {
     estimatedCostEur: _parseCostEur(json['estimatedCostEur'] as String?),
     likes: json['likes'] as int,
     dislikes: json['dislikes'] as int,
+    myVote: fixVoteValueFromApiValue(json['myVote'] as String?),
   );
 }
 
@@ -113,3 +118,17 @@ int _parseCostEur(String? value) {
   if (value == null) return 0;
   return double.tryParse(value)?.round() ?? 0;
 }
+
+/// Parses `car-faults-api`'s `FixVoteValue` enum value
+/// (`fixes/enums/fix-vote-value.enum.ts`), which matches [FixVoteValue.name]
+/// exactly. Returns `null` for a missing or unrecognized value.
+FixVoteValue? fixVoteValueFromApiValue(String? value) {
+  for (final vote in FixVoteValue.values) {
+    if (vote.name == value) return vote;
+  }
+  return null;
+}
+
+/// Reverse of [fixVoteValueFromApiValue], for the `POST /v1/fixes/:id/vote`
+/// request body.
+String fixVoteValueApiValue(FixVoteValue value) => value.name;

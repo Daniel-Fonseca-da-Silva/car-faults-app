@@ -1,7 +1,7 @@
 /// A community rating of a [KnownIssue].
 ///
-/// [initials] backs the avatar fallback and [submittedAgo] is a pre-formatted
-/// relative-time label (e.g. `há 2 d`), not a [DateTime].
+/// [initials] backs the avatar fallback. [submittedAt] is rendered as a
+/// short relative-time label (e.g. `há 2 d`) via `relativeTimeLabel`.
 class IssueReview {
   const IssueReview({
     required this.id,
@@ -10,7 +10,7 @@ class IssueReview {
     required this.initials,
     required this.rating,
     required this.comment,
-    required this.submittedAgo,
+    required this.submittedAt,
   });
 
   final String id;
@@ -19,5 +19,5 @@ class IssueReview {
   final String initials;
   final int rating;
   final String comment;
-  final String submittedAgo;
+  final DateTime submittedAt;
 }

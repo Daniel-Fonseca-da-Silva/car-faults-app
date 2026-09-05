@@ -1,3 +1,4 @@
+import 'package:car_faults_app/domain/models/fix_vote_value.dart';
 import 'package:car_faults_app/domain/models/issue_fix.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class LookupFixCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final viewModel = context.watch<LookupResultsViewModel>();
     final isExpanded = viewModel.isFixExpanded(fix.id);
+    final myVote = viewModel.myVoteFor(fix.id);
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -128,7 +130,10 @@ class LookupFixCard extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               _VoteButton(
-                icon: Icons.thumb_up_outlined,
+                icon: myVote == FixVoteValue.like
+                    ? Icons.thumb_up
+                    : Icons.thumb_up_outlined,
+                active: myVote == FixVoteValue.like,
                 count: viewModel.likesFor(fix.id),
                 onTap: () => requireSignIn(
                   context,
@@ -137,7 +142,10 @@ class LookupFixCard extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               _VoteButton(
-                icon: Icons.thumb_down_outlined,
+                icon: myVote == FixVoteValue.dislike
+                    ? Icons.thumb_down
+                    : Icons.thumb_down_outlined,
+                active: myVote == FixVoteValue.dislike,
                 count: viewModel.dislikesFor(fix.id),
                 onTap: () => requireSignIn(
                   context,
@@ -182,19 +190,25 @@ class _CostBadge extends StatelessWidget {
 }
 
 /// Outline thumbs-up/thumbs-down button with an ≥ 48 dp tap target.
+/// Highlighted in [AppColors.primary] when [active] — the signed-in user's
+/// current vote — is `true`.
 class _VoteButton extends StatelessWidget {
   const _VoteButton({
     required this.icon,
     required this.count,
     required this.onTap,
+    this.active = false,
   });
 
   final IconData icon;
   final int count;
   final VoidCallback onTap;
+  final bool active;
 
   @override
   Widget build(BuildContext context) {
+    final color = active ? AppColors.primary : AppColors.muted;
+
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(20),
@@ -208,17 +222,16 @@ class _VoteButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.muted.withValues(alpha: 0.4)),
+            border: Border.all(
+              color: color.withValues(alpha: active ? 1 : 0.4),
+            ),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, color: AppColors.muted, size: 16),
+              Icon(icon, color: color, size: 16),
               const SizedBox(width: 6),
-              Text(
-                '$count',
-                style: const TextStyle(color: AppColors.muted, fontSize: 13),
-              ),
+              Text('$count', style: TextStyle(color: color, fontSize: 13)),
             ],
           ),
         ),

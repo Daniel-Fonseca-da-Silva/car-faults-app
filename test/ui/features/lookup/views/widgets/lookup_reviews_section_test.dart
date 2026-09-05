@@ -1,11 +1,15 @@
 import 'package:car_faults_app/data/repositories/auth_repository.dart';
+import 'package:car_faults_app/data/repositories/community_repository.dart';
 import 'package:car_faults_app/data/repositories/locale_repository.dart';
 import 'package:car_faults_app/data/services/locale_preferences_service.dart';
+import 'package:car_faults_app/domain/models/issue_review.dart';
 import 'package:car_faults_app/domain/models/user.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/view_models/auth_session_view_model.dart';
 import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
 import 'package:car_faults_app/ui/features/login/views/login_view.dart';
+import 'package:car_faults_app/ui/features/lookup/lookup_demo_display.dart';
+import 'package:car_faults_app/ui/features/lookup/view_models/lookup_results_view_model.dart';
 import 'package:car_faults_app/ui/features/lookup/views/lookup_results_view.dart';
 import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_issue_card.dart';
 import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_star_rating.dart';
@@ -19,6 +23,33 @@ const _signedInUser = User(
   email: 'daniel@example.com',
 );
 
+/// Never reaches a real network: [fetchReviews] returns `null`, leaving
+/// whatever reviews the view model was seeded with (the demo data) in
+/// place, and [submitReview] echoes back a review as the signed-in user.
+class _FakeCommunityRepository extends CommunityRepository {
+  @override
+  Future<List<IssueReview>?> fetchReviews(String knownIssueId) async => null;
+
+  @override
+  Future<SubmitReviewResult> submitReview({
+    required String knownIssueId,
+    required int rating,
+    String? comment,
+  }) async {
+    return SubmitReviewSuccess(
+      IssueReview(
+        id: 'review-own',
+        userId: _signedInUser.id,
+        userName: _signedInUser.name,
+        initials: 'DF',
+        rating: rating,
+        comment: comment ?? '',
+        submittedAt: DateTime.now(),
+      ),
+    );
+  }
+}
+
 Widget _app({AuthSessionViewModel? session}) {
   return MultiProvider(
     providers: [
@@ -30,11 +61,17 @@ Widget _app({AuthSessionViewModel? session}) {
       ChangeNotifierProvider.value(value: session ?? AuthSessionViewModel()),
       Provider<AuthRepository>.value(value: AuthRepository()),
     ],
-    child: const MaterialApp(
-      locale: Locale('pt'),
+    child: MaterialApp(
+      locale: const Locale('pt'),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: LookupResultsView(),
+      home: LookupResultsView(
+        viewModel: LookupResultsViewModel(
+          vehicle: LookupDemoDisplay.vehicle,
+          issues: LookupDemoDisplay.issues,
+          repository: _FakeCommunityRepository(),
+        ),
+      ),
     ),
   );
 }
@@ -76,10 +113,6 @@ void main() {
       expect(_inCard(gearboxTitle, find.text('Ricardo Moura')), findsOneWidget);
       expect(_inCard(gearboxTitle, find.text('Fábio Lopes')), findsOneWidget);
       expect(_inCard(gearboxTitle, find.text('Ana Silva')), findsOneWidget);
-      expect(
-        _inCard(gearboxTitle, find.text('a tua avaliação')),
-        findsOneWidget,
-      );
     },
   );
 
