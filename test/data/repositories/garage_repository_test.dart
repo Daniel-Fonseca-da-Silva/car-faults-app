@@ -8,14 +8,20 @@ class _FakeUserVehiclesApiService extends UserVehiclesApiService {
   _FakeUserVehiclesApiService({
     this.listResponse,
     this.detailResponse,
+    this.statusResponse,
+    this.createResponse,
     this.error,
   }) : super(dio: Dio());
 
   final Map<String, dynamic>? listResponse;
   final Map<String, dynamic>? detailResponse;
+  final Map<String, dynamic>? statusResponse;
+  final Map<String, dynamic>? createResponse;
   final DioException? error;
 
   String? lastRemovedId;
+  String? lastVehicleModelId;
+  int? lastYear;
 
   @override
   Future<Map<String, dynamic>> list({
@@ -38,12 +44,43 @@ class _FakeUserVehiclesApiService extends UserVehiclesApiService {
     lastRemovedId = id;
     if (error != null) throw error!;
   }
+
+  @override
+  Future<Map<String, dynamic>> status({
+    required String vehicleModelId,
+    required int year,
+  }) async {
+    lastVehicleModelId = vehicleModelId;
+    lastYear = year;
+    if (error != null) throw error!;
+    return statusResponse!;
+  }
+
+  @override
+  Future<Map<String, dynamic>> create({
+    required String vehicleModelId,
+    required int year,
+  }) async {
+    lastVehicleModelId = vehicleModelId;
+    lastYear = year;
+    if (error != null) throw error!;
+    return createResponse!;
+  }
 }
 
-DioException _dioError() {
+DioException _dioError({int? statusCode}) {
+  final requestOptions = RequestOptions(path: '/v1/user-vehicles');
   return DioException(
-    requestOptions: RequestOptions(path: '/v1/user-vehicles'),
-    type: DioExceptionType.connectionError,
+    requestOptions: requestOptions,
+    response: statusCode == null
+        ? null
+        : Response<dynamic>(
+            requestOptions: requestOptions,
+            statusCode: statusCode,
+          ),
+    type: statusCode == null
+        ? DioExceptionType.connectionError
+        : DioExceptionType.badResponse,
   );
 }
 
@@ -136,6 +173,84 @@ void main() {
       );
 
       expect(await repository.removeVehicle('uv-1'), isFalse);
+    });
+  });
+
+  group('checkGarageStatus', () {
+    test('returns the owned flag from GET /v1/user-vehicles/status', () async {
+      final api = _FakeUserVehiclesApiService(
+        statusResponse: {'vehicleModelId': 'vm-1', 'year': 2015, 'owned': true},
+      );
+      final repository = GarageRepository(apiService: api);
+
+      final owned = await repository.checkGarageStatus(
+        vehicleModelId: 'vm-1',
+        year: 2015,
+      );
+
+      expect(api.lastVehicleModelId, 'vm-1');
+      expect(api.lastYear, 2015);
+      expect(owned, isTrue);
+    });
+
+    test('returns null on a DioException', () async {
+      final repository = GarageRepository(
+        apiService: _FakeUserVehiclesApiService(error: _dioError()),
+      );
+
+      final owned = await repository.checkGarageStatus(
+        vehicleModelId: 'vm-1',
+        year: 2015,
+      );
+
+      expect(owned, isNull);
+    });
+  });
+
+  group('addVehicle', () {
+    test('returns AddToGarageSuccess with the mapped vehicle', () async {
+      final api = _FakeUserVehiclesApiService(createResponse: _vehicleJson);
+      final repository = GarageRepository(apiService: api);
+
+      final result = await repository.addVehicle(
+        vehicleModelId: 'vm-1',
+        year: 2001,
+      );
+
+      expect(api.lastVehicleModelId, 'vm-1');
+      expect(api.lastYear, 2001);
+      expect(result, isA<AddToGarageSuccess>());
+      expect((result as AddToGarageSuccess).vehicle.id, 'uv-1');
+    });
+
+    test('maps a 409 response to AddToGarageDuplicate', () async {
+      final repository = GarageRepository(
+        apiService: _FakeUserVehiclesApiService(
+          error: _dioError(statusCode: 409),
+        ),
+      );
+
+      final result = await repository.addVehicle(
+        vehicleModelId: 'vm-1',
+        year: 2001,
+      );
+
+      expect(result, isA<AddToGarageDuplicate>());
+    });
+
+    test('maps other errors to AddToGarageFailure', () async {
+      final repository = GarageRepository(
+        apiService: _FakeUserVehiclesApiService(
+          error: _dioError(statusCode: 500),
+        ),
+      );
+
+      final result = await repository.addVehicle(
+        vehicleModelId: 'vm-1',
+        year: 2001,
+      );
+
+      expect(result, isA<AddToGarageFailure>());
     });
   });
 }

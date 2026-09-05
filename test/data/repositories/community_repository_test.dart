@@ -1,6 +1,8 @@
 import 'package:car_faults_app/data/repositories/community_repository.dart';
+import 'package:car_faults_app/data/services/comments_api_service.dart';
 import 'package:car_faults_app/data/services/fixes_api_service.dart';
 import 'package:car_faults_app/data/services/reviews_api_service.dart';
+import 'package:car_faults_app/data/services/storage_api_service.dart';
 import 'package:car_faults_app/domain/models/fix_vote_value.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -67,6 +69,55 @@ class _FakeFixesApiService extends FixesApiService {
   }
 }
 
+class _FakeCommentsApiService extends CommentsApiService {
+  _FakeCommentsApiService({this.listResponse, this.createResponse, this.error})
+    : super(dio: Dio());
+
+  final Map<String, dynamic>? listResponse;
+  final Map<String, dynamic>? createResponse;
+  final DioException? error;
+
+  String? lastKnownIssueId;
+  String? lastBody;
+  String? lastImageUrl;
+
+  @override
+  Future<Map<String, dynamic>> list({required String knownIssueId}) async {
+    lastKnownIssueId = knownIssueId;
+    if (error != null) throw error!;
+    return listResponse!;
+  }
+
+  @override
+  Future<Map<String, dynamic>> create({
+    required String knownIssueId,
+    required String body,
+    String? imageUrl,
+  }) async {
+    lastKnownIssueId = knownIssueId;
+    lastBody = body;
+    lastImageUrl = imageUrl;
+    if (error != null) throw error!;
+    return createResponse!;
+  }
+}
+
+class _FakeStorageApiService extends StorageApiService {
+  _FakeStorageApiService({this.uploadResponse, this.error}) : super(dio: Dio());
+
+  final Map<String, dynamic>? uploadResponse;
+  final DioException? error;
+
+  String? lastFilePath;
+
+  @override
+  Future<Map<String, dynamic>> uploadCommentImage(String filePath) async {
+    lastFilePath = filePath;
+    if (error != null) throw error!;
+    return uploadResponse!;
+  }
+}
+
 DioException _dioError({int? statusCode}) {
   final requestOptions = RequestOptions(path: '/v1/reviews');
   return DioException(
@@ -105,6 +156,17 @@ const _fixJson = {
   'likes': 13,
   'dislikes': 2,
   'myVote': 'like',
+  'createdAt': '2026-07-17T10:00:00.000Z',
+  'updatedAt': '2026-07-17T10:00:00.000Z',
+};
+
+const _commentJson = {
+  'id': 'comment-1',
+  'userId': 'user-1',
+  'knownIssueId': 'issue-1',
+  'body': 'Fixed it myself',
+  'imageUrl': null,
+  'userName': 'Ada Lovelace',
   'createdAt': '2026-07-17T10:00:00.000Z',
   'updatedAt': '2026-07-17T10:00:00.000Z',
 };
@@ -222,6 +284,87 @@ void main() {
       );
 
       expect(await repository.removeFixVote('fix-1'), isFalse);
+    });
+  });
+
+  group('fetchComments', () {
+    test('maps a successful page response', () async {
+      final repository = CommunityRepository(
+        commentsApiService: _FakeCommentsApiService(
+          listResponse: {
+            'items': [_commentJson],
+            'nextCursor': null,
+          },
+        ),
+      );
+
+      final comments = await repository.fetchComments('issue-1');
+
+      expect(comments, hasLength(1));
+      expect(comments!.single.id, 'comment-1');
+      expect(comments.single.userName, 'Ada Lovelace');
+    });
+
+    test('returns null on a DioException', () async {
+      final repository = CommunityRepository(
+        commentsApiService: _FakeCommentsApiService(error: _dioError()),
+      );
+
+      expect(await repository.fetchComments('issue-1'), isNull);
+    });
+  });
+
+  group('submitComment', () {
+    test('returns SubmitCommentSuccess with the mapped comment', () async {
+      final api = _FakeCommentsApiService(createResponse: _commentJson);
+      final repository = CommunityRepository(commentsApiService: api);
+
+      final result = await repository.submitComment(
+        knownIssueId: 'issue-1',
+        body: 'Fixed it myself',
+        imageUrl: 'https://cdn.example.test/photo.jpg',
+      );
+
+      expect(api.lastKnownIssueId, 'issue-1');
+      expect(api.lastBody, 'Fixed it myself');
+      expect(api.lastImageUrl, 'https://cdn.example.test/photo.jpg');
+      expect(result, isA<SubmitCommentSuccess>());
+      expect((result as SubmitCommentSuccess).comment.id, 'comment-1');
+    });
+
+    test('maps a DioException to SubmitCommentFailure', () async {
+      final repository = CommunityRepository(
+        commentsApiService: _FakeCommentsApiService(error: _dioError()),
+      );
+
+      final result = await repository.submitComment(
+        knownIssueId: 'issue-1',
+        body: 'Fixed it myself',
+      );
+
+      expect(result, isA<SubmitCommentFailure>());
+    });
+  });
+
+  group('uploadCommentImage', () {
+    test('returns the uploaded URL', () async {
+      final api = _FakeStorageApiService(
+        uploadResponse: {'url': 'https://cdn.example.test/photo.jpg'},
+      );
+      final repository = CommunityRepository(storageApiService: api);
+
+      final url = await repository.uploadCommentImage('/tmp/photo.jpg');
+
+      expect(api.lastFilePath, '/tmp/photo.jpg');
+      expect(url, 'https://cdn.example.test/photo.jpg');
+    });
+
+    test('returns null on a DioException', () async {
+      final repository = CommunityRepository(
+        storageApiService: _FakeStorageApiService(error: _dioError()),
+      );
+
+      expect(await repository.uploadCommentImage('/tmp/photo.jpg'), isNull);
     });
   });
 }

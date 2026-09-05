@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 class _FakeAdapter implements HttpClientAdapter {
   RequestOptions? lastOptions;
+  Object? body;
   Map<String, dynamic> responseData = const {};
 
   @override
@@ -16,6 +17,13 @@ class _FakeAdapter implements HttpClientAdapter {
     Future<void>? cancelFuture,
   ) async {
     lastOptions = options;
+    if (requestStream != null) {
+      final chunks = await requestStream.toList();
+      final bytes = chunks.expand((chunk) => chunk).toList();
+      if (bytes.isNotEmpty) {
+        body = jsonDecode(utf8.decode(bytes));
+      }
+    }
     return ResponseBody.fromString(
       jsonEncode(responseData),
       200,
@@ -92,4 +100,46 @@ void main() {
     expect(adapter.lastOptions?.path, '/v1/user-vehicles/uv-1');
     expect(adapter.lastOptions?.method, 'DELETE');
   });
+
+  test(
+    'status calls GET /v1/user-vehicles/status with vehicleModelId and year',
+    () async {
+      final adapter = _FakeAdapter()
+        ..responseData = {
+          'vehicleModelId': 'vm-1',
+          'year': 2015,
+          'owned': true,
+        };
+      final dio = Dio(BaseOptions(baseUrl: 'http://example.test'))
+        ..httpClientAdapter = adapter;
+      final service = UserVehiclesApiService(dio: dio);
+
+      final data = await service.status(vehicleModelId: 'vm-1', year: 2015);
+
+      expect(adapter.lastOptions?.path, '/v1/user-vehicles/status');
+      expect(adapter.lastOptions?.method, 'GET');
+      expect(adapter.lastOptions?.queryParameters, {
+        'vehicleModelId': 'vm-1',
+        'year': 2015,
+      });
+      expect(data['owned'], isTrue);
+    },
+  );
+
+  test(
+    'create posts vehicleModelId and year to POST /v1/user-vehicles',
+    () async {
+      final adapter = _FakeAdapter()..responseData = {'id': 'uv-1'};
+      final dio = Dio(BaseOptions(baseUrl: 'http://example.test'))
+        ..httpClientAdapter = adapter;
+      final service = UserVehiclesApiService(dio: dio);
+
+      final data = await service.create(vehicleModelId: 'vm-1', year: 2015);
+
+      expect(adapter.lastOptions?.path, '/v1/user-vehicles');
+      expect(adapter.lastOptions?.method, 'POST');
+      expect(adapter.body, {'vehicleModelId': 'vm-1', 'year': 2015});
+      expect(data['id'], 'uv-1');
+    },
+  );
 }

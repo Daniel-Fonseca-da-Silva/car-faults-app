@@ -1,7 +1,10 @@
+import 'package:car_faults_app/data/repositories/activity_log_repository.dart';
 import 'package:car_faults_app/data/repositories/auth_repository.dart';
 import 'package:car_faults_app/data/repositories/community_repository.dart';
+import 'package:car_faults_app/data/repositories/garage_repository.dart';
 import 'package:car_faults_app/data/repositories/locale_repository.dart';
 import 'package:car_faults_app/data/services/locale_preferences_service.dart';
+import 'package:car_faults_app/domain/models/comment.dart';
 import 'package:car_faults_app/domain/models/fix_vote_value.dart';
 import 'package:car_faults_app/domain/models/issue_fix.dart';
 import 'package:car_faults_app/domain/models/issue_review.dart';
@@ -33,6 +36,9 @@ class _FakeCommunityRepository extends CommunityRepository {
   Future<List<IssueReview>?> fetchReviews(String knownIssueId) async => null;
 
   @override
+  Future<List<Comment>?> fetchComments(String knownIssueId) async => null;
+
+  @override
   Future<IssueFix?> voteFix(String fixId, FixVoteValue value) async {
     final fix = LookupDemoDisplay.issues
         .expand((issue) => issue.fixes)
@@ -48,6 +54,22 @@ class _FakeCommunityRepository extends CommunityRepository {
       myVote: value,
     );
   }
+}
+
+/// Never reaches a real network: the add-to-garage button isn't exercised
+/// by these tests.
+class _FakeGarageRepository extends GarageRepository {
+  @override
+  Future<bool?> checkGarageStatus({
+    required String vehicleModelId,
+    required int year,
+  }) async => null;
+}
+
+/// Never reaches a real network.
+class _FakeActivityLogRepository extends ActivityLogRepository {
+  @override
+  Future<bool> recordDefectConsulted(String knownIssueId) async => true;
 }
 
 Widget _app({AuthSessionViewModel? session}) {
@@ -70,6 +92,8 @@ Widget _app({AuthSessionViewModel? session}) {
           vehicle: LookupDemoDisplay.vehicle,
           issues: LookupDemoDisplay.issues,
           repository: _FakeCommunityRepository(),
+          garageRepository: _FakeGarageRepository(),
+          activityLogRepository: _FakeActivityLogRepository(),
         ),
       ),
     ),
