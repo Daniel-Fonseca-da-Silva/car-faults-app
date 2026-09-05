@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../domain/models/top_fault.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../home_top_faults_display.dart';
+import '../../../../core/utils/format_count.dart';
 
 /// Single "most reported fault" card: brand/model/year, a report-count badge,
-/// the fault description and a decorative "view reports" footer.
+/// the fault title and a decorative "view reports" footer.
 ///
 /// No `onTap` in this slice — neither the card nor the footer link navigate.
 class TopFaultCard extends StatelessWidget {
   const TopFaultCard({
     super.key,
-    required this.entry,
-    required this.description,
+    required this.fault,
     required this.viewReportsLabel,
   });
 
-  final TopFaultEntry entry;
-  final String description;
+  final TopFault fault;
   final String viewReportsLabel;
 
   static const _cardRadius = 12.0;
@@ -27,8 +26,9 @@ class TopFaultCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       label:
-          '${entry.brand} ${entry.model}, ${entry.year}, $description, '
-          '${formatReportCount(entry.reportCount)}',
+          '${fault.vehicleBrand} ${fault.vehicleModel}, '
+          '${fault.vehicleYearFrom}, ${fault.title}, '
+          '${formatCount(fault.reportCount)}',
       excludeSemantics: true,
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -43,7 +43,7 @@ class TopFaultCard extends StatelessWidget {
             _header(),
             const SizedBox(height: 10),
             Text(
-              description,
+              fault.title,
               style: const TextStyle(color: AppColors.muted, fontSize: 13),
             ),
             const SizedBox(height: 14),
@@ -68,7 +68,7 @@ class TopFaultCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${entry.brand} ${entry.model}',
+                '${fault.vehicleBrand} ${fault.vehicleModel}',
                 style: const TextStyle(
                   color: AppColors.onSurface,
                   fontWeight: FontWeight.w700,
@@ -77,7 +77,7 @@ class TopFaultCard extends StatelessWidget {
               ),
               const SizedBox(height: 2),
               Text(
-                '${entry.year}',
+                '${fault.vehicleYearFrom}',
                 style: const TextStyle(
                   color: AppColors.primary,
                   fontWeight: FontWeight.w600,
@@ -110,7 +110,7 @@ class TopFaultCard extends StatelessWidget {
             size: 14,
           ),
           Text(
-            formatReportCount(entry.reportCount),
+            formatCount(fault.reportCount),
             style: const TextStyle(
               color: AppColors.primary,
               fontWeight: FontWeight.w700,

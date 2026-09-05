@@ -28,7 +28,7 @@ abstract final class LookupDemoDisplay {
     yearTo: 1999,
     engine: '1.6',
     doors: 4,
-    fuelType: 'Gasoline',
+    fuelType: 'gasoline',
     powerHp: 101,
   );
 

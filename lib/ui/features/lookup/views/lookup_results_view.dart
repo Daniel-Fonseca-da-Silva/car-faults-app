@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../../../core/widgets/app_footer.dart';
 import '../../../core/widgets/app_scaffold.dart';
-import '../lookup_demo_display.dart';
 import '../view_models/lookup_results_view_model.dart';
 import 'widgets/lookup_back_link.dart';
 import 'widgets/lookup_issue_card.dart';
@@ -38,6 +37,7 @@ class _LookupResultsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final issues = context.watch<LookupResultsViewModel>().issues;
 
     return AppScaffold(
       body: SingleChildScrollView(
@@ -51,7 +51,7 @@ class _LookupResultsBody extends StatelessWidget {
             const SizedBox(height: 16),
             const LookupIssuesSummary(),
             const SizedBox(height: 16),
-            for (final issue in LookupDemoDisplay.issues) ...[
+            for (final issue in issues) ...[
               LookupIssueCard(issue: issue),
               const SizedBox(height: 12),
             ],

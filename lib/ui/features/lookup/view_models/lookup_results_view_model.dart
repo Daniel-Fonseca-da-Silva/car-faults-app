@@ -3,19 +3,24 @@ import 'package:flutter/foundation.dart';
 import '../../../../domain/models/issue_fix.dart';
 import '../../../../domain/models/issue_review.dart';
 import '../../../../domain/models/known_issue.dart';
+import '../../../../domain/models/lookup_vehicle.dart';
 import '../lookup_demo_display.dart';
 
-/// Owns the interactive state of [LookupResultsView]'s known-issues
-/// accordion: which cards are expanded, each issue's reviews, and each
-/// fix's expanded steps and ÚTIL? vote.
+/// Owns [LookupResultsView]'s matched vehicle and known issues, and the
+/// interactive state of the known-issues accordion: which cards are
+/// expanded, each issue's reviews, and each fix's expanded steps and ÚTIL?
+/// vote.
 ///
-/// Reviews are seeded from [issues] and kept in memory only — there is no
-/// review backend in this delivery, so [submitReview] never persists. Votes
-/// work the same way: [voteLike] and [voteDislike] only move a local flag,
-/// they never call an API.
+/// [vehicle] and [issues] fall back to [LookupDemoDisplay] when not passed —
+/// used by screens that don't yet navigate here with real search results
+/// (garage, profile). Reviews are seeded from the passed [issues] and kept
+/// in memory only — there is no review backend in this delivery, so
+/// [submitReview] never persists. Votes work the same way: [voteLike] and
+/// [voteDislike] only move a local flag, they never call an API.
 class LookupResultsViewModel extends ChangeNotifier {
-  LookupResultsViewModel({List<KnownIssue>? issues})
-    : _issues = issues ?? LookupDemoDisplay.issues {
+  LookupResultsViewModel({LookupVehicle? vehicle, List<KnownIssue>? issues})
+    : vehicle = vehicle ?? LookupDemoDisplay.vehicle,
+      _issues = issues ?? LookupDemoDisplay.issues {
     for (final issue in _issues) {
       _reviews[issue.id] = List<IssueReview>.from(issue.reviews);
       for (final fix in issue.fixes) {
@@ -24,7 +29,9 @@ class LookupResultsViewModel extends ChangeNotifier {
     }
   }
 
+  final LookupVehicle vehicle;
   final List<KnownIssue> _issues;
+  List<KnownIssue> get issues => List.unmodifiable(_issues);
   final Set<String> _expandedIssueIds = {};
   final Map<String, List<IssueReview>> _reviews = {};
   final Map<String, IssueFix> _fixes = {};

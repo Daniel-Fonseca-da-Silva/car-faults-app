@@ -1,17 +1,15 @@
 import 'package:flutter/foundation.dart';
 
+import '../../../../data/repositories/lookup_repository.dart';
+import '../../../../domain/models/app_locale.dart';
 import '../home_search_options.dart';
 
-/// Owns the home vehicle-search form and the fake search delay before
-/// navigation to the mocked results screen.
+/// Owns the home vehicle-search form and its submission to
+/// [LookupRepository].
 class HomeSearchViewModel extends ChangeNotifier {
-  HomeSearchViewModel({
-    this.searchDelay = const Duration(milliseconds: 1200),
-    Future<void> Function(Duration duration)? delay,
-  }) : _delay = delay ?? Future<void>.delayed;
+  HomeSearchViewModel({required this.repository});
 
-  final Duration searchDelay;
-  final Future<void> Function(Duration duration) _delay;
+  final LookupRepository repository;
 
   String? _brand;
   String? _model;
@@ -20,6 +18,7 @@ class HomeSearchViewModel extends ChangeNotifier {
   FuelOption? _fuel;
   int? _doors;
   bool _isSearching = false;
+  LookupSearchResult? _lastResult;
 
   String? get brand => _brand;
   String? get model => _model;
@@ -29,13 +28,19 @@ class HomeSearchViewModel extends ChangeNotifier {
   int? get doors => _doors;
   bool get isSearching => _isSearching;
 
+  /// Outcome of the last [search] call, consumed once by the View (which
+  /// calls [acknowledgeResult] after handling it) to navigate to the
+  /// results screen or show an error.
+  LookupSearchResult? get lastResult => _lastResult;
+
+  /// `car-faults-api`'s `LookupQueryDto` requires brand, model, year, engine
+  /// and fuel type; only doors is optional.
   bool get canSubmit {
-    return _hasText(_brand) ||
-        _hasText(_model) ||
-        _year != null ||
-        _hasText(_engine) ||
-        _fuel != null ||
-        _doors != null;
+    return _hasText(_brand) &&
+        _hasText(_model) &&
+        _year != null &&
+        _hasText(_engine) &&
+        _fuel != null;
   }
 
   void setBrand(String value) => _setField(() => _brand = value);
@@ -45,16 +50,32 @@ class HomeSearchViewModel extends ChangeNotifier {
   void setFuel(FuelOption? value) => _setField(() => _fuel = value);
   void setDoors(int? value) => _setField(() => _doors = value);
 
-  Future<void> search() async {
+  Future<void> search({required AppLocale locale}) async {
     if (!canSubmit || _isSearching) return;
 
     _isSearching = true;
+    _lastResult = null;
     notifyListeners();
 
-    await _delay(searchDelay);
+    final result = await repository.search(
+      brand: _brand!,
+      model: _model!,
+      year: _year!,
+      engine: _engine!,
+      fuel: _fuel!,
+      doors: _doors,
+      locale: locale,
+    );
 
     _isSearching = false;
+    _lastResult = result;
     notifyListeners();
+  }
+
+  /// Clears [lastResult] once the View has shown it, so a rebuild doesn't
+  /// handle the same result again.
+  void acknowledgeResult() {
+    _lastResult = null;
   }
 
   void _setField(VoidCallback update) {
