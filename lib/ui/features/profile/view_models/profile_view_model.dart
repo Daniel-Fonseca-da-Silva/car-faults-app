@@ -1,23 +1,55 @@
 import 'package:flutter/foundation.dart';
 
 import '../../../../data/repositories/auth_repository.dart';
+import '../../../../data/repositories/profile_repository.dart';
 import '../../../../domain/models/profile_snapshot.dart';
-import '../profile_demo_display.dart';
 
-/// Owns the profile snapshot and the account-deletion command triggered
-/// from the danger zone.
+/// Owns the profile snapshot loaded from [ProfileRepository] and the
+/// account-deletion command triggered from the danger zone.
 class ProfileViewModel extends ChangeNotifier {
-  ProfileViewModel({required this.authRepository});
+  ProfileViewModel({
+    required this.authRepository,
+    ProfileRepository? repository,
+  }) : _repository = repository ?? ProfileRepository();
 
   final AuthRepository authRepository;
+  final ProfileRepository _repository;
 
-  ProfileSnapshot get snapshot => ProfileDemoDisplay.snapshot;
+  ProfileSnapshot? _snapshot;
+  ProfileSnapshot? get snapshot => _snapshot;
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  bool _hasError = false;
+  bool get hasError => _hasError;
 
   bool _isDeleting = false;
   bool get isDeleting => _isDeleting;
 
-  AuthResult? _lastResult;
-  AuthResult? get lastResult => _lastResult;
+  DeleteAccountResult? _lastResult;
+  DeleteAccountResult? get lastResult => _lastResult;
+
+  /// `GET /v1/users/me` + `GET /v1/users/me/stats` + `GET /v1/user-vehicles`,
+  /// combined by [ProfileRepository]. Keeps whatever [snapshot] is already
+  /// shown on failure, so a background retry never blanks the screen.
+  Future<void> load() async {
+    if (_isLoading) return;
+
+    _isLoading = true;
+    _hasError = false;
+    notifyListeners();
+
+    final snapshot = await _repository.fetchSnapshot();
+
+    _isLoading = false;
+    if (snapshot != null) {
+      _snapshot = snapshot;
+    } else {
+      _hasError = true;
+    }
+    notifyListeners();
+  }
 
   Future<void> deleteAccount() async {
     if (_isDeleting) return;

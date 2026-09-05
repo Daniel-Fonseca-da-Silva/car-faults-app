@@ -145,14 +145,17 @@
   "profileDeleteConfirmDescription": "Tu cuenta y todos los datos se eliminarán de inmediato. Esta acción no se puede deshacer.",
   "profileDeleteConfirmCancel": "Cancelar",
   "profileDeleteConfirmDelete": "Sí, eliminar cuenta",
-  "profileDeleteComingSoon": "Eliminación de cuenta próximamente.",
+  "profileDeleteError": "No se pudo eliminar tu cuenta. Inténtalo de nuevo.",
+  "profileLoadError": "No se pudo cargar tu perfil.",
   "garageEyebrow": "Garaje",
   "garageEmptyTitle": "Tu garaje está vacío",
   "garageHeroImageAlt": "Garaje con un Volkswagen Beetle clásico",
   "garageVehiclesTitle": "Tus vehículos",
   "garageVehiclesEmpty": "Todavía no tienes vehículos en el garaje.",
   "garageRemoveVehicle": "Quitar {brand} {model} del garaje",
+  "garageRemoveError": "No se pudo eliminar el vehículo. Inténtalo de nuevo.",
   "garageKnownIssuesTitle": "Fallos conocidos",
   "garageViewDetails": "Ver detalles",
-  "garageIssueSources": "Fuentes: {sources}"
+  "garageIssueSources": "Fuentes: {sources}",
+  "garageLoadError": "No se pudo cargar tu garaje."
 }

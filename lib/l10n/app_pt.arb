@@ -692,9 +692,13 @@
   "@profileDeleteConfirmDelete": {
     "description": "Confirm action of the delete-account confirmation dialog, triggering the delete command."
   },
-  "profileDeleteComingSoon": "Exclusão de conta em breve.",
-  "@profileDeleteComingSoon": {
-    "description": "SnackBar shown after confirming account deletion, since the API does not support it yet."
+  "profileDeleteError": "Não foi possível excluir a sua conta. Tente novamente.",
+  "@profileDeleteError": {
+    "description": "SnackBar shown when the DELETE /v1/users/me request fails."
+  },
+  "profileLoadError": "Não foi possível carregar o seu perfil.",
+  "@profileLoadError": {
+    "description": "Error message shown on the profile screen when loading the snapshot fails."
   },
   "garageEyebrow": "Garagem",
   "@garageEyebrow": {
@@ -747,5 +751,13 @@
         "example": "Fiat workshop manual"
       }
     }
+  },
+  "garageRemoveError": "Não foi possível remover o veículo. Tente novamente.",
+  "@garageRemoveError": {
+    "description": "SnackBar shown when the DELETE /v1/user-vehicles/:id request fails."
+  },
+  "garageLoadError": "Não foi possível carregar a sua garagem.",
+  "@garageLoadError": {
+    "description": "Error message shown on the garage screen when loading the vehicles fails."
   }
 }

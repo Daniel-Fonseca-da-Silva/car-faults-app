@@ -6,6 +6,7 @@ import '../services/api_client.dart';
 import '../services/auth_api_service.dart';
 import '../services/google_auth_service.dart';
 import '../services/secure_token_storage.dart';
+import '../services/users_api_service.dart';
 
 /// Outcome of a Google sign-in attempt or another auth command.
 sealed class AuthResult {
@@ -27,9 +28,18 @@ class AuthFailure extends AuthResult {
   final AuthFailureReason reason;
 }
 
-/// Stub result for commands with no backend yet (account deletion).
-class AuthComingSoon extends AuthResult {
-  const AuthComingSoon();
+/// Outcome of [AuthRepository.deleteAccount].
+sealed class DeleteAccountResult {
+  const DeleteAccountResult();
+}
+
+/// The account was deleted and the local session cleared.
+class DeleteAccountSuccess extends DeleteAccountResult {
+  const DeleteAccountSuccess();
+}
+
+class DeleteAccountFailure extends DeleteAccountResult {
+  const DeleteAccountFailure();
 }
 
 /// Owns the Google sign-in flow and the resulting session: exchanging the
@@ -49,6 +59,7 @@ class AuthRepository {
   AuthRepository({
     GoogleAuthService? googleAuthService,
     AuthApiService? authApiService,
+    UsersApiService? usersApiService,
     SecureTokenStorage? tokenStorage,
     VoidCallback? onUnauthorized,
   }) : _googleAuthService = googleAuthService ?? GoogleAuthService(),
@@ -60,10 +71,19 @@ class AuthRepository {
                onUnauthorized: onUnauthorized,
              ),
            ),
+       _usersApiService =
+           usersApiService ??
+           UsersApiService(
+             dio: buildApiDio(
+               tokenStorage: tokenStorage ?? SecureTokenStorage(),
+               onUnauthorized: onUnauthorized,
+             ),
+           ),
        _tokenStorage = tokenStorage ?? SecureTokenStorage();
 
   final GoogleAuthService _googleAuthService;
   final AuthApiService _authApiService;
+  final UsersApiService _usersApiService;
   final SecureTokenStorage _tokenStorage;
 
   /// Runs the Google sign-in flow and exchanges the ID token with the API.
@@ -125,11 +145,25 @@ class AuthRepository {
     }
   }
 
-  /// Stub for the profile screen's account-deletion command.
+  /// Deletes the signed-in account via `DELETE /v1/users/me`.
   ///
-  /// There is no mobile API for account deletion yet, so this returns an
-  /// explicit [AuthResult] instead of making a network call.
-  Future<AuthResult> deleteAccount() async {
-    return const AuthComingSoon();
+  /// On success, clears the local token and the Google Sign-In session —
+  /// both best-effort, mirroring [signOut] — so the caller can drop the
+  /// signed-in state shown in the UI regardless of whether either succeeds.
+  Future<DeleteAccountResult> deleteAccount() async {
+    try {
+      await _usersApiService.deleteMe();
+    } on DioException {
+      return const DeleteAccountFailure();
+    }
+
+    await _tokenStorage.deleteToken();
+    try {
+      await _googleAuthService.signOut();
+    } catch (_) {
+      // Best-effort — the account is already deleted and the local token
+      // cleared regardless.
+    }
+    return const DeleteAccountSuccess();
   }
 }

@@ -49,7 +49,7 @@ IssueSeverity issueSeverityFromApiValue(String value) {
   return (
     vehicle: _mapVehicle(vehicleJson),
     issues: issuesJson
-        .map((issue) => _mapKnownIssue(issue as Map<String, dynamic>))
+        .map((issue) => mapKnownIssue(issue as Map<String, dynamic>))
         .toList(),
   );
 }
@@ -73,7 +73,10 @@ LookupVehicle _mapVehicle(Map<String, dynamic> json) {
   );
 }
 
-KnownIssue _mapKnownIssue(Map<String, dynamic> json) {
+/// Maps a `KnownIssueResponseDto` JSON body — embedded in `GET /v1/lookups`
+/// and `GET /v1/user-vehicles/:id` alike — to [KnownIssue]. Neither endpoint
+/// reports reviews, so [KnownIssue.reviews] is always empty.
+KnownIssue mapKnownIssue(Map<String, dynamic> json) {
   final sourcesJson = json['sources'] as List<dynamic>?;
   final fixesJson = (json['fixes'] as List<dynamic>?) ?? const [];
 
