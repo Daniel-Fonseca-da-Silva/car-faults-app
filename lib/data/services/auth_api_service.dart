@@ -11,9 +11,7 @@ class AuthApiService {
   /// Exchanges a Google ID token for the API's JWT and the signed-in user.
   ///
   /// `POST /v1/auth/google/mobile` — contract documented in
-  /// prompts/login-google-android.md. `car-faults-api` only exposes the web
-  /// cookie-based `/v1/auth/google` flow today; this endpoint needs to be
-  /// added there before this call can succeed.
+  /// prompts/login-google-android.md.
   Future<({String accessToken, User user})> loginWithGoogle(
     String idToken,
   ) async {
@@ -32,5 +30,13 @@ class AuthApiService {
   Future<User> fetchCurrentUser() async {
     final response = await dio.get<Map<String, dynamic>>('/v1/users/me');
     return User.fromJson(response.data!);
+  }
+
+  /// Revokes the current access token via `POST /v1/auth/logout`.
+  ///
+  /// No request body; the Bearer token is attached by the Dio interceptor
+  /// when a session is present.
+  Future<void> logout() async {
+    await dio.post<void>('/v1/auth/logout');
   }
 }
