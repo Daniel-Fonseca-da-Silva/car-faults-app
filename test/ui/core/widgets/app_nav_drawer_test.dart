@@ -1,6 +1,11 @@
 import 'package:car_faults_app/data/repositories/auth_repository.dart';
+import 'package:car_faults_app/data/repositories/garage_repository.dart';
 import 'package:car_faults_app/data/repositories/locale_repository.dart';
+import 'package:car_faults_app/data/repositories/profile_repository.dart';
 import 'package:car_faults_app/data/services/locale_preferences_service.dart';
+import 'package:car_faults_app/domain/models/known_issue.dart';
+import 'package:car_faults_app/domain/models/profile_snapshot.dart';
+import 'package:car_faults_app/domain/models/saved_vehicle.dart';
 import 'package:car_faults_app/domain/models/user.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/theme/app_theme.dart';
@@ -25,6 +30,20 @@ const _user = User(
 
 const _homeBody = 'home body';
 
+class _FakeProfileRepository extends ProfileRepository {
+  @override
+  Future<ProfileSnapshot?> fetchSnapshot() async => null;
+}
+
+class _FakeGarageRepository extends GarageRepository {
+  @override
+  Future<List<SavedVehicle>?> fetchVehicles() async => const [];
+
+  @override
+  Future<List<KnownIssue>?> fetchKnownIssues(String vehicleId) async =>
+      const [];
+}
+
 Widget _app({AuthSessionViewModel? session}) {
   return MultiProvider(
     providers: [
@@ -35,6 +54,8 @@ Widget _app({AuthSessionViewModel? session}) {
       ),
       ChangeNotifierProvider.value(value: session ?? AuthSessionViewModel()),
       Provider<AuthRepository>.value(value: AuthRepository()),
+      Provider<ProfileRepository>.value(value: _FakeProfileRepository()),
+      Provider<GarageRepository>.value(value: _FakeGarageRepository()),
     ],
     child: MaterialApp(
       theme: AppTheme.dark,
@@ -80,7 +101,7 @@ void main() {
     expect(labels.indexOf('Garagem'), labels.indexOf('Perfil') + 1);
   });
 
-  testWidgets('tapping Garagem opens the GarageView', (
+  testWidgets('signed out: tapping Garagem opens the LoginView', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(_app());
@@ -89,7 +110,47 @@ void main() {
     await tester.tap(find.text('Garagem'));
     await tester.pumpAndSettle();
 
+    expect(find.byType(LoginView), findsOneWidget);
+    expect(find.byType(GarageView), findsNothing);
+  });
+
+  testWidgets('signed out: tapping Perfil opens the LoginView', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app());
+    await _openDrawer(tester);
+
+    await tester.tap(find.text('Perfil'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(LoginView), findsOneWidget);
+    expect(find.byType(ProfileView), findsNothing);
+  });
+
+  testWidgets('signed in: tapping Garagem opens the GarageView', (
+    WidgetTester tester,
+  ) async {
+    final session = AuthSessionViewModel()..setUser(_user);
+    await tester.pumpWidget(_app(session: session));
+    await _openDrawer(tester);
+
+    await tester.tap(find.text('Garagem'));
+    await tester.pumpAndSettle();
+
     expect(find.byType(GarageView), findsOneWidget);
+  });
+
+  testWidgets('signed in: tapping Perfil opens the ProfileView', (
+    WidgetTester tester,
+  ) async {
+    final session = AuthSessionViewModel()..setUser(_user);
+    await tester.pumpWidget(_app(session: session));
+    await _openDrawer(tester);
+
+    await tester.tap(find.text('Perfil'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ProfileView), findsOneWidget);
   });
 
   testWidgets('tapping Entrar opens the LoginView', (
@@ -112,18 +173,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(AboutView), findsOneWidget);
-  });
-
-  testWidgets('tapping Perfil opens the ProfileView', (
-    WidgetTester tester,
-  ) async {
-    await tester.pumpWidget(_app());
-    await _openDrawer(tester);
-
-    await tester.tap(find.text('Perfil'));
-    await tester.pumpAndSettle();
-
-    expect(find.byType(ProfileView), findsOneWidget);
   });
 
   testWidgets('tapping Defeitos returns to the first route', (

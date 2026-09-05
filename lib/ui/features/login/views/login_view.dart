@@ -78,8 +78,6 @@ class LoginView extends StatelessWidget {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(_failureMessage(l10n, reason))));
-      case AuthComingSoon():
-        viewModel.acknowledgeResult();
     }
   }
 

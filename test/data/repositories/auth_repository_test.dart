@@ -2,6 +2,7 @@ import 'package:car_faults_app/data/repositories/auth_repository.dart';
 import 'package:car_faults_app/data/services/auth_api_service.dart';
 import 'package:car_faults_app/data/services/google_auth_service.dart';
 import 'package:car_faults_app/data/services/secure_token_storage.dart';
+import 'package:car_faults_app/data/services/users_api_service.dart';
 import 'package:car_faults_app/domain/models/user.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -80,6 +81,19 @@ class _FakeAuthApiService extends AuthApiService {
   Future<void> logout() async {
     logoutCalls++;
     if (logoutError != null) throw logoutError!;
+  }
+}
+
+class _FakeUsersApiService extends UsersApiService {
+  _FakeUsersApiService({this.deleteError}) : super(dio: Dio());
+
+  final DioException? deleteError;
+  var deleteMeCalls = 0;
+
+  @override
+  Future<void> deleteMe() async {
+    deleteMeCalls++;
+    if (deleteError != null) throw deleteError!;
   }
 }
 
@@ -227,13 +241,51 @@ void main() {
     expect(storage.token, isNull);
   });
 
-  test('deleteAccount returns AuthComingSoon', () async {
-    final repository = AuthRepository(
-      googleAuthService: _FakeGoogleAuthService(),
-      authApiService: _FakeAuthApiService(),
-      tokenStorage: _FakeTokenStorage(),
-    );
+  test(
+    'deleteAccount clears the token and signs out of Google on success',
+    () async {
+      final storage = _FakeTokenStorage('jwt');
+      final google = _FakeGoogleAuthService();
+      final repository = AuthRepository(
+        googleAuthService: google,
+        authApiService: _FakeAuthApiService(),
+        usersApiService: _FakeUsersApiService(),
+        tokenStorage: storage,
+      );
 
-    expect(await repository.deleteAccount(), isA<AuthComingSoon>());
-  });
+      final result = await repository.deleteAccount();
+
+      expect(result, const DeleteAccountSuccess());
+      expect(storage.token, isNull);
+      expect(google.signOutCalls, 1);
+    },
+  );
+
+  test(
+    'deleteAccount returns DeleteAccountFailure on a DioException',
+    () async {
+      final storage = _FakeTokenStorage('jwt');
+      final api = _FakeUsersApiService(
+        deleteError: DioException(
+          requestOptions: RequestOptions(path: '/v1/users/me'),
+          response: Response(
+            requestOptions: RequestOptions(path: '/v1/users/me'),
+            statusCode: 500,
+          ),
+        ),
+      );
+      final repository = AuthRepository(
+        googleAuthService: _FakeGoogleAuthService(),
+        authApiService: _FakeAuthApiService(),
+        usersApiService: api,
+        tokenStorage: storage,
+      );
+
+      final result = await repository.deleteAccount();
+
+      expect(result, const DeleteAccountFailure());
+      expect(api.deleteMeCalls, 1);
+      expect(storage.token, 'jwt');
+    },
+  );
 }

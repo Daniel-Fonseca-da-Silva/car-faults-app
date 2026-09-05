@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'data/repositories/auth_repository.dart';
+import 'data/repositories/garage_repository.dart';
 import 'data/repositories/locale_repository.dart';
 import 'data/repositories/lookup_repository.dart';
 import 'data/repositories/platform_repository.dart';
+import 'data/repositories/profile_repository.dart';
 import 'data/services/locale_preferences_service.dart';
 import 'domain/models/app_locale.dart';
 import 'ui/core/constants/app_brand.dart';
@@ -51,13 +53,17 @@ class CarFaultsApp extends StatelessWidget {
     AuthSessionViewModel? authSessionViewModel,
     LookupRepository? lookupRepository,
     PlatformRepository? platformRepository,
+    ProfileRepository? profileRepository,
+    GarageRepository? garageRepository,
   }) : localeRepository =
            localeRepository ??
            LocaleRepository(service: LocalePreferencesService()),
        authRepository = authRepository ?? AuthRepository(),
        authSessionViewModel = authSessionViewModel ?? AuthSessionViewModel(),
        lookupRepository = lookupRepository ?? LookupRepository(),
-       platformRepository = platformRepository ?? PlatformRepository();
+       platformRepository = platformRepository ?? PlatformRepository(),
+       profileRepository = profileRepository ?? ProfileRepository(),
+       garageRepository = garageRepository ?? GarageRepository();
 
   final LocaleRepository localeRepository;
   final AppLocale initialLocale;
@@ -65,6 +71,8 @@ class CarFaultsApp extends StatelessWidget {
   final AuthSessionViewModel authSessionViewModel;
   final LookupRepository lookupRepository;
   final PlatformRepository platformRepository;
+  final ProfileRepository profileRepository;
+  final GarageRepository garageRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +88,8 @@ class CarFaultsApp extends StatelessWidget {
         Provider.value(value: authRepository),
         Provider.value(value: lookupRepository),
         Provider.value(value: platformRepository),
+        Provider.value(value: profileRepository),
+        Provider.value(value: garageRepository),
       ],
       child: Consumer<LocaleViewModel>(
         builder: (context, localeViewModel, _) {

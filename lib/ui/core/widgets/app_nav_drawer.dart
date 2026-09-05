@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/repositories/auth_repository.dart';
+import '../../../data/repositories/garage_repository.dart';
+import '../../../data/repositories/profile_repository.dart';
 import '../../features/about/views/about_view.dart';
 import '../../features/garage/view_models/garage_view_model.dart';
 import '../../features/garage/views/garage_view.dart';
@@ -110,11 +112,20 @@ class AppNavDrawer extends StatelessWidget {
 
   void _openProfile(BuildContext context) {
     Navigator.of(context).pop();
+    if (!context.read<AuthSessionViewModel>().isSignedIn) {
+      pushLoginView(context);
+      return;
+    }
+
+    final authRepository = context.read<AuthRepository>();
+    final profileRepository = context.read<ProfileRepository>();
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => ChangeNotifierProvider(
-          create: (context) =>
-              ProfileViewModel(authRepository: context.read<AuthRepository>()),
+          create: (_) => ProfileViewModel(
+            authRepository: authRepository,
+            repository: profileRepository,
+          )..load(),
           child: const ProfileView(),
         ),
       ),
@@ -123,10 +134,16 @@ class AppNavDrawer extends StatelessWidget {
 
   void _openGarage(BuildContext context) {
     Navigator.of(context).pop();
+    if (!context.read<AuthSessionViewModel>().isSignedIn) {
+      pushLoginView(context);
+      return;
+    }
+
+    final garageRepository = context.read<GarageRepository>();
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => ChangeNotifierProvider(
-          create: (_) => GarageViewModel(),
+          create: (_) => GarageViewModel(repository: garageRepository)..load(),
           child: const GarageView(),
         ),
       ),

@@ -145,14 +145,17 @@
   "profileDeleteConfirmDescription": "Your account and all data will be deleted immediately. This action cannot be undone.",
   "profileDeleteConfirmCancel": "Cancel",
   "profileDeleteConfirmDelete": "Yes, delete account",
-  "profileDeleteComingSoon": "Account deletion coming soon.",
+  "profileDeleteError": "Couldn't delete your account. Try again.",
+  "profileLoadError": "Couldn't load your profile.",
   "garageEyebrow": "Garage",
   "garageEmptyTitle": "Your garage is empty",
   "garageHeroImageAlt": "Garage with a classic Volkswagen Beetle",
   "garageVehiclesTitle": "Your vehicles",
   "garageVehiclesEmpty": "You don't have any vehicles in your garage yet.",
   "garageRemoveVehicle": "Remove {brand} {model} from the garage",
+  "garageRemoveError": "Couldn't remove the vehicle. Try again.",
   "garageKnownIssuesTitle": "Known issues",
   "garageViewDetails": "View details",
-  "garageIssueSources": "Sources: {sources}"
+  "garageIssueSources": "Sources: {sources}",
+  "garageLoadError": "Couldn't load your garage."
 }

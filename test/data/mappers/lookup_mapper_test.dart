@@ -180,6 +180,29 @@ void main() {
     });
   });
 
+  group('mapKnownIssue', () {
+    test('maps a KnownIssueResponseDto body, as embedded in a user vehicle '
+        "detail's knownIssues[]", () {
+      final issue = mapKnownIssue({
+        'id': 'issue-1',
+        'title': 'Timing belt',
+        'description': 'Wear at high mileage',
+        'severity': 'high',
+        'typicalKm': 90000,
+        'sources': ['forum-a'],
+        'fixes': <Map<String, dynamic>>[],
+      });
+
+      expect(issue.id, 'issue-1');
+      expect(issue.title, 'Timing belt');
+      expect(issue.severity, IssueSeverity.high);
+      expect(issue.typicalKm, 90000);
+      expect(issue.sources, ['forum-a']);
+      expect(issue.fixes, isEmpty);
+      expect(issue.reviews, isEmpty);
+    });
+  });
+
   group('mapFixResponse', () {
     test('maps myVote when present', () {
       final fix = mapFixResponse({
