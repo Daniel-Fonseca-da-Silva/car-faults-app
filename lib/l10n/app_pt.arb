@@ -490,6 +490,48 @@
   "@lookupReviewsSubmit": {
     "description": "Label of the review form's submit button."
   },
+  "lookupReviewsJustNow": "agora mesmo",
+  "@lookupReviewsJustNow": {
+    "description": "Relative-time label for a review submitted less than a minute ago."
+  },
+  "lookupReviewsMinutesAgo": "há {count} min",
+  "@lookupReviewsMinutesAgo": {
+    "description": "Relative-time label for a review submitted less than an hour ago.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "25"
+      }
+    }
+  },
+  "lookupReviewsHoursAgo": "há {count} h",
+  "@lookupReviewsHoursAgo": {
+    "description": "Relative-time label for a review submitted less than a day ago.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "6"
+      }
+    }
+  },
+  "lookupReviewsDaysAgo": "há {count} d",
+  "@lookupReviewsDaysAgo": {
+    "description": "Relative-time label for a review submitted a day or more ago.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "lookupReviewsDuplicateError": "Já avaliaste este defeito.",
+  "@lookupReviewsDuplicateError": {
+    "description": "Error shown when the signed-in user tries to submit a second review for the same known issue (API 409)."
+  },
+  "lookupReviewsSubmitError": "Não foi possível enviar a tua avaliação. Tenta novamente.",
+  "@lookupReviewsSubmitError": {
+    "description": "Generic error shown when submitting a review fails."
+  },
   "lookupCommunitySolutions": "Soluções da comunidade ({count})",
   "@lookupCommunitySolutions": {
     "description": "Title of the community fixes section inside an expanded known issue card.",

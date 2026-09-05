@@ -32,7 +32,9 @@ abstract final class LookupDemoDisplay {
     powerHp: 101,
   );
 
-  static const issues = <KnownIssue>[
+  /// Not `const`: [IssueReview.submittedAt] is computed relative to
+  /// [DateTime.now] at first access, so the demo reviews always look recent.
+  static final issues = <KnownIssue>[
     KnownIssue(
       id: 'gearbox-sync',
       title: 'Caixa de câmbio problemática',
@@ -87,7 +89,7 @@ abstract final class LookupDemoDisplay {
           comment:
               'Informação muito precisa. Exactamente o que aconteceu ao '
               'meu Polo 97.',
-          submittedAgo: 'há 2 d',
+          submittedAt: DateTime.now().subtract(const Duration(days: 2)),
         ),
         IssueReview(
           id: 'review-fabio',
@@ -96,7 +98,7 @@ abstract final class LookupDemoDisplay {
           initials: 'FL',
           rating: 4,
           comment: '',
-          submittedAgo: 'há 6 h',
+          submittedAt: DateTime.now().subtract(const Duration(hours: 6)),
         ),
         IssueReview(
           id: 'review-ana',
@@ -105,7 +107,7 @@ abstract final class LookupDemoDisplay {
           initials: currentUserInitials,
           rating: 4,
           comment: 'Útil, mas podia ter mais detalhe sobre o modelo de 1996.',
-          submittedAgo: 'há 25 min',
+          submittedAt: DateTime.now().subtract(const Duration(minutes: 25)),
         ),
       ],
     ),
