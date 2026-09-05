@@ -1,4 +1,5 @@
 import 'package:car_faults_app/data/mappers/lookup_mapper.dart';
+import 'package:car_faults_app/domain/models/fix_vote_value.dart';
 import 'package:car_faults_app/domain/models/issue_severity.dart';
 import 'package:car_faults_app/ui/features/home/home_search_options.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -176,6 +177,55 @@ void main() {
       expect(issue.fixes[1].steps, ['Only one step']);
       expect(issue.fixes[1].estimatedCostEur, 0);
       expect(mapped.vehicle.powerHp, 90);
+    });
+  });
+
+  group('mapFixResponse', () {
+    test('maps myVote when present', () {
+      final fix = mapFixResponse({
+        'id': 'fix-1',
+        'summary': 'Replace belt kit',
+        'steps': 'Step one\nStep two',
+        'estimatedCostEur': '350.40',
+        'likes': 10,
+        'dislikes': 1,
+        'myVote': 'dislike',
+      });
+
+      expect(fix.myVote, FixVoteValue.dislike);
+    });
+
+    test('maps myVote to null when absent (e.g. embedded in a lookup '
+        'response)', () {
+      final fix = mapFixResponse({
+        'id': 'fix-1',
+        'summary': 'Replace belt kit',
+        'steps': 'Step one',
+        'estimatedCostEur': null,
+        'likes': 0,
+        'dislikes': 0,
+      });
+
+      expect(fix.myVote, isNull);
+    });
+  });
+
+  group('fixVoteValueFromApiValue', () {
+    test('parses each FixVoteValue name', () {
+      expect(fixVoteValueFromApiValue('like'), FixVoteValue.like);
+      expect(fixVoteValueFromApiValue('dislike'), FixVoteValue.dislike);
+    });
+
+    test('returns null for a missing or unrecognized value', () {
+      expect(fixVoteValueFromApiValue(null), isNull);
+      expect(fixVoteValueFromApiValue('neutral'), isNull);
+    });
+  });
+
+  group('fixVoteValueApiValue', () {
+    test('maps every FixVoteValue to its API string', () {
+      expect(fixVoteValueApiValue(FixVoteValue.like), 'like');
+      expect(fixVoteValueApiValue(FixVoteValue.dislike), 'dislike');
     });
   });
 }

@@ -25,7 +25,7 @@ class _FakeLookupRepository extends LookupRepository {
   }) async {
     searchCalls++;
     if (onSearch != null) return onSearch!();
-    return const LookupSearchSuccess(
+    return LookupSearchSuccess(
       vehicle: LookupDemoDisplay.vehicle,
       issues: LookupDemoDisplay.issues,
     );

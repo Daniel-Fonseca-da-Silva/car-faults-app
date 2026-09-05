@@ -43,7 +43,7 @@ class _FakeLookupRepository extends LookupRepository {
     required AppLocale locale,
   }) async {
     if (onSearch != null) return onSearch!();
-    return const LookupSearchSuccess(
+    return LookupSearchSuccess(
       vehicle: LookupDemoDisplay.vehicle,
       issues: LookupDemoDisplay.issues,
     );
@@ -191,7 +191,7 @@ void main() {
     expect(find.byType(HomeSearchCard), findsNothing);
 
     gate.complete(
-      const LookupSearchSuccess(
+      LookupSearchSuccess(
         vehicle: LookupDemoDisplay.vehicle,
         issues: LookupDemoDisplay.issues,
       ),
