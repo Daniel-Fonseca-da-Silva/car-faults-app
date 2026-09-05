@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../core/widgets/app_footer.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../view_models/lookup_results_view_model.dart';
+import 'widgets/lookup_add_to_garage_button.dart';
 import 'widgets/lookup_back_link.dart';
 import 'widgets/lookup_issue_card.dart';
 import 'widgets/lookup_issues_summary.dart';
@@ -12,11 +13,8 @@ import 'widgets/lookup_tech_specs.dart';
 import 'widgets/lookup_vehicle_hero.dart';
 
 /// Fault lookup results screen: shared header, back-to-search link, vehicle
-/// hero, tech specs grid, issues summary banner, known-issues accordion
-/// (with reviews) and shared footer.
-///
-/// The body between the accordion and the footer is filled in by later
-/// slices (fixes, comments).
+/// hero, add-to-garage button, tech specs grid, issues summary banner,
+/// known-issues accordion (with reviews and comments) and shared footer.
 class LookupResultsView extends StatelessWidget {
   const LookupResultsView({super.key, this.viewModel});
 
@@ -46,6 +44,8 @@ class _LookupResultsBody extends StatelessWidget {
             LookupBackLink(onPressed: () => Navigator.of(context).pop()),
             const SizedBox(height: 12),
             const LookupVehicleHero(),
+            const SizedBox(height: 16),
+            const LookupAddToGarageButton(),
             const SizedBox(height: 16),
             const LookupTechSpecs(),
             const SizedBox(height: 16),
