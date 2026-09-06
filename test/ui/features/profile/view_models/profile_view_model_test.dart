@@ -18,6 +18,7 @@ final _snapshot = ProfileSnapshot(
     defectsConsultedCount: 128,
     savedVehiclesCount: 1,
     votesCount: 23,
+    favoritedVehiclesCount: 9,
   ),
   vehicles: const [
     SavedVehicle(

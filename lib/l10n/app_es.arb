@@ -10,6 +10,7 @@
   "navAbout": "Acerca de",
   "navProfile": "Perfil",
   "navGarage": "Garaje",
+  "navFavorites": "Favoritos",
   "navLanguage": "Idioma",
   "navAvatar": "Avatar de {name}",
   "localePt": "Português (PT)",
@@ -133,6 +134,9 @@
   "lookupAddToGarageAlready": "Ya está en tu garaje",
   "lookupAddToGarageDuplicate": "Este vehículo ya está en tu garaje.",
   "lookupAddToGarageError": "No se pudo añadir este vehículo a tu garaje. Inténtalo de nuevo.",
+  "lookupFavorite": "Añadir a favoritos",
+  "lookupUnfavorite": "Quitar de favoritos",
+  "lookupFavoriteError": "No se pudieron actualizar tus favoritos. Inténtalo de nuevo.",
   "profileAccountTitle": "Información de la cuenta",
   "profileEmail": "Correo electrónico",
   "profileCreatedAt": "Creado el",
@@ -144,6 +148,7 @@
   "profileStatDefectsConsulted": "Defectos consultados",
   "profileStatSavedVehicles": "Mis vehículos",
   "profileStatVotes": "Votos emitidos",
+  "profileStatFavoritedVehicles": "Vehículos favoritos",
   "profileVehiclesTitle": "Mis vehículos",
   "profileVehiclesCount": "{count} vehículos",
   "profileVehiclesEmpty": "Todavía no tienes ningún vehículo.",
@@ -168,5 +173,10 @@
   "garageKnownIssuesTitle": "Fallos conocidos",
   "garageViewDetails": "Ver detalles",
   "garageIssueSources": "Fuentes: {sources}",
-  "garageLoadError": "No se pudo cargar tu garaje."
+  "garageLoadError": "No se pudo cargar tu garaje.",
+  "favoritesTitle": "Tus favoritos",
+  "favoritesEmpty": "Todavía no tienes vehículos favoritos.",
+  "favoritesLoadError": "No se pudieron cargar tus favoritos.",
+  "favoritesRemoveError": "No se pudo eliminar el vehículo de favoritos. Inténtalo de nuevo.",
+  "favoritesRemoveVehicle": "Quitar {brand} {model} de favoritos"
 }

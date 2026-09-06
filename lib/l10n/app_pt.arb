@@ -40,6 +40,10 @@
   "@navGarage": {
     "description": "Navigation drawer item that opens the Garage screen."
   },
+  "navFavorites": "Favoritos",
+  "@navFavorites": {
+    "description": "Navigation drawer item that opens the Favorites screen."
+  },
   "navLanguage": "Idioma",
   "@navLanguage": {
     "description": "Accessibility label of the language switcher in the header."
@@ -622,6 +626,18 @@
   "@lookupAddToGarageError": {
     "description": "Generic error shown when adding a vehicle to the garage fails."
   },
+  "lookupFavorite": "Adicionar aos favoritos",
+  "@lookupFavorite": {
+    "description": "Label of the favorite-toggle button when the looked-up vehicle is not yet favorited."
+  },
+  "lookupUnfavorite": "Remover dos favoritos",
+  "@lookupUnfavorite": {
+    "description": "Label of the favorite-toggle button once the looked-up vehicle is already favorited."
+  },
+  "lookupFavoriteError": "Não foi possível atualizar os favoritos. Tenta novamente.",
+  "@lookupFavoriteError": {
+    "description": "Generic error shown when favoriting or unfavoriting a vehicle fails."
+  },
   "profileAccountTitle": "Informações da conta",
   "@profileAccountTitle": {
     "description": "Title of the account information card on the profile screen."
@@ -665,6 +681,10 @@
   "profileStatVotes": "Votos dados",
   "@profileStatVotes": {
     "description": "Label of the votes-cast stat card on the profile screen."
+  },
+  "profileStatFavoritedVehicles": "Veículos favoritos",
+  "@profileStatFavoritedVehicles": {
+    "description": "Label of the favorited-vehicles stat card on the profile screen."
   },
   "profileVehiclesTitle": "Os meus veículos",
   "@profileVehiclesTitle": {
@@ -803,5 +823,35 @@
   "garageLoadError": "Não foi possível carregar a sua garagem.",
   "@garageLoadError": {
     "description": "Error message shown on the garage screen when loading the vehicles fails."
+  },
+  "favoritesTitle": "Os teus favoritos",
+  "@favoritesTitle": {
+    "description": "Title of the favorited-vehicles list on the favorites screen."
+  },
+  "favoritesEmpty": "Ainda não tens veículos favoritos.",
+  "@favoritesEmpty": {
+    "description": "Empty state message shown when there are no favorited vehicles."
+  },
+  "favoritesLoadError": "Não foi possível carregar os teus favoritos.",
+  "@favoritesLoadError": {
+    "description": "Error message shown on the favorites screen when loading the favorites fails."
+  },
+  "favoritesRemoveError": "Não foi possível remover o veículo dos favoritos. Tenta novamente.",
+  "@favoritesRemoveError": {
+    "description": "SnackBar shown when the DELETE /v1/activity-logs/favorites/:vehicleModelId request fails."
+  },
+  "favoritesRemoveVehicle": "Remover {brand} {model} dos favoritos",
+  "@favoritesRemoveVehicle": {
+    "description": "Accessibility label / tooltip of the heart icon on a favorites vehicle card.",
+    "placeholders": {
+      "brand": {
+        "type": "String",
+        "example": "Fiat"
+      },
+      "model": {
+        "type": "String",
+        "example": "Punto"
+      }
+    }
   }
 }

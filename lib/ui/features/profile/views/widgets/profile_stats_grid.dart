@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import '../../../../../domain/models/profile_snapshot.dart';
 import 'profile_stat_card.dart';
 
-/// 2x2 grid of [ProfileStatCard]s built from [ProfileSnapshot.stats].
+/// Grid of [ProfileStatCard]s built from [ProfileSnapshot.stats]: 2x2 plus a
+/// fifth full-width card on phone.
 ///
-/// Widens to a single row of 4 cards on tablet (>= [_tabletBreakpoint]).
+/// Widens to a single row of 5 cards on tablet (>= [_tabletBreakpoint]).
 class ProfileStatsGrid extends StatelessWidget {
   const ProfileStatsGrid({super.key, required this.snapshot});
 
@@ -41,6 +42,11 @@ class ProfileStatsGrid extends StatelessWidget {
         value: '${stats.votesCount}',
         label: l10n.profileStatVotes,
       ),
+      ProfileStatCard(
+        icon: Icons.favorite_border,
+        value: '${stats.favoritedVehiclesCount}',
+        label: l10n.profileStatFavoritedVehicles,
+      ),
     ];
 
     return LayoutBuilder(
@@ -67,6 +73,13 @@ class ProfileStatsGrid extends StatelessWidget {
               children: [
                 Expanded(child: cards[2]),
                 Expanded(child: cards[3]),
+              ],
+            ),
+            Row(
+              spacing: _gap,
+              children: [
+                Expanded(child: cards[4]),
+                const Spacer(),
               ],
             ),
           ],

@@ -102,6 +102,7 @@ void main() {
       expect(snapshot.updatedAt, DateTime.parse('2026-07-18T10:00:00.000Z'));
       expect(snapshot.stats.searchesCount, 47);
       expect(snapshot.stats.votesCount, 23);
+      expect(snapshot.stats.favoritedVehiclesCount, 0);
       expect(snapshot.vehicles, hasLength(1));
       expect(snapshot.vehicles.single.id, 'uv-1');
       expect(snapshot.vehicles.single.name, 'Volkswagen Polo');

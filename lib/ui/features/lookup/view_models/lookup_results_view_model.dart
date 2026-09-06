@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../../../data/repositories/activity_log_repository.dart';
 import '../../../../data/repositories/community_repository.dart';
+import '../../../../data/repositories/favorites_repository.dart';
 import '../../../../data/repositories/garage_repository.dart';
 import '../../../../domain/models/comment.dart';
 import '../../../../domain/models/fix_vote_value.dart';
@@ -26,7 +27,8 @@ import '../lookup_demo_display.dart';
 /// always go through [CommunityRepository]. [searchedYear] is the exact
 /// year the user searched for (distinct from [LookupVehicle.yearFrom]'s
 /// generation range) and, together with [vehicle]'s catalog id, identifies
-/// the vehicle for [GarageRepository] add-to-garage calls.
+/// the vehicle for [GarageRepository] add-to-garage and [FavoritesRepository]
+/// favorite/unfavorite calls.
 class LookupResultsViewModel extends ChangeNotifier {
   LookupResultsViewModel({
     LookupVehicle? vehicle,
@@ -35,12 +37,14 @@ class LookupResultsViewModel extends ChangeNotifier {
     CommunityRepository? repository,
     GarageRepository? garageRepository,
     ActivityLogRepository? activityLogRepository,
+    FavoritesRepository? favoritesRepository,
   }) : vehicle = vehicle ?? LookupDemoDisplay.vehicle,
        _issues = issues ?? LookupDemoDisplay.issues,
        _repository = repository ?? CommunityRepository(),
        _garageRepository = garageRepository ?? GarageRepository(),
        _activityLogRepository =
-           activityLogRepository ?? ActivityLogRepository() {
+           activityLogRepository ?? ActivityLogRepository(),
+       _favoritesRepository = favoritesRepository ?? FavoritesRepository() {
     for (final issue in _issues) {
       _reviews[issue.id] = List<IssueReview>.from(issue.reviews);
       for (final fix in issue.fixes) {
@@ -52,6 +56,7 @@ class LookupResultsViewModel extends ChangeNotifier {
   final CommunityRepository _repository;
   final GarageRepository _garageRepository;
   final ActivityLogRepository _activityLogRepository;
+  final FavoritesRepository _favoritesRepository;
   final LookupVehicle vehicle;
   final int? searchedYear;
   final List<KnownIssue> _issues;
@@ -302,5 +307,62 @@ class LookupResultsViewModel extends ChangeNotifier {
     }
     notifyListeners();
     return result;
+  }
+
+  bool? _isFavorited;
+
+  /// Whether [vehicle] is already among the signed-in user's favorites.
+  /// `null` until [checkFavoriteStatus] resolves (or when signed out / not
+  /// checked).
+  bool? get isFavorited => _isFavorited;
+
+  bool _isCheckingFavoriteStatus = false;
+  bool get isCheckingFavoriteStatus => _isCheckingFavoriteStatus;
+
+  bool _isTogglingFavorite = false;
+  bool get isTogglingFavorite => _isTogglingFavorite;
+
+  /// `GET /v1/activity-logs/favorites/:vehicleModelId`. No-op once
+  /// [isFavorited] is already known, so the View can call this every time it
+  /// becomes visible.
+  Future<void> checkFavoriteStatus() async {
+    if (_isCheckingFavoriteStatus || _isFavorited != null) return;
+
+    _isCheckingFavoriteStatus = true;
+    notifyListeners();
+
+    final favorited = await _favoritesRepository.fetchStatus(
+      vehicleModelId: vehicle.id,
+      year: _garageYear,
+    );
+
+    _isCheckingFavoriteStatus = false;
+    _isFavorited = favorited;
+    notifyListeners();
+  }
+
+  /// Favorites [vehicle] via `POST /v1/activity-logs`, or unfavorites it via
+  /// `DELETE /v1/activity-logs/favorites/:vehicleModelId` if it's already
+  /// favorited. Flips [isFavorited] locally on success. Returns whether the
+  /// call succeeded.
+  Future<bool> toggleFavorite() async {
+    final wasFavorited = _isFavorited ?? false;
+    _isTogglingFavorite = true;
+    notifyListeners();
+
+    final success = wasFavorited
+        ? await _favoritesRepository.unfavorite(
+            vehicleModelId: vehicle.id,
+            year: _garageYear,
+          )
+        : await _favoritesRepository.favorite(
+            vehicleModelId: vehicle.id,
+            year: _garageYear,
+          );
+
+    _isTogglingFavorite = false;
+    if (success) _isFavorited = !wasFavorited;
+    notifyListeners();
+    return success;
   }
 }

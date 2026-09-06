@@ -10,6 +10,7 @@
   "navAbout": "About",
   "navProfile": "Profile",
   "navGarage": "Garage",
+  "navFavorites": "Favorites",
   "navLanguage": "Language",
   "navAvatar": "{name}'s avatar",
   "localePt": "Português (PT)",
@@ -133,6 +134,9 @@
   "lookupAddToGarageAlready": "Already in your garage",
   "lookupAddToGarageDuplicate": "This vehicle is already in your garage.",
   "lookupAddToGarageError": "We couldn't add this vehicle to your garage. Try again.",
+  "lookupFavorite": "Add to favorites",
+  "lookupUnfavorite": "Remove from favorites",
+  "lookupFavoriteError": "We couldn't update your favorites. Try again.",
   "profileAccountTitle": "Account information",
   "profileEmail": "Email",
   "profileCreatedAt": "Created on",
@@ -144,6 +148,7 @@
   "profileStatDefectsConsulted": "Defects consulted",
   "profileStatSavedVehicles": "My vehicles",
   "profileStatVotes": "Votes cast",
+  "profileStatFavoritedVehicles": "Favorited vehicles",
   "profileVehiclesTitle": "My vehicles",
   "profileVehiclesCount": "{count} vehicles",
   "profileVehiclesEmpty": "You don't have any vehicles yet.",
@@ -168,5 +173,10 @@
   "garageKnownIssuesTitle": "Known issues",
   "garageViewDetails": "View details",
   "garageIssueSources": "Sources: {sources}",
-  "garageLoadError": "Couldn't load your garage."
+  "garageLoadError": "Couldn't load your garage.",
+  "favoritesTitle": "Your favorites",
+  "favoritesEmpty": "You don't have any favorited vehicles yet.",
+  "favoritesLoadError": "Couldn't load your favorites.",
+  "favoritesRemoveError": "Couldn't remove the vehicle from favorites. Try again.",
+  "favoritesRemoveVehicle": "Remove {brand} {model} from favorites"
 }

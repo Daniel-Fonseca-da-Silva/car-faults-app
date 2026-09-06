@@ -1,10 +1,10 @@
 import 'package:car_faults_app/data/repositories/activity_log_repository.dart';
 import 'package:car_faults_app/data/repositories/auth_repository.dart';
 import 'package:car_faults_app/data/repositories/community_repository.dart';
+import 'package:car_faults_app/data/repositories/favorites_repository.dart';
 import 'package:car_faults_app/data/repositories/garage_repository.dart';
 import 'package:car_faults_app/data/repositories/locale_repository.dart';
 import 'package:car_faults_app/data/services/locale_preferences_service.dart';
-import 'package:car_faults_app/domain/models/saved_vehicle.dart';
 import 'package:car_faults_app/domain/models/user.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/view_models/auth_session_view_model.dart';
@@ -13,7 +13,7 @@ import 'package:car_faults_app/ui/features/login/views/login_view.dart';
 import 'package:car_faults_app/ui/features/lookup/lookup_demo_display.dart';
 import 'package:car_faults_app/ui/features/lookup/view_models/lookup_results_view_model.dart';
 import 'package:car_faults_app/ui/features/lookup/views/lookup_results_view.dart';
-import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_add_to_garage_button.dart';
+import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -28,40 +28,11 @@ const _signedInUser = User(
 class _FakeCommunityRepository extends CommunityRepository {}
 
 class _FakeGarageRepository extends GarageRepository {
-  _FakeGarageRepository({this.statusResult, this.addResult});
-
-  final bool? statusResult;
-  final AddToGarageResult? addResult;
-
-  var checkGarageStatusCalls = 0;
-
   @override
   Future<bool?> checkGarageStatus({
     required String vehicleModelId,
     required int year,
-  }) async {
-    checkGarageStatusCalls++;
-    return statusResult;
-  }
-
-  @override
-  Future<AddToGarageResult> addVehicle({
-    required String vehicleModelId,
-    required int year,
-  }) async {
-    return addResult ??
-        AddToGarageSuccess(
-          const SavedVehicle(
-            id: 'uv-new',
-            brand: 'VW',
-            model: 'Polo',
-            name: 'VW Polo',
-            yearFrom: 2015,
-            yearTo: 2015,
-            knownIssuesCount: 0,
-          ),
-        );
-  }
+  }) async => null;
 }
 
 class _FakeActivityLogRepository extends ActivityLogRepository {
@@ -69,9 +40,39 @@ class _FakeActivityLogRepository extends ActivityLogRepository {
   Future<bool> recordDefectConsulted(String knownIssueId) async => true;
 }
 
+class _FakeFavoritesRepository extends FavoritesRepository {
+  _FakeFavoritesRepository({this.statusResult = false, this.toggleResult});
+
+  final bool statusResult;
+  final bool? toggleResult;
+
+  var checkFavoriteStatusCalls = 0;
+
+  @override
+  Future<bool> fetchStatus({
+    required String vehicleModelId,
+    required int year,
+  }) async {
+    checkFavoriteStatusCalls++;
+    return statusResult;
+  }
+
+  @override
+  Future<bool> favorite({
+    required String vehicleModelId,
+    required int year,
+  }) async => toggleResult ?? true;
+
+  @override
+  Future<bool> unfavorite({
+    required String vehicleModelId,
+    required int year,
+  }) async => toggleResult ?? true;
+}
+
 Widget _app({
   AuthSessionViewModel? session,
-  GarageRepository? garageRepository,
+  FavoritesRepository? favoritesRepository,
 }) {
   return MultiProvider(
     providers: [
@@ -92,8 +93,10 @@ Widget _app({
           vehicle: LookupDemoDisplay.vehicle,
           issues: LookupDemoDisplay.issues,
           repository: _FakeCommunityRepository(),
-          garageRepository: garageRepository ?? _FakeGarageRepository(),
+          garageRepository: _FakeGarageRepository(),
           activityLogRepository: _FakeActivityLogRepository(),
+          favoritesRepository:
+              favoritesRepository ?? _FakeFavoritesRepository(),
         ),
       ),
     ),
@@ -101,47 +104,39 @@ Widget _app({
 }
 
 void main() {
-  testWidgets('shows "Adicionar à garagem" when signed out', (
+  testWidgets('shows "Adicionar aos favoritos" when signed out', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(_app());
     await tester.pumpAndSettle();
 
-    expect(find.text('Adicionar à garagem'), findsOneWidget);
+    expect(find.text('Adicionar aos favoritos'), findsOneWidget);
   });
 
   testWidgets(
-    'checks garage status once when signed in and shows "Já está na tua '
-    'garagem" if already owned',
+    'checks favorite status once when signed in and shows "Remover dos '
+    'favoritos" if already favorited',
     (WidgetTester tester) async {
-      final garageRepository = _FakeGarageRepository(statusResult: true);
+      final favoritesRepository = _FakeFavoritesRepository(statusResult: true);
       final session = AuthSessionViewModel()..setUser(_signedInUser);
       await tester.pumpWidget(
-        _app(session: session, garageRepository: garageRepository),
+        _app(session: session, favoritesRepository: favoritesRepository),
       );
       await tester.pumpAndSettle();
 
-      expect(garageRepository.checkGarageStatusCalls, 1);
-      expect(find.text('Já está na tua garagem'), findsOneWidget);
-
-      final button = tester.widget<OutlinedButton>(
-        find.descendant(
-          of: find.byType(LookupAddToGarageButton),
-          matching: find.byType(OutlinedButton),
-        ),
-      );
-      expect(button.onPressed, isNull);
+      expect(favoritesRepository.checkFavoriteStatusCalls, 1);
+      expect(find.text('Remover dos favoritos'), findsOneWidget);
     },
   );
 
-  testWidgets('does not check garage status when signed out', (
+  testWidgets('does not check favorite status when signed out', (
     WidgetTester tester,
   ) async {
-    final garageRepository = _FakeGarageRepository();
-    await tester.pumpWidget(_app(garageRepository: garageRepository));
+    final favoritesRepository = _FakeFavoritesRepository();
+    await tester.pumpWidget(_app(favoritesRepository: favoritesRepository));
     await tester.pumpAndSettle();
 
-    expect(garageRepository.checkGarageStatusCalls, 0);
+    expect(favoritesRepository.checkFavoriteStatusCalls, 0);
   });
 
   testWidgets('tapping the button while signed out asks to sign in first', (
@@ -150,61 +145,58 @@ void main() {
     await tester.pumpWidget(_app());
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byType(LookupAddToGarageButton));
+    await tester.ensureVisible(find.byType(LookupFavoriteButton));
+    await tester.tap(find.byType(LookupFavoriteButton));
     await tester.pumpAndSettle();
 
     expect(find.byType(LoginView), findsOneWidget);
   });
 
-  testWidgets('tapping the button while signed in adds the vehicle', (
+  testWidgets('tapping the button while signed in favorites the vehicle', (
     WidgetTester tester,
   ) async {
     final session = AuthSessionViewModel()..setUser(_signedInUser);
     await tester.pumpWidget(_app(session: session));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byType(LookupAddToGarageButton));
+    await tester.ensureVisible(find.byType(LookupFavoriteButton));
+    await tester.tap(find.byType(LookupFavoriteButton));
     await tester.pumpAndSettle();
 
-    expect(find.text('Já está na tua garagem'), findsOneWidget);
+    expect(find.text('Remover dos favoritos'), findsOneWidget);
   });
 
-  testWidgets('shows an already-in-garage message on a duplicate result', (
+  testWidgets('tapping again unfavorites the vehicle', (
     WidgetTester tester,
   ) async {
     final session = AuthSessionViewModel()..setUser(_signedInUser);
-    final garageRepository = _FakeGarageRepository(
-      addResult: const AddToGarageDuplicate(),
-    );
-    await tester.pumpWidget(
-      _app(session: session, garageRepository: garageRepository),
-    );
+    await tester.pumpWidget(_app(session: session));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byType(LookupAddToGarageButton));
+    await tester.ensureVisible(find.byType(LookupFavoriteButton));
+    await tester.tap(find.byType(LookupFavoriteButton));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.byType(LookupFavoriteButton));
+    await tester.tap(find.byType(LookupFavoriteButton));
     await tester.pumpAndSettle();
 
-    expect(find.text('Este veículo já está na tua garagem.'), findsOneWidget);
+    expect(find.text('Adicionar aos favoritos'), findsOneWidget);
   });
 
   testWidgets('shows an error message on failure', (WidgetTester tester) async {
     final session = AuthSessionViewModel()..setUser(_signedInUser);
-    final garageRepository = _FakeGarageRepository(
-      addResult: const AddToGarageFailure(),
-    );
+    final favoritesRepository = _FakeFavoritesRepository(toggleResult: false);
     await tester.pumpWidget(
-      _app(session: session, garageRepository: garageRepository),
+      _app(session: session, favoritesRepository: favoritesRepository),
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byType(LookupAddToGarageButton));
+    await tester.ensureVisible(find.byType(LookupFavoriteButton));
+    await tester.tap(find.byType(LookupFavoriteButton));
     await tester.pumpAndSettle();
 
     expect(
-      find.text(
-        'Não foi possível adicionar este veículo à garagem. Tenta '
-        'novamente.',
-      ),
+      find.text('Não foi possível atualizar os favoritos. Tenta novamente.'),
       findsOneWidget,
     );
   });

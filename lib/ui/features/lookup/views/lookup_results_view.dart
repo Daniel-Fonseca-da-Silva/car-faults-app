@@ -7,14 +7,16 @@ import '../../../core/widgets/app_scaffold.dart';
 import '../view_models/lookup_results_view_model.dart';
 import 'widgets/lookup_add_to_garage_button.dart';
 import 'widgets/lookup_back_link.dart';
+import 'widgets/lookup_favorite_button.dart';
 import 'widgets/lookup_issue_card.dart';
 import 'widgets/lookup_issues_summary.dart';
 import 'widgets/lookup_tech_specs.dart';
 import 'widgets/lookup_vehicle_hero.dart';
 
 /// Fault lookup results screen: shared header, back-to-search link, vehicle
-/// hero, add-to-garage button, tech specs grid, issues summary banner,
-/// known-issues accordion (with reviews and comments) and shared footer.
+/// hero, add-to-garage and favorite buttons, tech specs grid, issues summary
+/// banner, known-issues accordion (with reviews and comments) and shared
+/// footer.
 class LookupResultsView extends StatelessWidget {
   const LookupResultsView({super.key, this.viewModel});
 
@@ -46,6 +48,8 @@ class _LookupResultsBody extends StatelessWidget {
             const LookupVehicleHero(),
             const SizedBox(height: 16),
             const LookupAddToGarageButton(),
+            const SizedBox(height: 16),
+            const LookupFavoriteButton(),
             const SizedBox(height: 16),
             const LookupTechSpecs(),
             const SizedBox(height: 16),
