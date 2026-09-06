@@ -1,5 +1,6 @@
 import 'package:car_faults_app/data/repositories/activity_log_repository.dart';
 import 'package:car_faults_app/data/repositories/community_repository.dart';
+import 'package:car_faults_app/data/repositories/favorites_repository.dart';
 import 'package:car_faults_app/data/repositories/garage_repository.dart';
 import 'package:car_faults_app/domain/models/comment.dart';
 import 'package:car_faults_app/domain/models/fix_vote_value.dart';
@@ -157,6 +158,47 @@ class _FakeActivityLogRepository extends ActivityLogRepository {
   }
 }
 
+class _FakeFavoritesRepository extends FavoritesRepository {
+  _FakeFavoritesRepository({
+    this.statusResult = false,
+    this.favoriteResult = true,
+  });
+
+  final bool statusResult;
+  final bool favoriteResult;
+
+  var fetchStatusCalls = <(String, int)>[];
+  var favoriteCalls = <(String, int)>[];
+  var unfavoriteCalls = <(String, int)>[];
+
+  @override
+  Future<bool> fetchStatus({
+    required String vehicleModelId,
+    required int year,
+  }) async {
+    fetchStatusCalls.add((vehicleModelId, year));
+    return statusResult;
+  }
+
+  @override
+  Future<bool> favorite({
+    required String vehicleModelId,
+    required int year,
+  }) async {
+    favoriteCalls.add((vehicleModelId, year));
+    return favoriteResult;
+  }
+
+  @override
+  Future<bool> unfavorite({
+    required String vehicleModelId,
+    required int year,
+  }) async {
+    unfavoriteCalls.add((vehicleModelId, year));
+    return true;
+  }
+}
+
 const _issue = KnownIssue(
   id: 'issue-1',
   title: 'Timing belt wear',
@@ -180,6 +222,7 @@ LookupResultsViewModel _viewModel({
   CommunityRepository? repository,
   GarageRepository? garageRepository,
   ActivityLogRepository? activityLogRepository,
+  FavoritesRepository? favoritesRepository,
   int? searchedYear,
 }) {
   return LookupResultsViewModel(
@@ -189,6 +232,7 @@ LookupResultsViewModel _viewModel({
     garageRepository: garageRepository ?? _FakeGarageRepository(),
     activityLogRepository:
         activityLogRepository ?? _FakeActivityLogRepository(),
+    favoritesRepository: favoritesRepository ?? _FakeFavoritesRepository(),
   );
 }
 
@@ -704,6 +748,87 @@ void main() {
 
       expect(result, isA<AddToGarageFailure>());
       expect(viewModel.isInGarage, isNull);
+    });
+  });
+
+  group('checkFavoriteStatus', () {
+    test('sets isFavorited from the repository', () async {
+      final favoritesRepository = _FakeFavoritesRepository(statusResult: true);
+      final viewModel = _viewModel(
+        favoritesRepository: favoritesRepository,
+        searchedYear: 2015,
+      );
+
+      expect(viewModel.isFavorited, isNull);
+
+      await viewModel.checkFavoriteStatus();
+
+      expect(viewModel.isFavorited, isTrue);
+      expect(favoritesRepository.fetchStatusCalls, [
+        (viewModel.vehicle.id, 2015),
+      ]);
+    });
+
+    test('falls back to vehicle.yearFrom when searchedYear is null', () async {
+      final favoritesRepository = _FakeFavoritesRepository();
+      final viewModel = _viewModel(favoritesRepository: favoritesRepository);
+
+      await viewModel.checkFavoriteStatus();
+
+      expect(favoritesRepository.fetchStatusCalls, [
+        (viewModel.vehicle.id, viewModel.vehicle.yearFrom),
+      ]);
+    });
+
+    test('does not call the repository again once resolved', () async {
+      final favoritesRepository = _FakeFavoritesRepository();
+      final viewModel = _viewModel(favoritesRepository: favoritesRepository);
+
+      await viewModel.checkFavoriteStatus();
+      await viewModel.checkFavoriteStatus();
+
+      expect(favoritesRepository.fetchStatusCalls, hasLength(1));
+    });
+  });
+
+  group('toggleFavorite', () {
+    test('favorites the vehicle when not yet favorited', () async {
+      final favoritesRepository = _FakeFavoritesRepository();
+      final viewModel = _viewModel(favoritesRepository: favoritesRepository);
+      await viewModel.checkFavoriteStatus();
+
+      final success = await viewModel.toggleFavorite();
+
+      expect(success, isTrue);
+      expect(viewModel.isFavorited, isTrue);
+      expect(favoritesRepository.favoriteCalls, hasLength(1));
+      expect(favoritesRepository.unfavoriteCalls, isEmpty);
+    });
+
+    test('unfavorites the vehicle when already favorited', () async {
+      final favoritesRepository = _FakeFavoritesRepository(statusResult: true);
+      final viewModel = _viewModel(favoritesRepository: favoritesRepository);
+      await viewModel.checkFavoriteStatus();
+
+      final success = await viewModel.toggleFavorite();
+
+      expect(success, isTrue);
+      expect(viewModel.isFavorited, isFalse);
+      expect(favoritesRepository.unfavoriteCalls, hasLength(1));
+      expect(favoritesRepository.favoriteCalls, isEmpty);
+    });
+
+    test('leaves isFavorited unchanged on failure', () async {
+      final favoritesRepository = _FakeFavoritesRepository(
+        favoriteResult: false,
+      );
+      final viewModel = _viewModel(favoritesRepository: favoritesRepository);
+      await viewModel.checkFavoriteStatus();
+
+      final success = await viewModel.toggleFavorite();
+
+      expect(success, isFalse);
+      expect(viewModel.isFavorited, isFalse);
     });
   });
 }

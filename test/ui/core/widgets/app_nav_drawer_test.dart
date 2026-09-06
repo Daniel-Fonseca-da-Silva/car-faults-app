@@ -1,8 +1,10 @@
 import 'package:car_faults_app/data/repositories/auth_repository.dart';
+import 'package:car_faults_app/data/repositories/favorites_repository.dart';
 import 'package:car_faults_app/data/repositories/garage_repository.dart';
 import 'package:car_faults_app/data/repositories/locale_repository.dart';
 import 'package:car_faults_app/data/repositories/profile_repository.dart';
 import 'package:car_faults_app/data/services/locale_preferences_service.dart';
+import 'package:car_faults_app/domain/models/favorite_vehicle.dart';
 import 'package:car_faults_app/domain/models/known_issue.dart';
 import 'package:car_faults_app/domain/models/profile_snapshot.dart';
 import 'package:car_faults_app/domain/models/saved_vehicle.dart';
@@ -15,6 +17,7 @@ import 'package:car_faults_app/ui/core/widgets/app_menu_button.dart';
 import 'package:car_faults_app/ui/core/widgets/app_scaffold.dart';
 import 'package:car_faults_app/ui/core/widgets/google_user_avatar.dart';
 import 'package:car_faults_app/ui/features/about/views/about_view.dart';
+import 'package:car_faults_app/ui/features/favorites/views/favorites_view.dart';
 import 'package:car_faults_app/ui/features/garage/views/garage_view.dart';
 import 'package:car_faults_app/ui/features/login/views/login_view.dart';
 import 'package:car_faults_app/ui/features/profile/views/profile_view.dart';
@@ -44,6 +47,11 @@ class _FakeGarageRepository extends GarageRepository {
       const [];
 }
 
+class _FakeFavoritesRepository extends FavoritesRepository {
+  @override
+  Future<List<FavoriteVehicle>?> fetchFavorites({int? limit}) async => const [];
+}
+
 Widget _app({AuthSessionViewModel? session}) {
   return MultiProvider(
     providers: [
@@ -56,6 +64,7 @@ Widget _app({AuthSessionViewModel? session}) {
       Provider<AuthRepository>.value(value: AuthRepository()),
       Provider<ProfileRepository>.value(value: _FakeProfileRepository()),
       Provider<GarageRepository>.value(value: _FakeGarageRepository()),
+      Provider<FavoritesRepository>.value(value: _FakeFavoritesRepository()),
     ],
     child: MaterialApp(
       theme: AppTheme.dark,
@@ -87,9 +96,11 @@ void main() {
     expect(find.text('Sobre'), findsOneWidget);
     expect(find.text('Perfil'), findsOneWidget);
     expect(find.text('Garagem'), findsOneWidget);
+    expect(find.text('Favoritos'), findsOneWidget);
   });
 
-  testWidgets('shows Garagem right after Perfil', (WidgetTester tester) async {
+  testWidgets('shows Garagem right after Perfil and Favoritos right after '
+      'Garagem', (WidgetTester tester) async {
     await tester.pumpWidget(_app());
     await _openDrawer(tester);
 
@@ -99,6 +110,7 @@ void main() {
         .toList();
 
     expect(labels.indexOf('Garagem'), labels.indexOf('Perfil') + 1);
+    expect(labels.indexOf('Favoritos'), labels.indexOf('Garagem') + 1);
   });
 
   testWidgets('signed out: tapping Garagem opens the LoginView', (
@@ -138,6 +150,32 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(GarageView), findsOneWidget);
+  });
+
+  testWidgets('signed out: tapping Favoritos opens the LoginView', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app());
+    await _openDrawer(tester);
+
+    await tester.tap(find.text('Favoritos'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(LoginView), findsOneWidget);
+    expect(find.byType(FavoritesView), findsNothing);
+  });
+
+  testWidgets('signed in: tapping Favoritos opens the FavoritesView', (
+    WidgetTester tester,
+  ) async {
+    final session = AuthSessionViewModel()..setUser(_user);
+    await tester.pumpWidget(_app(session: session));
+    await _openDrawer(tester);
+
+    await tester.tap(find.text('Favoritos'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(FavoritesView), findsOneWidget);
   });
 
   testWidgets('signed in: tapping Perfil opens the ProfileView', (
@@ -205,6 +243,7 @@ void main() {
     expect(find.text('Entrar'), findsNothing);
     expect(find.text('Perfil'), findsOneWidget);
     expect(find.text('Garagem'), findsOneWidget);
+    expect(find.text('Favoritos'), findsOneWidget);
   });
 
   testWidgets('tapping Sair signs the user out', (WidgetTester tester) async {

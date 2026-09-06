@@ -17,7 +17,7 @@ Widget _app() {
 }
 
 void main() {
-  testWidgets('shows the four stat values and labels', (
+  testWidgets('shows the five stat values and labels', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(_app());
@@ -30,10 +30,12 @@ void main() {
     expect(find.text('Os meus veículos'), findsOneWidget);
     expect(find.text('23'), findsOneWidget);
     expect(find.text('Votos dados'), findsOneWidget);
-    expect(find.byType(ProfileStatCard), findsNWidgets(4));
+    expect(find.text('9'), findsOneWidget);
+    expect(find.text('Veículos favoritos'), findsOneWidget);
+    expect(find.byType(ProfileStatCard), findsNWidgets(5));
   });
 
-  testWidgets('lays out as 2x2 on phone-width screens', (
+  testWidgets('lays out as 2x2 plus a fifth row on phone-width screens', (
     WidgetTester tester,
   ) async {
     tester.view.physicalSize = const Size(320, 800);
@@ -42,7 +44,7 @@ void main() {
 
     await tester.pumpWidget(_app());
 
-    expect(find.byType(Row), findsNWidgets(2));
+    expect(find.byType(Row), findsNWidgets(3));
   });
 
   testWidgets('lays out as a single row on tablet-width screens', (
