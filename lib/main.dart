@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'data/repositories/auth_repository.dart';
+import 'data/repositories/favorites_repository.dart';
 import 'data/repositories/garage_repository.dart';
 import 'data/repositories/locale_repository.dart';
 import 'data/repositories/lookup_repository.dart';
@@ -55,6 +56,7 @@ class CarFaultsApp extends StatelessWidget {
     PlatformRepository? platformRepository,
     ProfileRepository? profileRepository,
     GarageRepository? garageRepository,
+    FavoritesRepository? favoritesRepository,
   }) : localeRepository =
            localeRepository ??
            LocaleRepository(service: LocalePreferencesService()),
@@ -63,7 +65,8 @@ class CarFaultsApp extends StatelessWidget {
        lookupRepository = lookupRepository ?? LookupRepository(),
        platformRepository = platformRepository ?? PlatformRepository(),
        profileRepository = profileRepository ?? ProfileRepository(),
-       garageRepository = garageRepository ?? GarageRepository();
+       garageRepository = garageRepository ?? GarageRepository(),
+       favoritesRepository = favoritesRepository ?? FavoritesRepository();
 
   final LocaleRepository localeRepository;
   final AppLocale initialLocale;
@@ -73,6 +76,7 @@ class CarFaultsApp extends StatelessWidget {
   final PlatformRepository platformRepository;
   final ProfileRepository profileRepository;
   final GarageRepository garageRepository;
+  final FavoritesRepository favoritesRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +94,7 @@ class CarFaultsApp extends StatelessWidget {
         Provider.value(value: platformRepository),
         Provider.value(value: profileRepository),
         Provider.value(value: garageRepository),
+        Provider.value(value: favoritesRepository),
       ],
       child: Consumer<LocaleViewModel>(
         builder: (context, localeViewModel, _) {

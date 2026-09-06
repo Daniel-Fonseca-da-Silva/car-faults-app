@@ -5,10 +5,12 @@ class UserStats {
     required this.defectsConsultedCount,
     required this.savedVehiclesCount,
     required this.votesCount,
+    required this.favoritedVehiclesCount,
   });
 
   final int searchesCount;
   final int defectsConsultedCount;
   final int savedVehiclesCount;
   final int votesCount;
+  final int favoritedVehiclesCount;
 }

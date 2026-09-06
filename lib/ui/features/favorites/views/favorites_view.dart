@@ -1,0 +1,117 @@
+import 'package:car_faults_app/l10n/app_localizations.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/app_footer.dart';
+import '../../../core/widgets/app_scaffold.dart';
+import '../view_models/favorites_view_model.dart';
+import 'widgets/favorites_vehicle_card.dart';
+
+/// Favorites ("Favoritos") screen: the user's favorited vehicles, loaded
+/// from [FavoritesViewModel].
+class FavoritesView extends StatelessWidget {
+  const FavoritesView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final viewModel = context.read<FavoritesViewModel>();
+
+    return AppScaffold(
+      body: ListenableBuilder(
+        listenable: viewModel,
+        builder: (context, _) {
+          if (viewModel.removeFailed) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (!context.mounted) return;
+              viewModel.acknowledgeRemoveFailure();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(l10n.favoritesRemoveError)),
+              );
+            });
+          }
+
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 20,
+              children: [
+                ..._content(l10n, viewModel),
+                AppFooter(disclaimer: l10n.homeDisclaimer),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  List<Widget> _content(AppLocalizations l10n, FavoritesViewModel viewModel) {
+    if (viewModel.vehicles.isEmpty && viewModel.isLoading) {
+      return [
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 40),
+          child: Center(child: CircularProgressIndicator()),
+        ),
+      ];
+    }
+
+    if (viewModel.vehicles.isEmpty && viewModel.hasError) {
+      return [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 40),
+          child: Column(
+            children: [
+              Text(
+                l10n.favoritesLoadError,
+                style: const TextStyle(color: AppColors.muted, fontSize: 13),
+              ),
+              TextButton(
+                onPressed: viewModel.load,
+                child: Text(l10n.legalRetry),
+              ),
+            ],
+          ),
+        ),
+      ];
+    }
+
+    if (viewModel.vehicles.isEmpty) {
+      return [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 40),
+          child: Center(
+            child: Text(
+              l10n.favoritesEmpty,
+              style: const TextStyle(color: AppColors.muted, fontSize: 13),
+            ),
+          ),
+        ),
+      ];
+    }
+
+    return [
+      Text(
+        l10n.favoritesTitle,
+        style: const TextStyle(
+          color: AppColors.onSurface,
+          fontWeight: FontWeight.w800,
+          fontSize: 18,
+        ),
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 12,
+        children: [
+          for (final vehicle in viewModel.vehicles)
+            FavoritesVehicleCard(
+              vehicle: vehicle,
+              onRemove: () => viewModel.removeFavorite(vehicle),
+            ),
+        ],
+      ),
+    ];
+  }
+}

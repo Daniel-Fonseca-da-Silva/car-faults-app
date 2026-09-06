@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/repositories/auth_repository.dart';
+import '../../../data/repositories/favorites_repository.dart';
 import '../../../data/repositories/garage_repository.dart';
 import '../../../data/repositories/profile_repository.dart';
 import '../../features/about/views/about_view.dart';
+import '../../features/favorites/view_models/favorites_view_model.dart';
+import '../../features/favorites/views/favorites_view.dart';
 import '../../features/garage/view_models/garage_view_model.dart';
 import '../../features/garage/views/garage_view.dart';
 import '../../features/login/views/login_view.dart';
@@ -20,8 +23,8 @@ import 'app_nav_menu_item.dart';
 import 'google_user_avatar.dart';
 
 /// Right-side navigation drawer shared by every screen wrapped in
-/// [AppScaffold]: sign-in/account, "Defeitos" (home), "Sobre", "Perfil" and
-/// "Garagem".
+/// [AppScaffold]: sign-in/account, "Defeitos" (home), "Sobre", "Perfil",
+/// "Garagem" and "Favoritos".
 class AppNavDrawer extends StatelessWidget {
   const AppNavDrawer({super.key});
 
@@ -58,6 +61,10 @@ class AppNavDrawer extends StatelessWidget {
             AppNavMenuItem(
               label: l10n.navGarage,
               onTap: () => _openGarage(context),
+            ),
+            AppNavMenuItem(
+              label: l10n.navFavorites,
+              onTap: () => _openFavorites(context),
             ),
             if (user != null) ...[
               const Spacer(),
@@ -145,6 +152,25 @@ class AppNavDrawer extends StatelessWidget {
         builder: (_) => ChangeNotifierProvider(
           create: (_) => GarageViewModel(repository: garageRepository)..load(),
           child: const GarageView(),
+        ),
+      ),
+    );
+  }
+
+  void _openFavorites(BuildContext context) {
+    Navigator.of(context).pop();
+    if (!context.read<AuthSessionViewModel>().isSignedIn) {
+      pushLoginView(context);
+      return;
+    }
+
+    final favoritesRepository = context.read<FavoritesRepository>();
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => ChangeNotifierProvider(
+          create: (_) =>
+              FavoritesViewModel(repository: favoritesRepository)..load(),
+          child: const FavoritesView(),
         ),
       ),
     );

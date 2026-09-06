@@ -56,6 +56,7 @@ class ProfileRepository {
           defectsConsultedCount: statsJson['defectsConsultedCount'] as int,
           savedVehiclesCount: statsJson['savedVehiclesCount'] as int,
           votesCount: statsJson['votesCount'] as int,
+          favoritedVehiclesCount: statsJson['favoritedVehiclesCount'] as int,
         ),
         vehicles: items
             .map(

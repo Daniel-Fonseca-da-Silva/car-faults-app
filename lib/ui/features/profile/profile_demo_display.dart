@@ -23,6 +23,7 @@ abstract final class ProfileDemoDisplay {
       defectsConsultedCount: 128,
       savedVehiclesCount: 6,
       votesCount: 23,
+      favoritedVehiclesCount: 9,
     ),
     vehicles: const [
       SavedVehicle(
