@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../domain/models/favorite_vehicle.dart';
 import '../mappers/favorites_mapper.dart';
@@ -14,15 +15,22 @@ const _favoriteType = 'vehicle_favorite';
 /// Every parameter can be overridden — tests subclass [FavoritesRepository]
 /// and override individual methods instead of injecting fakes here, but the
 /// seam is kept for callers that do want to swap a dependency.
+///
+/// [onUnauthorized] runs whenever the API rejects the stored token (401), so
+/// the caller can clear the session shown in the UI — pass the same callback
+/// given to `AuthRepository` so a rejected token signs the user out
+/// everywhere at once.
 class FavoritesRepository {
   FavoritesRepository({
     ActivityLogsApiService? apiService,
     SecureTokenStorage? tokenStorage,
+    VoidCallback? onUnauthorized,
   }) : _apiService =
            apiService ??
            ActivityLogsApiService(
              dio: buildApiDio(
                tokenStorage: tokenStorage ?? SecureTokenStorage(),
+               onUnauthorized: onUnauthorized,
              ),
            );
 

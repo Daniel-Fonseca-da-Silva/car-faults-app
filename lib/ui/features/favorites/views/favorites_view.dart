@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/view_models/auth_session_view_model.dart';
 import '../../../core/widgets/app_footer.dart';
 import '../../../core/widgets/app_scaffold.dart';
+import '../../login/views/login_view.dart';
 import '../view_models/favorites_view_model.dart';
 import 'widgets/favorites_vehicle_card.dart';
 
@@ -68,9 +70,11 @@ class FavoritesView extends StatelessWidget {
                 l10n.favoritesLoadError,
                 style: const TextStyle(color: AppColors.muted, fontSize: 13),
               ),
-              TextButton(
-                onPressed: viewModel.load,
-                child: Text(l10n.legalRetry),
+              Builder(
+                builder: (context) => TextButton(
+                  onPressed: () => _retry(context, viewModel),
+                  child: Text(l10n.legalRetry),
+                ),
               ),
             ],
           ),
@@ -113,5 +117,16 @@ class FavoritesView extends StatelessWidget {
         ],
       ),
     ];
+  }
+
+  /// The session may have been cleared (401) since the load that put the
+  /// view in its error state — redirect to sign-in instead of retrying a
+  /// request that would fail the same way.
+  void _retry(BuildContext context, FavoritesViewModel viewModel) {
+    if (!context.read<AuthSessionViewModel>().isSignedIn) {
+      pushLoginView(context);
+      return;
+    }
+    viewModel.load();
   }
 }

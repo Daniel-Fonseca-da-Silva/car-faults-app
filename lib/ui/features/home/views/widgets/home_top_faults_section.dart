@@ -84,6 +84,10 @@ class _HomeTopFaultsSectionState extends State<HomeTopFaultsSection> {
       return _errorState(l10n);
     }
 
+    if (_viewModel.faults.isEmpty) {
+      return _emptyState(l10n);
+    }
+
     return Column(
       spacing: _cardGap,
       children: [
@@ -113,6 +117,17 @@ class _HomeTopFaultsSectionState extends State<HomeTopFaultsSection> {
           child: Text(l10n.legalRetry),
         ),
       ],
+    );
+  }
+
+  Widget _emptyState(AppLocalizations l10n) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Text(
+        l10n.homeTopFaultsEmpty,
+        textAlign: TextAlign.center,
+        style: const TextStyle(color: AppColors.muted, fontSize: 13),
+      ),
     );
   }
 

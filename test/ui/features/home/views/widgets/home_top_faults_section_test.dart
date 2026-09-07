@@ -47,9 +47,12 @@ const _sampleFaults = [
 void main() {
   // The section is taller than the test viewport, so it is pumped inside a
   // scrollable, just like HomeView does.
-  Future<void> pumpSection(WidgetTester tester) async {
+  Future<void> pumpSection(
+    WidgetTester tester, {
+    List<TopFault> faults = _sampleFaults,
+  }) async {
     final viewModel = HomeTopFaultsViewModel(
-      repository: _FakePlatformRepository(_sampleFaults),
+      repository: _FakePlatformRepository(faults),
     );
 
     await tester.pumpWidget(
@@ -91,5 +94,19 @@ void main() {
     );
 
     semanticsHandle.dispose();
+  });
+
+  testWidgets('shows the empty state and no cards when there are no faults', (
+    WidgetTester tester,
+  ) async {
+    await pumpSection(tester, faults: const []);
+
+    expect(find.byType(TopFaultCard), findsNothing);
+    expect(
+      find.text(
+        'Ainda não há avarias reportadas. Seja o primeiro a reportar uma.',
+      ),
+      findsOneWidget,
+    );
   });
 }
