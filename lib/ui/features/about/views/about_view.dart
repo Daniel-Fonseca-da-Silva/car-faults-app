@@ -27,7 +27,10 @@ class AboutView extends StatelessWidget {
           children: [
             _intro(l10n),
             const SizedBox(height: 32),
-            _section(title: l10n.aboutProblemTitle, body: l10n.aboutProblemBody),
+            _section(
+              title: l10n.aboutProblemTitle,
+              body: l10n.aboutProblemBody,
+            ),
             const SizedBox(height: 24),
             _section(
               title: l10n.aboutSolutionTitle,

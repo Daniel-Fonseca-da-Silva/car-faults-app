@@ -103,7 +103,9 @@ void main() {
 
     expect(find.byType(TopFaultCard), findsNothing);
     expect(
-      find.text('Ainda não há avarias reportadas. Seja o primeiro a reportar uma.'),
+      find.text(
+        'Ainda não há avarias reportadas. Seja o primeiro a reportar uma.',
+      ),
       findsOneWidget,
     );
   });
