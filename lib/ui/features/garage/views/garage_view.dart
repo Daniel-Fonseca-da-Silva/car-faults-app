@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/view_models/auth_session_view_model.dart';
 import '../../../core/widgets/app_footer.dart';
 import '../../../core/widgets/app_scaffold.dart';
+import '../../login/views/login_view.dart';
 import '../view_models/garage_view_model.dart';
 import 'widgets/garage_hero_card.dart';
 import 'widgets/garage_known_issues_section.dart';
@@ -70,9 +72,11 @@ class GarageView extends StatelessWidget {
                 l10n.garageLoadError,
                 style: const TextStyle(color: AppColors.muted, fontSize: 13),
               ),
-              TextButton(
-                onPressed: viewModel.load,
-                child: Text(l10n.legalRetry),
+              Builder(
+                builder: (context) => TextButton(
+                  onPressed: () => _retry(context, viewModel),
+                  child: Text(l10n.legalRetry),
+                ),
               ),
             ],
           ),
@@ -88,5 +92,16 @@ class GarageView extends StatelessWidget {
       ),
       GarageKnownIssuesSection(issues: viewModel.issues),
     ];
+  }
+
+  /// The session may have been cleared (401) since the load that put the
+  /// view in its error state — redirect to sign-in instead of retrying a
+  /// request that would fail the same way.
+  void _retry(BuildContext context, GarageViewModel viewModel) {
+    if (!context.read<AuthSessionViewModel>().isSignedIn) {
+      pushLoginView(context);
+      return;
+    }
+    viewModel.load();
   }
 }

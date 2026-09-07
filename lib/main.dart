@@ -10,6 +10,7 @@ import 'data/repositories/lookup_repository.dart';
 import 'data/repositories/platform_repository.dart';
 import 'data/repositories/profile_repository.dart';
 import 'data/services/locale_preferences_service.dart';
+import 'data/services/secure_token_storage.dart';
 import 'domain/models/app_locale.dart';
 import 'ui/core/constants/app_brand.dart';
 import 'ui/core/theme/app_theme.dart';
@@ -25,9 +26,28 @@ Future<void> main() async {
   );
   final initialLocale = await localeRepository.load();
 
+  // One shared token storage and `onUnauthorized` callback so a 401 from any
+  // authenticated repository (Auth, Favorites, Garage, Profile) signs the
+  // user out consistently.
+  final tokenStorage = SecureTokenStorage();
   final authSessionViewModel = AuthSessionViewModel();
+  final onUnauthorized = authSessionViewModel.signOut;
+
   final authRepository = AuthRepository(
-    onUnauthorized: authSessionViewModel.signOut,
+    tokenStorage: tokenStorage,
+    onUnauthorized: onUnauthorized,
+  );
+  final favoritesRepository = FavoritesRepository(
+    tokenStorage: tokenStorage,
+    onUnauthorized: onUnauthorized,
+  );
+  final garageRepository = GarageRepository(
+    tokenStorage: tokenStorage,
+    onUnauthorized: onUnauthorized,
+  );
+  final profileRepository = ProfileRepository(
+    tokenStorage: tokenStorage,
+    onUnauthorized: onUnauthorized,
   );
 
   final restoredUser = await authRepository.restoreSession();
@@ -41,6 +61,9 @@ Future<void> main() async {
       initialLocale: initialLocale,
       authRepository: authRepository,
       authSessionViewModel: authSessionViewModel,
+      favoritesRepository: favoritesRepository,
+      garageRepository: garageRepository,
+      profileRepository: profileRepository,
     ),
   );
 }

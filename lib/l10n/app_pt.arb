@@ -78,6 +78,46 @@
   "@aboutFounderPhoto": {
     "description": "Accessibility description of the founder's photo on the About screen."
   },
+  "aboutLead": "Chamo-me Daniel Fonseca da Silva. Sou engenheiro de software em Portugal quase nove anos a construir sistemas fiáveis, da cloud aos produtos que as pessoas usam todos os dias e sou também um aficionado por automóveis. A Auto Crónica nasceu do encontro destas duas coisas.",
+  "@aboutLead": {
+    "description": "Lead paragraph of the About screen, below the title."
+  },
+  "aboutLinkedinLabel": "Ver perfil no LinkedIn",
+  "@aboutLinkedinLabel": {
+    "description": "Link label opening the founder's LinkedIn profile."
+  },
+  "aboutProblemTitle": "O problema",
+  "@aboutProblemTitle": {
+    "description": "Heading of the About screen's \"problem\" section."
+  },
+  "aboutProblemBody": "Em qualquer país da Europa, comprar um carro novo ou usado significa muitas vezes avançar às cegas. Todo o veículo tem falhas que, mais cedo ou mais tarde, acabam por aparecer: uma peça que falha sempre no mesmo sítio, um motor com um vício conhecido, uma caixa que dá problemas a partir de determinada quilometragem. Essa informação existe, mas está espalhada por fóruns, grupos e conversas soltas e é difícil saber em que confiar.",
+  "@aboutProblemBody": {
+    "description": "Body text of the About screen's \"problem\" section."
+  },
+  "aboutSolutionTitle": "A solução",
+  "@aboutSolutionTitle": {
+    "description": "Heading of the About screen's \"solution\" section."
+  },
+  "aboutSolutionBody": "A Auto Crónica é um catálogo de defeitos crónicos organizado por marca e modelo, pensado para crescer com o tempo. Quando ainda não há dados suficientes sobre um veículo, a inteligência artificial ajuda a sugerir os problemas mais prováveis; e a comunidade de proprietários comenta, corrige e vota nos relatos, para que a informação fique cada vez mais fiável.",
+  "@aboutSolutionBody": {
+    "description": "Body text of the About screen's \"solution\" section."
+  },
+  "aboutCommunityTitle": "Para quem gosta de carros",
+  "@aboutCommunityTitle": {
+    "description": "Heading of the About screen's \"community\" section."
+  },
+  "aboutCommunityBody": "Este projecto é para quem gosta de urbanos práticos, eléctricos silenciosos, clássicos com história ou desportivos com carácter e quer decidir com mais informação e menos surpresas.",
+  "@aboutCommunityBody": {
+    "description": "Body text of the About screen's \"community\" section."
+  },
+  "aboutCtaLabel": "Pesquisar defeitos",
+  "@aboutCtaLabel": {
+    "description": "Label of the About screen's closing call-to-action button."
+  },
+  "aboutCtaHint": "Comece por procurar a marca e o modelo que tem em mente.",
+  "@aboutCtaHint": {
+    "description": "Hint text shown under the About screen's closing call-to-action button."
+  },
   "profileEyebrow": "Conta",
   "@profileEyebrow": {
     "description": "Eyebrow label above the Profile screen content."
@@ -259,6 +299,10 @@
   "homeTopFaultsLoadError": "Não foi possível carregar as avarias mais reportadas.",
   "@homeTopFaultsLoadError": {
     "description": "Error message shown in the most-reported-faults section when the request fails."
+  },
+  "homeTopFaultsEmpty": "Ainda não há avarias reportadas. Seja o primeiro a reportar uma.",
+  "@homeTopFaultsEmpty": {
+    "description": "Empty state shown in the most-reported-faults section when the platform has no reports yet."
   },
   "loginHeroEyebrow": "CARFAULTS",
   "@loginHeroEyebrow": {

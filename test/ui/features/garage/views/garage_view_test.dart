@@ -1,20 +1,26 @@
 import 'dart:async';
 
+import 'package:car_faults_app/data/repositories/auth_repository.dart';
 import 'package:car_faults_app/data/repositories/garage_repository.dart';
 import 'package:car_faults_app/data/repositories/locale_repository.dart';
 import 'package:car_faults_app/data/services/locale_preferences_service.dart';
 import 'package:car_faults_app/domain/models/issue_severity.dart';
 import 'package:car_faults_app/domain/models/known_issue.dart';
 import 'package:car_faults_app/domain/models/saved_vehicle.dart';
+import 'package:car_faults_app/domain/models/user.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/theme/app_theme.dart';
+import 'package:car_faults_app/ui/core/view_models/auth_session_view_model.dart';
 import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
 import 'package:car_faults_app/ui/features/garage/view_models/garage_view_model.dart';
 import 'package:car_faults_app/ui/features/garage/views/garage_view.dart';
 import 'package:car_faults_app/ui/features/garage/views/widgets/garage_hero_card.dart';
+import 'package:car_faults_app/ui/features/login/views/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
+
+const _signedInUser = User(id: 'u-1', name: 'Ana', email: 'ana@example.com');
 
 const _vehicle = SavedVehicle(
   id: 'fiat-punto-2001',
@@ -77,7 +83,20 @@ class _DelayedGarageRepository extends GarageRepository {
   Future<List<SavedVehicle>?> fetchVehicles() => completer.future;
 }
 
-Widget _app({GarageRepository? repository}) {
+class _CountingFetchVehiclesRepository extends GarageRepository {
+  int fetchCalls = 0;
+
+  @override
+  Future<List<SavedVehicle>?> fetchVehicles() async {
+    fetchCalls++;
+    return null;
+  }
+}
+
+Widget _app({
+  GarageRepository? repository,
+  AuthSessionViewModel? authSessionViewModel,
+}) {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -85,6 +104,10 @@ Widget _app({GarageRepository? repository}) {
           repository: LocaleRepository(service: LocalePreferencesService()),
         ),
       ),
+      ChangeNotifierProvider(
+        create: (_) => authSessionViewModel ?? AuthSessionViewModel(),
+      ),
+      Provider<AuthRepository>.value(value: AuthRepository()),
       ChangeNotifierProvider(
         create: (_) =>
             GarageViewModel(repository: repository ?? _FakeGarageRepository())
@@ -227,5 +250,41 @@ void main() {
     );
     // Hero + vehicles list both keep the name when removal fails.
     expect(find.text('Fiat Punto'), findsNWidgets(2));
+  });
+
+  testWidgets('retry redirects to sign-in when the session was cleared', (
+    WidgetTester tester,
+  ) async {
+    final signedOutSession = AuthSessionViewModel();
+    await tester.pumpWidget(
+      _app(
+        repository: _FakeGarageRepository(),
+        authSessionViewModel: signedOutSession,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Tentar novamente'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(LoginView), findsOneWidget);
+  });
+
+  testWidgets('retry reloads when still signed in', (
+    WidgetTester tester,
+  ) async {
+    final signedInSession = AuthSessionViewModel()..setUser(_signedInUser);
+    final repository = _CountingFetchVehiclesRepository();
+    await tester.pumpWidget(
+      _app(repository: repository, authSessionViewModel: signedInSession),
+    );
+    await tester.pumpAndSettle();
+    expect(repository.fetchCalls, 1);
+
+    await tester.tap(find.text('Tentar novamente'));
+    await tester.pumpAndSettle();
+
+    expect(repository.fetchCalls, 2);
+    expect(find.byType(LoginView), findsNothing);
   });
 }

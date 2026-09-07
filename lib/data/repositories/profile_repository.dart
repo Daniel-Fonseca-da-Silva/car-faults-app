@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../domain/models/profile_snapshot.dart';
 import '../../domain/models/saved_vehicle.dart';
@@ -15,16 +16,23 @@ import '../services/users_api_service.dart';
 /// Every parameter can be overridden — tests subclass [ProfileRepository]
 /// and override [fetchSnapshot] instead of injecting fakes here, but the
 /// seam is kept for callers that do want to swap a dependency.
+///
+/// [onUnauthorized] runs whenever the API rejects the stored token (401), so
+/// the caller can clear the session shown in the UI — pass the same callback
+/// given to `AuthRepository` so a rejected token signs the user out
+/// everywhere at once.
 class ProfileRepository {
   ProfileRepository({
     UsersApiService? usersApiService,
     UserVehiclesApiService? userVehiclesApiService,
     SecureTokenStorage? tokenStorage,
+    VoidCallback? onUnauthorized,
   }) : _usersApiService =
            usersApiService ??
            UsersApiService(
              dio: buildApiDio(
                tokenStorage: tokenStorage ?? SecureTokenStorage(),
+               onUnauthorized: onUnauthorized,
              ),
            ),
        _userVehiclesApiService =
@@ -32,6 +40,7 @@ class ProfileRepository {
            UserVehiclesApiService(
              dio: buildApiDio(
                tokenStorage: tokenStorage ?? SecureTokenStorage(),
+               onUnauthorized: onUnauthorized,
              ),
            );
 
