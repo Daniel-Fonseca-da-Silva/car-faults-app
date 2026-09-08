@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import 'data/repositories/auth_repository.dart';
@@ -20,6 +23,15 @@ import 'ui/features/home/views/home_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (Platform.isAndroid) {
+    try {
+      await MobileAds.instance.initialize();
+    } catch (error) {
+      // Ads are optional: keep the app usable if the SDK fails to init.
+      debugPrint('MobileAds.initialize failed: $error');
+    }
+  }
 
   final localeRepository = LocaleRepository(
     service: LocalePreferencesService(),

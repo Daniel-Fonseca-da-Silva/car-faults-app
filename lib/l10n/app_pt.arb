@@ -304,7 +304,7 @@
   "@homeTopFaultsEmpty": {
     "description": "Empty state shown in the most-reported-faults section when the platform has no reports yet."
   },
-  "loginHeroEyebrow": "CARFAULTS",
+  "loginHeroEyebrow": "Auto Crónica",
   "@loginHeroEyebrow": {
     "description": "Brand eyebrow shown over the login hero photo."
   },

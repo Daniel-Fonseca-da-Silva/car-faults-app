@@ -94,6 +94,8 @@ Local config lives in `env/dev.json` (gitignored). Copy `env/dev.example.json` a
 |-----|-------|
 | `API_BASE_URL` | Your PC's LAN IP + API port (e.g. `http://192.168.1.207:3005` on a physical phone; use `http://10.0.2.2:3005` on the Android emulator) |
 | `GOOGLE_SERVER_CLIENT_ID` | Same as `GOOGLE_CLIENT_ID` in `car-faults-api/.env` |
+| `ADMOB_APP_ID` | AdMob app id (Android only). Must match the `com.google.android.gms.ads.APPLICATION_ID` meta-data already set in `android/app/src/main/AndroidManifest.xml` — the SDK reads it from the manifest, not from this key |
+| `ADMOB_HOME_BANNER_ID` | AdMob banner unit id for the home screen (Android only). Ignored in debug builds, which always use Google's official test banner id |
 
 VS Code / Cursor: use the **car_faults_app (dev)** launch configuration (`.vscode/launch.json`).
 
