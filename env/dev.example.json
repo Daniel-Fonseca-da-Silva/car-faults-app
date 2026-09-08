@@ -1,4 +1,6 @@
 {
-  "API_BASE_URL": "http://192.168.1.207:3005",
-  "GOOGLE_SERVER_CLIENT_ID": "YOUR_WEB_CLIENT_ID.apps.googleusercontent.com"
+  "API_BASE_URL": "url_of_the_api",
+  "GOOGLE_SERVER_CLIENT_ID": "web_client_id.apps.googleusercontent.com",
+  "ADMOB_APP_ID": "",
+  "ADMOB_HOME_BANNER_ID": ""
 }

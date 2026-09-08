@@ -7,6 +7,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/view_models/locale_view_model.dart';
 import '../../../core/widgets/app_footer.dart';
 import '../../../core/widgets/app_scaffold.dart';
+import '../../../core/widgets/home_ad_banner.dart';
 import '../../lookup/view_models/lookup_results_view_model.dart';
 import '../../lookup/views/lookup_results_view.dart';
 import '../view_models/home_search_view_model.dart';
@@ -59,6 +60,7 @@ class _HomeBody extends StatelessWidget {
                   const HomeHeroSection(),
                   const SizedBox(height: 24),
                   HomeSearchCard(onSubmit: () => _search(context)),
+                  const HomeAdBanner(),
                   const HomeStatsSection(),
                   const HomeTopFaultsSection(),
                   AppFooter(disclaimer: l10n.homeDisclaimer),
