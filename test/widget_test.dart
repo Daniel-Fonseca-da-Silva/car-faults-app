@@ -116,7 +116,7 @@ void main() {
       ),
       findsOneWidget,
     );
-    expect(find.text('CARFAULTS'), findsOneWidget);
+    expect(find.text('AUTO CRÓNICA'), findsOneWidget);
   });
 
   testWidgets(
