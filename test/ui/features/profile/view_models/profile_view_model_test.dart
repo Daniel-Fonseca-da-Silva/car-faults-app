@@ -1,13 +1,32 @@
 import 'dart:async';
 
 import 'package:car_faults_app/data/repositories/auth_repository.dart';
+import 'package:car_faults_app/data/repositories/lookup_repository.dart';
 import 'package:car_faults_app/data/repositories/profile_repository.dart';
+import 'package:car_faults_app/domain/models/app_locale.dart';
+import 'package:car_faults_app/domain/models/issue_severity.dart';
+import 'package:car_faults_app/domain/models/known_issue.dart';
+import 'package:car_faults_app/domain/models/lookup_vehicle.dart';
 import 'package:car_faults_app/domain/models/profile_snapshot.dart';
 import 'package:car_faults_app/domain/models/saved_vehicle.dart';
 import 'package:car_faults_app/domain/models/user.dart';
 import 'package:car_faults_app/domain/models/user_stats.dart';
+import 'package:car_faults_app/ui/features/home/home_search_options.dart';
 import 'package:car_faults_app/ui/features/profile/view_models/profile_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+const _vehicle = SavedVehicle(
+  id: 'vw-polo',
+  brand: 'Volkswagen',
+  model: 'Polo',
+  name: 'Polo 6N1',
+  yearFrom: 1994,
+  yearTo: 1999,
+  knownIssuesCount: 3,
+  engine: '1.4',
+  fuelType: 'gasoline',
+  doors: 3,
+);
 
 final _snapshot = ProfileSnapshot(
   user: const User(id: 'u1', name: 'Ana Silva', email: 'ana@example.com'),
@@ -20,29 +39,64 @@ final _snapshot = ProfileSnapshot(
     votesCount: 23,
     favoritedVehiclesCount: 9,
   ),
-  vehicles: const [
-    SavedVehicle(
-      id: 'vw-polo',
-      brand: 'Volkswagen',
-      model: 'Polo',
-      name: 'Polo 6N1',
-      yearFrom: 1994,
-      yearTo: 1999,
-      knownIssuesCount: 3,
-    ),
-  ],
+  vehicles: const [_vehicle],
+);
+
+const _lookupVehicle = LookupVehicle(
+  id: 'vm-1',
+  brand: 'Volkswagen',
+  model: 'Polo',
+  name: 'Polo 6N1',
+  yearFrom: 1994,
+  yearTo: 1999,
+  engine: '1.4',
+  doors: 3,
+  fuelType: 'gasoline',
+  powerHp: 60,
+);
+
+const _issue = KnownIssue(
+  id: 'timing-belt-wear',
+  title: 'Timing belt wear and failure',
+  description: 'Wears out early.',
+  severity: IssueSeverity.high,
+  sources: [],
+  fixes: [],
+  reviews: [],
 );
 
 class _FakeProfileRepository extends ProfileRepository {
   _FakeProfileRepository({this.snapshot});
 
   ProfileSnapshot? snapshot;
-  var fetchSnapshotCalls = 0;
+  var fetchSnapshotCalls = <AppLocale>[];
 
   @override
-  Future<ProfileSnapshot?> fetchSnapshot() async {
-    fetchSnapshotCalls++;
+  Future<ProfileSnapshot?> fetchSnapshot({required AppLocale locale}) async {
+    fetchSnapshotCalls.add(locale);
     return snapshot;
+  }
+}
+
+class _FakeLookupRepository extends LookupRepository {
+  _FakeLookupRepository({this.result});
+
+  LookupSearchResult? result;
+  var searchCalls = <AppLocale>[];
+
+  @override
+  Future<LookupSearchResult> search({
+    required String brand,
+    required String model,
+    required int year,
+    required String engine,
+    required FuelOption fuel,
+    int? doors,
+    required AppLocale locale,
+  }) async {
+    searchCalls.add(locale);
+    return result ??
+        const LookupSearchSuccess(vehicle: _lookupVehicle, issues: [_issue]);
   }
 }
 
@@ -69,6 +123,7 @@ void main() {
       final viewModel = ProfileViewModel(
         authRepository: _ImmediateAuthRepository(),
         repository: _FakeProfileRepository(snapshot: _snapshot),
+        locale: AppLocale.pt,
       );
 
       await viewModel.load();
@@ -78,10 +133,24 @@ void main() {
       expect(viewModel.hasError, isFalse);
     });
 
+    test('sends the ViewModel locale on every load', () async {
+      final repository = _FakeProfileRepository(snapshot: _snapshot);
+      final viewModel = ProfileViewModel(
+        authRepository: _ImmediateAuthRepository(),
+        repository: repository,
+        locale: AppLocale.pt,
+      );
+
+      await viewModel.load();
+
+      expect(repository.fetchSnapshotCalls, [AppLocale.pt]);
+    });
+
     test('sets hasError and leaves snapshot null on failure', () async {
       final viewModel = ProfileViewModel(
         authRepository: _ImmediateAuthRepository(),
         repository: _FakeProfileRepository(),
+        locale: AppLocale.pt,
       );
 
       await viewModel.load();
@@ -95,6 +164,7 @@ void main() {
       final viewModel = ProfileViewModel(
         authRepository: _ImmediateAuthRepository(),
         repository: repository,
+        locale: AppLocale.pt,
       );
 
       await viewModel.load();
@@ -110,6 +180,7 @@ void main() {
       final viewModel = ProfileViewModel(
         authRepository: _ImmediateAuthRepository(),
         repository: repository,
+        locale: AppLocale.pt,
       );
 
       final first = viewModel.load();
@@ -117,7 +188,7 @@ void main() {
       await first;
       await second;
 
-      expect(repository.fetchSnapshotCalls, 1);
+      expect(repository.fetchSnapshotCalls, hasLength(1));
     });
   });
 
@@ -127,6 +198,7 @@ void main() {
       final viewModel = ProfileViewModel(
         authRepository: repository,
         repository: _FakeProfileRepository(),
+        locale: AppLocale.pt,
       );
 
       final future = viewModel.deleteAccount();
@@ -146,6 +218,7 @@ void main() {
       final viewModel = ProfileViewModel(
         authRepository: repository,
         repository: _FakeProfileRepository(),
+        locale: AppLocale.pt,
       );
 
       final first = viewModel.deleteAccount();
@@ -162,6 +235,7 @@ void main() {
       final viewModel = ProfileViewModel(
         authRepository: _FailingAuthRepository(),
         repository: _FakeProfileRepository(),
+        locale: AppLocale.pt,
       );
 
       await viewModel.deleteAccount();
@@ -173,6 +247,7 @@ void main() {
       final viewModel = ProfileViewModel(
         authRepository: _ImmediateAuthRepository(),
         repository: _FakeProfileRepository(),
+        locale: AppLocale.pt,
       );
       var notifications = 0;
       viewModel.addListener(() => notifications++);
@@ -187,6 +262,7 @@ void main() {
     final viewModel = ProfileViewModel(
       authRepository: _ImmediateAuthRepository(),
       repository: _FakeProfileRepository(),
+      locale: AppLocale.pt,
     );
     await viewModel.deleteAccount();
 
@@ -197,6 +273,113 @@ void main() {
     expect(viewModel.lastResult, isNull);
     expect(notified, isFalse);
   });
+
+  group('openVehicle', () {
+    test('looks up the vehicle with the ViewModel locale', () async {
+      final lookupRepository = _FakeLookupRepository();
+      final viewModel = ProfileViewModel(
+        authRepository: _ImmediateAuthRepository(),
+        repository: _FakeProfileRepository(),
+        lookupRepository: lookupRepository,
+        locale: AppLocale.pt,
+      );
+
+      await viewModel.openVehicle(_vehicle);
+
+      expect(lookupRepository.searchCalls, [AppLocale.pt]);
+      expect(viewModel.pendingSearchedYear, _vehicle.yearFrom);
+      expect(viewModel.pendingResult, isA<LookupSearchSuccess>());
+    });
+
+    test(
+      'isOpeningVehicle is true only while the lookup is in flight',
+      () async {
+        final completer = Completer<LookupSearchResult>();
+        final viewModel = ProfileViewModel(
+          authRepository: _ImmediateAuthRepository(),
+          repository: _FakeProfileRepository(),
+          lookupRepository: _DelayedLookupRepository(completer),
+          locale: AppLocale.pt,
+        );
+
+        final future = viewModel.openVehicle(_vehicle);
+        expect(viewModel.isOpeningVehicle(_vehicle.id), isTrue);
+
+        completer.complete(
+          const LookupSearchSuccess(vehicle: _lookupVehicle, issues: [_issue]),
+        );
+        await future;
+
+        expect(viewModel.isOpeningVehicle(_vehicle.id), isFalse);
+      },
+    );
+
+    test('ignores a second call while one is in flight', () async {
+      final lookupRepository = _FakeLookupRepository();
+      final viewModel = ProfileViewModel(
+        authRepository: _ImmediateAuthRepository(),
+        repository: _FakeProfileRepository(),
+        lookupRepository: lookupRepository,
+        locale: AppLocale.pt,
+      );
+
+      final first = viewModel.openVehicle(_vehicle);
+      final second = viewModel.openVehicle(_vehicle);
+      await first;
+      await second;
+
+      expect(lookupRepository.searchCalls, hasLength(1));
+    });
+
+    test('surfaces a lookup failure as pendingResult', () async {
+      final viewModel = ProfileViewModel(
+        authRepository: _ImmediateAuthRepository(),
+        repository: _FakeProfileRepository(),
+        lookupRepository: _FakeLookupRepository(
+          result: const LookupSearchFailure(LookupFailureReason.notFound),
+        ),
+        locale: AppLocale.pt,
+      );
+
+      await viewModel.openVehicle(_vehicle);
+
+      expect(
+        viewModel.pendingResult,
+        const LookupSearchFailure(LookupFailureReason.notFound),
+      );
+    });
+
+    test('acknowledgePendingResult clears pendingResult', () async {
+      final viewModel = ProfileViewModel(
+        authRepository: _ImmediateAuthRepository(),
+        repository: _FakeProfileRepository(),
+        lookupRepository: _FakeLookupRepository(),
+        locale: AppLocale.pt,
+      );
+      await viewModel.openVehicle(_vehicle);
+
+      viewModel.acknowledgePendingResult();
+
+      expect(viewModel.pendingResult, isNull);
+    });
+  });
+}
+
+class _DelayedLookupRepository extends LookupRepository {
+  _DelayedLookupRepository(this.completer);
+
+  final Completer<LookupSearchResult> completer;
+
+  @override
+  Future<LookupSearchResult> search({
+    required String brand,
+    required String model,
+    required int year,
+    required String engine,
+    required FuelOption fuel,
+    int? doors,
+    required AppLocale locale,
+  }) => completer.future;
 }
 
 class _FailingAuthRepository extends AuthRepository {

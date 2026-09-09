@@ -1,6 +1,7 @@
 import 'package:car_faults_app/data/repositories/profile_repository.dart';
 import 'package:car_faults_app/data/services/user_vehicles_api_service.dart';
 import 'package:car_faults_app/data/services/users_api_service.dart';
+import 'package:car_faults_app/domain/models/app_locale.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -32,12 +33,15 @@ class _FakeUserVehiclesApiService extends UserVehiclesApiService {
   final Map<String, dynamic>? listResponse;
   final DioException? error;
 
+  String? lastLanguage;
+
   @override
   Future<Map<String, dynamic>> list({
     String? language,
     String? cursor,
     int? limit,
   }) async {
+    lastLanguage = language;
     if (error != null) throw error!;
     return listResponse!;
   }
@@ -94,7 +98,7 @@ void main() {
         ),
       );
 
-      final snapshot = await repository.fetchSnapshot();
+      final snapshot = await repository.fetchSnapshot(locale: AppLocale.pt);
 
       expect(snapshot, isNotNull);
       expect(snapshot!.user.id, 'u1');
@@ -108,6 +112,26 @@ void main() {
       expect(snapshot.vehicles.single.name, 'Volkswagen Polo');
     });
 
+    test(
+      'sends the given locale as the vehicles `language` query param',
+      () async {
+        final userVehiclesApiService = _FakeUserVehiclesApiService(
+          listResponse: {'items': <dynamic>[], 'nextCursor': null},
+        );
+        final repository = ProfileRepository(
+          usersApiService: _FakeUsersApiService(
+            meResponse: _userJson,
+            statsResponse: _statsJson,
+          ),
+          userVehiclesApiService: userVehiclesApiService,
+        );
+
+        await repository.fetchSnapshot(locale: AppLocale.pt);
+
+        expect(userVehiclesApiService.lastLanguage, 'pt-PT');
+      },
+    );
+
     test('returns null when the user request fails', () async {
       final repository = ProfileRepository(
         usersApiService: _FakeUsersApiService(error: _dioError()),
@@ -116,7 +140,7 @@ void main() {
         ),
       );
 
-      expect(await repository.fetchSnapshot(), isNull);
+      expect(await repository.fetchSnapshot(locale: AppLocale.pt), isNull);
     });
 
     test('returns null when the vehicles request fails', () async {
@@ -128,7 +152,7 @@ void main() {
         userVehiclesApiService: _FakeUserVehiclesApiService(error: _dioError()),
       );
 
-      expect(await repository.fetchSnapshot(), isNull);
+      expect(await repository.fetchSnapshot(locale: AppLocale.pt), isNull);
     });
   });
 }

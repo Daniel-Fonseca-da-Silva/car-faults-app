@@ -3,18 +3,23 @@ import 'package:flutter/material.dart';
 
 import '../../../../../domain/models/saved_vehicle.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../lookup/views/lookup_results_view.dart';
 
 /// One row of [ProfileSavedVehiclesCard]: icon square, vehicle name and
 /// year range, known-issues pill and a chevron.
 ///
-/// Tapping the row opens [LookupResultsView]. Every row navigates to the
-/// same demo results screen — the lookup feature has no per-vehicle data
-/// yet, a limitation already accepted there.
+/// Tapping the row calls [onTap] — [ProfileSavedVehiclesCard] wires it to
+/// re-look up this vehicle's real known issues via `ProfileViewModel`.
 class ProfileSavedVehicleRow extends StatelessWidget {
-  const ProfileSavedVehicleRow({super.key, required this.vehicle});
+  const ProfileSavedVehicleRow({
+    super.key,
+    required this.vehicle,
+    required this.onTap,
+    this.isLoading = false,
+  });
 
   final SavedVehicle vehicle;
+  final VoidCallback onTap;
+  final bool isLoading;
 
   static const _iconSize = 40.0;
   static const _iconBorderRadius = 10.0;
@@ -33,9 +38,7 @@ class ProfileSavedVehicleRow extends StatelessWidget {
       excludeSemantics: true,
       child: InkWell(
         borderRadius: BorderRadius.circular(_rowBorderRadius),
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute<void>(builder: (_) => const LookupResultsView()),
-        ),
+        onTap: isLoading ? null : onTap,
         child: ConstrainedBox(
           constraints: const BoxConstraints(minHeight: _minHeight),
           child: Padding(
@@ -118,7 +121,17 @@ class ProfileSavedVehicleRow extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 4),
-                const Icon(Icons.chevron_right, color: AppColors.muted),
+                if (isLoading)
+                  const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColors.muted,
+                    ),
+                  )
+                else
+                  const Icon(Icons.chevron_right, color: AppColors.muted),
               ],
             ),
           ),

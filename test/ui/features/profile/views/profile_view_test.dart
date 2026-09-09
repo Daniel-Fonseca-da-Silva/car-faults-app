@@ -2,15 +2,20 @@ import 'dart:async';
 
 import 'package:car_faults_app/data/repositories/auth_repository.dart';
 import 'package:car_faults_app/data/repositories/locale_repository.dart';
+import 'package:car_faults_app/data/repositories/lookup_repository.dart';
 import 'package:car_faults_app/data/repositories/profile_repository.dart';
 import 'package:car_faults_app/data/services/locale_preferences_service.dart';
+import 'package:car_faults_app/domain/models/app_locale.dart';
+import 'package:car_faults_app/domain/models/lookup_vehicle.dart';
 import 'package:car_faults_app/domain/models/profile_snapshot.dart';
+import 'package:car_faults_app/domain/models/saved_vehicle.dart';
 import 'package:car_faults_app/domain/models/user.dart';
 import 'package:car_faults_app/domain/models/user_stats.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/theme/app_theme.dart';
 import 'package:car_faults_app/ui/core/view_models/auth_session_view_model.dart';
 import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
+import 'package:car_faults_app/ui/features/home/home_search_options.dart';
 import 'package:car_faults_app/ui/features/profile/view_models/profile_view_model.dart';
 import 'package:car_faults_app/ui/features/profile/views/profile_view.dart';
 import 'package:car_faults_app/ui/features/profile/views/widgets/profile_account_info_card.dart';
@@ -18,9 +23,34 @@ import 'package:car_faults_app/ui/features/profile/views/widgets/profile_danger_
 import 'package:car_faults_app/ui/features/profile/views/widgets/profile_identity_card.dart';
 import 'package:car_faults_app/ui/features/profile/views/widgets/profile_saved_vehicles_card.dart';
 import 'package:car_faults_app/ui/features/profile/views/widgets/profile_stats_grid.dart';
+import 'package:car_faults_app/ui/features/lookup/views/lookup_results_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
+
+const _vehicle = SavedVehicle(
+  id: 'vw-polo',
+  brand: 'Volkswagen',
+  model: 'Polo',
+  name: 'Polo 6N1',
+  yearFrom: 1994,
+  yearTo: 1999,
+  knownIssuesCount: 3,
+  engine: '1.4',
+);
+
+const _lookupVehicle = LookupVehicle(
+  id: 'vm-1',
+  brand: 'Volkswagen',
+  model: 'Polo',
+  name: 'Polo 6N1',
+  yearFrom: 1994,
+  yearTo: 1999,
+  engine: '1.4',
+  doors: 3,
+  fuelType: 'gasoline',
+  powerHp: 60,
+);
 
 final _snapshot = ProfileSnapshot(
   user: const User(id: 'u1', name: 'Ana Silva', email: 'ana@example.com'),
@@ -36,13 +66,22 @@ final _snapshot = ProfileSnapshot(
   vehicles: const [],
 );
 
+final _snapshotWithVehicle = ProfileSnapshot(
+  user: _snapshot.user,
+  createdAt: _snapshot.createdAt,
+  updatedAt: _snapshot.updatedAt,
+  stats: _snapshot.stats,
+  vehicles: const [_vehicle],
+);
+
 class _FakeProfileRepository extends ProfileRepository {
   _FakeProfileRepository({this.snapshot});
 
   ProfileSnapshot? snapshot;
 
   @override
-  Future<ProfileSnapshot?> fetchSnapshot() async => snapshot;
+  Future<ProfileSnapshot?> fetchSnapshot({required AppLocale locale}) async =>
+      snapshot;
 }
 
 class _SuccessAuthRepository extends AuthRepository {
@@ -55,7 +94,8 @@ class _DelayedProfileRepository extends ProfileRepository {
   final completer = Completer<ProfileSnapshot?>();
 
   @override
-  Future<ProfileSnapshot?> fetchSnapshot() => completer.future;
+  Future<ProfileSnapshot?> fetchSnapshot({required AppLocale locale}) =>
+      completer.future;
 }
 
 class _FailureAuthRepository extends AuthRepository {
@@ -64,9 +104,30 @@ class _FailureAuthRepository extends AuthRepository {
       const DeleteAccountFailure();
 }
 
+class _FakeLookupRepository extends LookupRepository {
+  _FakeLookupRepository({this.result});
+
+  LookupSearchResult? result;
+
+  @override
+  Future<LookupSearchResult> search({
+    required String brand,
+    required String model,
+    required int year,
+    required String engine,
+    required FuelOption fuel,
+    int? doors,
+    required AppLocale locale,
+  }) async {
+    return result ??
+        const LookupSearchSuccess(vehicle: _lookupVehicle, issues: []);
+  }
+}
+
 Widget _app({
   ProfileRepository? repository,
   AuthRepository? authRepository,
+  LookupRepository? lookupRepository,
   AuthSessionViewModel? session,
   GlobalKey<NavigatorState>? navigatorKey,
   Widget home = const ProfileView(),
@@ -83,6 +144,8 @@ Widget _app({
         create: (_) => ProfileViewModel(
           authRepository: authRepository ?? _SuccessAuthRepository(),
           repository: repository ?? _FakeProfileRepository(),
+          lookupRepository: lookupRepository ?? _FakeLookupRepository(),
+          locale: AppLocale.pt,
         )..load(),
       ),
     ],
@@ -235,5 +298,42 @@ void main() {
       find.text('Não foi possível excluir a sua conta. Tente novamente.'),
       findsOneWidget,
     );
+  });
+
+  testWidgets('tapping a saved vehicle opens its real lookup results', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      _app(repository: _FakeProfileRepository(snapshot: _snapshotWithVehicle)),
+    );
+    await tester.pumpAndSettle();
+
+    final vehicleRow = find.text('Volkswagen Polo 6N1');
+    await tester.ensureVisible(vehicleRow);
+    await tester.tap(vehicleRow);
+    await tester.pumpAndSettle();
+
+    expect(find.byType(LookupResultsView), findsOneWidget);
+  });
+
+  testWidgets('a failed vehicle lookup shows an error SnackBar', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      _app(
+        repository: _FakeProfileRepository(snapshot: _snapshotWithVehicle),
+        lookupRepository: _FakeLookupRepository(
+          result: const LookupSearchFailure(LookupFailureReason.notFound),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final vehicleRow = find.text('Volkswagen Polo 6N1');
+    await tester.ensureVisible(vehicleRow);
+    await tester.tap(vehicleRow);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Veículo não encontrado.'), findsOneWidget);
   });
 }

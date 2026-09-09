@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../data/repositories/auth_repository.dart';
+import '../../../../data/repositories/lookup_repository.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/view_models/auth_session_view_model.dart';
 import '../../../core/widgets/app_footer.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/section_eyebrow.dart';
+import '../../lookup/lookup_failure_message.dart';
+import '../../lookup/view_models/lookup_results_view_model.dart';
+import '../../lookup/views/lookup_results_view.dart';
 import '../view_models/profile_view_model.dart';
 import 'widgets/profile_account_info_card.dart';
 import 'widgets/profile_danger_zone.dart';
@@ -34,6 +38,14 @@ class ProfileView extends StatelessWidget {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (!context.mounted) return;
               _handleDeleteResult(context, l10n, viewModel, result);
+            });
+          }
+
+          final pendingResult = viewModel.pendingResult;
+          if (pendingResult != null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (!context.mounted) return;
+              _handlePendingResult(context, l10n, viewModel, pendingResult);
             });
           }
 
@@ -88,7 +100,11 @@ class ProfileView extends StatelessWidget {
         ProfileIdentityCard(snapshot: snapshot),
         ProfileAccountInfoCard(snapshot: snapshot),
         ProfileStatsGrid(snapshot: snapshot),
-        ProfileSavedVehiclesCard(vehicles: snapshot.vehicles),
+        ProfileSavedVehiclesCard(
+          vehicles: snapshot.vehicles,
+          onOpenVehicle: viewModel.openVehicle,
+          isOpeningVehicle: viewModel.isOpeningVehicle,
+        ),
         ProfileDangerZone(viewModel: viewModel),
       ],
     );
@@ -108,6 +124,34 @@ class ProfileView extends StatelessWidget {
       case DeleteAccountFailure():
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(l10n.profileDeleteError)));
+    }
+  }
+
+  void _handlePendingResult(
+    BuildContext context,
+    AppLocalizations l10n,
+    ProfileViewModel viewModel,
+    LookupSearchResult result,
+  ) {
+    viewModel.acknowledgePendingResult();
+
+    switch (result) {
+      case LookupSearchSuccess(:final vehicle, :final issues):
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => LookupResultsView(
+              viewModel: LookupResultsViewModel(
+                vehicle: vehicle,
+                issues: issues,
+                searchedYear: viewModel.pendingSearchedYear,
+              ),
+            ),
+          ),
+        );
+      case LookupSearchFailure(:final reason):
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(lookupFailureMessage(l10n, reason))),
+        );
     }
   }
 }

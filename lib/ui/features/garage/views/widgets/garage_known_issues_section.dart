@@ -3,7 +3,6 @@ import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import '../../../lookup/views/lookup_results_view.dart';
 import 'garage_issue_row.dart';
 
 /// "Known issues" section of the garage screen: a compact list of the
@@ -12,9 +11,20 @@ import 'garage_issue_row.dart';
 /// Renders nothing when [issues] is empty (empty garage / no vehicle
 /// selected).
 class GarageKnownIssuesSection extends StatelessWidget {
-  const GarageKnownIssuesSection({super.key, required this.issues});
+  const GarageKnownIssuesSection({
+    super.key,
+    required this.issues,
+    required this.onViewDetails,
+    this.isOpening = false,
+  });
 
   final List<KnownIssue> issues;
+
+  /// Opens the selected vehicle's real lookup results — see
+  /// `GarageViewModel.openVehicle`. `null` while no vehicle is selected.
+  final VoidCallback? onViewDetails;
+
+  final bool isOpening;
 
   static const _minTapTarget = 48.0;
 
@@ -43,9 +53,7 @@ class GarageKnownIssuesSection extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const LookupResultsView()),
-              ),
+              onTap: isOpening ? null : onViewDetails,
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minHeight: _minTapTarget),
                 child: Row(
@@ -59,11 +67,24 @@ class GarageKnownIssuesSection extends StatelessWidget {
                         fontSize: 13,
                       ),
                     ),
-                    const Icon(
-                      Icons.chevron_right,
-                      color: AppColors.primary,
-                      size: 18,
-                    ),
+                    if (isOpening)
+                      const Padding(
+                        padding: EdgeInsets.only(left: 4),
+                        child: SizedBox(
+                          width: 14,
+                          height: 14,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      )
+                    else
+                      const Icon(
+                        Icons.chevron_right,
+                        color: AppColors.primary,
+                        size: 18,
+                      ),
                   ],
                 ),
               ),

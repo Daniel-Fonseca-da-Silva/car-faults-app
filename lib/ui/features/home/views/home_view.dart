@@ -8,6 +8,7 @@ import '../../../core/view_models/locale_view_model.dart';
 import '../../../core/widgets/app_footer.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/home_ad_banner.dart';
+import '../../lookup/lookup_failure_message.dart';
 import '../../lookup/view_models/lookup_results_view_model.dart';
 import '../../lookup/views/lookup_results_view.dart';
 import '../view_models/home_search_view_model.dart';
@@ -98,20 +99,10 @@ class _HomeBody extends StatelessWidget {
           ),
         );
       case LookupSearchFailure(:final reason):
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(_failureMessage(l10n, reason))));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(lookupFailureMessage(l10n, reason))),
+        );
     }
-  }
-
-  String _failureMessage(AppLocalizations l10n, LookupFailureReason reason) {
-    return switch (reason) {
-      LookupFailureReason.rateLimited => l10n.homeSearchErrorRateLimited,
-      LookupFailureReason.unavailable => l10n.homeSearchErrorUnavailable,
-      LookupFailureReason.notFound => l10n.homeSearchErrorNotFound,
-      LookupFailureReason.network ||
-      LookupFailureReason.unknown => l10n.homeSearchErrorGeneric,
-    };
   }
 }
 

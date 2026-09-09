@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../domain/models/app_locale.dart';
 import '../../domain/models/profile_snapshot.dart';
 import '../../domain/models/saved_vehicle.dart';
 import '../../domain/models/user.dart';
 import '../../domain/models/user_stats.dart';
+import '../mappers/locale_mapper.dart';
 import '../services/api_client.dart';
 import '../services/secure_token_storage.dart';
 import '../services/user_vehicles_api_service.dart';
@@ -49,11 +51,18 @@ class ProfileRepository {
 
   /// Combines `GET /v1/users/me`, `GET /v1/users/me/stats` and the first
   /// page of `GET /v1/user-vehicles`. Returns `null` on failure.
-  Future<ProfileSnapshot?> fetchSnapshot() async {
+  ///
+  /// [locale] is sent as `language` on the vehicles call so each saved
+  /// vehicle's known-issues count matches the issues actually stored for
+  /// that language — see `GarageRepository.fetchVehicles` for why this
+  /// matters.
+  Future<ProfileSnapshot?> fetchSnapshot({required AppLocale locale}) async {
     try {
       final userJson = await _usersApiService.getMe();
       final statsJson = await _usersApiService.getStats();
-      final vehiclesJson = await _userVehiclesApiService.list();
+      final vehiclesJson = await _userVehiclesApiService.list(
+        language: apiLanguageFor(locale),
+      );
       final items = vehiclesJson['items'] as List<dynamic>;
 
       return ProfileSnapshot(

@@ -34,6 +34,7 @@ abstract final class ProfileDemoDisplay {
         yearFrom: 1994,
         yearTo: 1999,
         knownIssuesCount: 3,
+        engine: '1.4',
       ),
       SavedVehicle(
         id: 'fiat-uno-mille',
@@ -43,6 +44,7 @@ abstract final class ProfileDemoDisplay {
         yearFrom: 2005,
         yearTo: 2010,
         knownIssuesCount: 5,
+        engine: '1.0',
       ),
       SavedVehicle(
         id: 'ford-fiesta',
@@ -52,6 +54,7 @@ abstract final class ProfileDemoDisplay {
         yearFrom: 2011,
         yearTo: 2014,
         knownIssuesCount: 2,
+        engine: '1.6',
       ),
     ],
   );

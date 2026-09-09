@@ -18,6 +18,7 @@ import '../../features/profile/view_models/profile_view_model.dart';
 import '../../features/profile/views/profile_view.dart';
 import '../theme/app_colors.dart';
 import '../view_models/auth_session_view_model.dart';
+import '../view_models/locale_view_model.dart';
 import 'app_nav_drawer_header.dart';
 import 'app_nav_menu_item.dart';
 import 'google_user_avatar.dart';
@@ -126,12 +127,14 @@ class AppNavDrawer extends StatelessWidget {
 
     final authRepository = context.read<AuthRepository>();
     final profileRepository = context.read<ProfileRepository>();
+    final locale = context.read<LocaleViewModel>().locale;
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => ChangeNotifierProvider(
           create: (_) => ProfileViewModel(
             authRepository: authRepository,
             repository: profileRepository,
+            locale: locale,
           )..load(),
           child: const ProfileView(),
         ),
@@ -147,10 +150,13 @@ class AppNavDrawer extends StatelessWidget {
     }
 
     final garageRepository = context.read<GarageRepository>();
+    final locale = context.read<LocaleViewModel>().locale;
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => ChangeNotifierProvider(
-          create: (_) => GarageViewModel(repository: garageRepository)..load(),
+          create: (_) =>
+              GarageViewModel(repository: garageRepository, locale: locale)
+                ..load(),
           child: const GarageView(),
         ),
       ),

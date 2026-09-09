@@ -4,6 +4,7 @@ import 'package:car_faults_app/data/repositories/garage_repository.dart';
 import 'package:car_faults_app/data/repositories/locale_repository.dart';
 import 'package:car_faults_app/data/repositories/profile_repository.dart';
 import 'package:car_faults_app/data/services/locale_preferences_service.dart';
+import 'package:car_faults_app/domain/models/app_locale.dart';
 import 'package:car_faults_app/domain/models/favorite_vehicle.dart';
 import 'package:car_faults_app/domain/models/known_issue.dart';
 import 'package:car_faults_app/domain/models/profile_snapshot.dart';
@@ -35,16 +36,21 @@ const _homeBody = 'home body';
 
 class _FakeProfileRepository extends ProfileRepository {
   @override
-  Future<ProfileSnapshot?> fetchSnapshot() async => null;
+  Future<ProfileSnapshot?> fetchSnapshot({required AppLocale locale}) async =>
+      null;
 }
 
 class _FakeGarageRepository extends GarageRepository {
   @override
-  Future<List<SavedVehicle>?> fetchVehicles() async => const [];
+  Future<List<SavedVehicle>?> fetchVehicles({
+    required AppLocale locale,
+  }) async => const [];
 
   @override
-  Future<List<KnownIssue>?> fetchKnownIssues(String vehicleId) async =>
-      const [];
+  Future<List<KnownIssue>?> fetchKnownIssues(
+    String vehicleId, {
+    required AppLocale locale,
+  }) async => const [];
 }
 
 class _FakeFavoritesRepository extends FavoritesRepository {

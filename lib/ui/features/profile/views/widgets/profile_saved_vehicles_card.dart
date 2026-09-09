@@ -7,13 +7,22 @@ import 'profile_saved_vehicle_row.dart';
 
 /// "Os meus veículos" card: header with the saved-vehicles count and a list
 /// of [ProfileSavedVehicleRow]s, or an empty-state message.
-///
-/// Static UI only in this slice: [vehicles] comes from
-/// `ProfileDemoDisplay`, not a ViewModel or account backend.
 class ProfileSavedVehiclesCard extends StatelessWidget {
-  const ProfileSavedVehiclesCard({super.key, required this.vehicles});
+  const ProfileSavedVehiclesCard({
+    super.key,
+    required this.vehicles,
+    required this.onOpenVehicle,
+    required this.isOpeningVehicle,
+  });
 
   final List<SavedVehicle> vehicles;
+
+  /// Looks up and opens the tapped vehicle's real known issues — see
+  /// `ProfileViewModel.openVehicle`.
+  final ValueChanged<SavedVehicle> onOpenVehicle;
+
+  /// Whether [onOpenVehicle] is in flight for the vehicle with this id.
+  final bool Function(String vehicleId) isOpeningVehicle;
 
   static const _borderRadius = 14.0;
   static const _padding = 20.0;
@@ -73,7 +82,11 @@ class ProfileSavedVehiclesCard extends StatelessWidget {
                 Divider(
                   color: AppColors.muted.withValues(alpha: _dividerOpacity),
                 ),
-              ProfileSavedVehicleRow(vehicle: vehicles[i]),
+              ProfileSavedVehicleRow(
+                vehicle: vehicles[i],
+                onTap: () => onOpenVehicle(vehicles[i]),
+                isLoading: isOpeningVehicle(vehicles[i].id),
+              ),
             ],
         ],
       ),

@@ -1,15 +1,23 @@
 import 'package:flutter/foundation.dart';
 
+import '../../../../data/mappers/lookup_mapper.dart';
 import '../../../../data/repositories/favorites_repository.dart';
+import '../../../../data/repositories/lookup_repository.dart';
+import '../../../../domain/models/app_locale.dart';
 import '../../../../domain/models/favorite_vehicle.dart';
+import '../../home/home_search_options.dart';
 
 /// Owns the favorites screen's favorited vehicles, loaded from
-/// [FavoritesRepository].
+/// [FavoritesRepository], and opening one of them via [LookupRepository].
 class FavoritesViewModel extends ChangeNotifier {
-  FavoritesViewModel({FavoritesRepository? repository})
-    : _repository = repository ?? FavoritesRepository();
+  FavoritesViewModel({
+    FavoritesRepository? repository,
+    LookupRepository? lookupRepository,
+  }) : _repository = repository ?? FavoritesRepository(),
+       _lookupRepository = lookupRepository ?? LookupRepository();
 
   final FavoritesRepository _repository;
+  final LookupRepository _lookupRepository;
 
   List<FavoriteVehicle> _vehicles = const [];
   List<FavoriteVehicle> get vehicles => List.unmodifiable(_vehicles);
@@ -73,5 +81,61 @@ class FavoritesViewModel extends ChangeNotifier {
   /// show the same SnackBar again.
   void acknowledgeRemoveFailure() {
     _removeFailed = false;
+  }
+
+  String? _openingVehicleModelId;
+
+  bool isOpeningVehicle(String vehicleModelId) =>
+      _openingVehicleModelId == vehicleModelId;
+
+  LookupSearchResult? _pendingResult;
+
+  /// Outcome of the last [openVehicle] call, consumed once by the View
+  /// (which calls [acknowledgePendingResult] after handling it) to
+  /// navigate to the results screen or show an error.
+  LookupSearchResult? get pendingResult => _pendingResult;
+
+  int? _pendingSearchedYear;
+  int? get pendingSearchedYear => _pendingSearchedYear;
+
+  /// Looks up [vehicle] via `GET /v1/lookups` (the same call the home
+  /// screen's search uses), keyed by its brand/model/year/engine/fuel
+  /// type/doors — [FavoriteVehicle] carries no catalog id to look it up by,
+  /// matching how the web app resolves a favorite to its details page.
+  Future<void> openVehicle(
+    FavoriteVehicle vehicle, {
+    required AppLocale locale,
+  }) async {
+    if (_openingVehicleModelId != null) return;
+
+    _openingVehicleModelId = vehicle.vehicleModelId;
+    notifyListeners();
+
+    final fuel =
+        (vehicle.fuelType == null
+            ? null
+            : fuelOptionFromApiValue(vehicle.fuelType!)) ??
+        FuelOption.petrol;
+
+    final result = await _lookupRepository.search(
+      brand: vehicle.brand,
+      model: vehicle.model,
+      year: vehicle.year,
+      engine: vehicle.engine,
+      fuel: fuel,
+      doors: vehicle.doors,
+      locale: locale,
+    );
+
+    _openingVehicleModelId = null;
+    _pendingResult = result;
+    _pendingSearchedYear = vehicle.year;
+    notifyListeners();
+  }
+
+  /// Clears [pendingResult] once the View has shown it, so a rebuild
+  /// doesn't handle the same result again.
+  void acknowledgePendingResult() {
+    _pendingResult = null;
   }
 }

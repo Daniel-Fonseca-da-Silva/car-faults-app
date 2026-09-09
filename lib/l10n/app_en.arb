@@ -180,6 +180,7 @@
   "garageVehiclesTitle": "Your vehicles",
   "garageVehiclesEmpty": "You don't have any vehicles in your garage yet.",
   "garageRemoveVehicle": "Remove {brand} {model} from the garage",
+  "garageSelectVehicle": "View known issues for {brand} {model}",
   "garageRemoveError": "Couldn't remove the vehicle. Try again.",
   "garageKnownIssuesTitle": "Known issues",
   "garageViewDetails": "View details",
@@ -189,5 +190,6 @@
   "favoritesEmpty": "You don't have any favorited vehicles yet.",
   "favoritesLoadError": "Couldn't load your favorites.",
   "favoritesRemoveError": "Couldn't remove the vehicle from favorites. Try again.",
-  "favoritesRemoveVehicle": "Remove {brand} {model} from favorites"
+  "favoritesRemoveVehicle": "Remove {brand} {model} from favorites",
+  "favoritesViewVehicle": "View details for {brand} {model}"
 }

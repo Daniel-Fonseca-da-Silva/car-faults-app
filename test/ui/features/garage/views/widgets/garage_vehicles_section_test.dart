@@ -12,11 +12,13 @@ const _vehicle = SavedVehicle(
   yearFrom: 2001,
   yearTo: 2001,
   knownIssuesCount: 3,
+  engine: '1.2',
 );
 
 Widget _app({
   List<SavedVehicle> vehicles = const [],
   ValueChanged<String>? onRemoveVehicle,
+  ValueChanged<String>? onSelectVehicle,
 }) {
   return MaterialApp(
     locale: const Locale('pt'),
@@ -26,6 +28,7 @@ Widget _app({
       body: GarageVehiclesSection(
         vehicles: vehicles,
         onRemoveVehicle: onRemoveVehicle ?? (_) {},
+        onSelectVehicle: onSelectVehicle ?? (_) {},
       ),
     ),
   );
