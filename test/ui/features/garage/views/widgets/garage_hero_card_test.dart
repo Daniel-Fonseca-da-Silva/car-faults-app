@@ -13,6 +13,7 @@ const _vehicle = SavedVehicle(
   yearFrom: 2001,
   yearTo: 2001,
   knownIssuesCount: 3,
+  engine: '1.2',
 );
 
 Widget _app({SavedVehicle? selectedVehicle}) {

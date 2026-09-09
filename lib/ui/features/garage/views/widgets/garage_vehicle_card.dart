@@ -7,20 +7,26 @@ import '../../../../core/theme/app_colors.dart';
 /// One owned vehicle on the garage screen: name, year, known-issues pill
 /// and a delete action.
 ///
-/// Tapping the row does nothing; only the delete icon is interactive in
-/// this slice.
+/// Tapping the row selects it as the vehicle highlighted in the garage's
+/// hero card and known-issues section (see [onTap]); the delete icon
+/// remains a separate action.
 class GarageVehicleCard extends StatelessWidget {
   const GarageVehicleCard({
     super.key,
     required this.vehicle,
     required this.onRemove,
+    required this.onTap,
+    this.isSelected = false,
   });
 
   final SavedVehicle vehicle;
   final VoidCallback onRemove;
+  final VoidCallback onTap;
+  final bool isSelected;
 
   static const _borderRadius = 14.0;
   static const _borderOpacity = 0.2;
+  static const _selectedBorderOpacity = 1.0;
   static const _pillBorderOpacity = 0.4;
   static const _minHeight = 48.0;
 
@@ -28,81 +34,112 @@ class GarageVehicleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final removeLabel = l10n.garageRemoveVehicle(vehicle.brand, vehicle.model);
+    final selectLabel = l10n.garageSelectVehicle(vehicle.brand, vehicle.model);
 
     return Container(
       constraints: const BoxConstraints(minHeight: _minHeight),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(_borderRadius),
         border: Border.all(
-          color: AppColors.primary.withValues(alpha: _borderOpacity),
+          color: AppColors.primary.withValues(
+            alpha: isSelected ? _selectedBorderOpacity : _borderOpacity,
+          ),
         ),
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  '${vehicle.brand} ${vehicle.model}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: AppColors.onSurface,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 15,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  '${vehicle.yearFrom}',
-                  style: const TextStyle(color: AppColors.muted, fontSize: 13),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(999),
-              border: Border.all(
-                color: AppColors.primary.withValues(alpha: _pillBorderOpacity),
-              ),
-            ),
+      child: Semantics(
+        button: true,
+        label: selectLabel,
+        selected: isSelected,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(_borderRadius),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 4,
               children: [
-                const Icon(
-                  Icons.local_fire_department,
-                  color: AppColors.primary,
-                  size: 14,
+                Expanded(
+                  child: ExcludeSemantics(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '${vehicle.brand} ${vehicle.model}',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: AppColors.onSurface,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          '${vehicle.yearFrom}',
+                          style: const TextStyle(
+                            color: AppColors.muted,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                Text(
-                  l10n.profileKnownIssuesCount(vehicle.knownIssuesCount),
-                  style: const TextStyle(
-                    color: AppColors.primary,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
+                const SizedBox(width: 8),
+                ExcludeSemantics(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(999),
+                      border: Border.all(
+                        color: AppColors.primary.withValues(
+                          alpha: _pillBorderOpacity,
+                        ),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      spacing: 4,
+                      children: [
+                        const Icon(
+                          Icons.local_fire_department,
+                          color: AppColors.primary,
+                          size: 14,
+                        ),
+                        Text(
+                          l10n.profileKnownIssuesCount(
+                            vehicle.knownIssuesCount,
+                          ),
+                          style: const TextStyle(
+                            color: AppColors.primary,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Semantics(
+                  button: true,
+                  label: removeLabel,
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.delete_outline,
+                      color: AppColors.primary,
+                    ),
+                    tooltip: removeLabel,
+                    onPressed: onRemove,
                   ),
                 ),
               ],
             ),
           ),
-          Semantics(
-            button: true,
-            label: removeLabel,
-            child: IconButton(
-              icon: const Icon(Icons.delete_outline, color: AppColors.primary),
-              tooltip: removeLabel,
-              onPressed: onRemove,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:car_faults_app/data/repositories/garage_repository.dart';
 import 'package:car_faults_app/data/services/user_vehicles_api_service.dart';
+import 'package:car_faults_app/domain/models/app_locale.dart';
 import 'package:car_faults_app/domain/models/issue_severity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,6 +23,8 @@ class _FakeUserVehiclesApiService extends UserVehiclesApiService {
   String? lastRemovedId;
   String? lastVehicleModelId;
   int? lastYear;
+  String? lastListLanguage;
+  String? lastDetailLanguage;
 
   @override
   Future<Map<String, dynamic>> list({
@@ -29,12 +32,14 @@ class _FakeUserVehiclesApiService extends UserVehiclesApiService {
     String? cursor,
     int? limit,
   }) async {
+    lastListLanguage = language;
     if (error != null) throw error!;
     return listResponse!;
   }
 
   @override
   Future<Map<String, dynamic>> getById(String id, {String? language}) async {
+    lastDetailLanguage = language;
     if (error != null) throw error!;
     return detailResponse!;
   }
@@ -115,11 +120,22 @@ void main() {
         ),
       );
 
-      final vehicles = await repository.fetchVehicles();
+      final vehicles = await repository.fetchVehicles(locale: AppLocale.pt);
 
       expect(vehicles, hasLength(1));
       expect(vehicles!.single.id, 'uv-1');
       expect(vehicles.single.name, 'Fiat Punto');
+    });
+
+    test('sends the given locale as the `language` query param', () async {
+      final api = _FakeUserVehiclesApiService(
+        listResponse: {'items': <dynamic>[], 'nextCursor': null},
+      );
+      final repository = GarageRepository(apiService: api);
+
+      await repository.fetchVehicles(locale: AppLocale.pt);
+
+      expect(api.lastListLanguage, 'pt-PT');
     });
 
     test('returns null on a DioException', () async {
@@ -127,7 +143,7 @@ void main() {
         apiService: _FakeUserVehiclesApiService(error: _dioError()),
       );
 
-      expect(await repository.fetchVehicles(), isNull);
+      expect(await repository.fetchVehicles(locale: AppLocale.en), isNull);
     });
   });
 
@@ -142,11 +158,25 @@ void main() {
         ),
       );
 
-      final issues = await repository.fetchKnownIssues('uv-1');
+      final issues = await repository.fetchKnownIssues(
+        'uv-1',
+        locale: AppLocale.pt,
+      );
 
       expect(issues, hasLength(1));
       expect(issues!.single.id, 'issue-1');
       expect(issues.single.severity, IssueSeverity.high);
+    });
+
+    test('sends the given locale as the `language` query param', () async {
+      final api = _FakeUserVehiclesApiService(
+        detailResponse: {..._vehicleJson, 'knownIssues': <dynamic>[]},
+      );
+      final repository = GarageRepository(apiService: api);
+
+      await repository.fetchKnownIssues('uv-1', locale: AppLocale.es);
+
+      expect(api.lastDetailLanguage, 'es-ES');
     });
 
     test('returns null on a DioException', () async {
@@ -154,7 +184,10 @@ void main() {
         apiService: _FakeUserVehiclesApiService(error: _dioError()),
       );
 
-      expect(await repository.fetchKnownIssues('uv-1'), isNull);
+      expect(
+        await repository.fetchKnownIssues('uv-1', locale: AppLocale.en),
+        isNull,
+      );
     });
   });
 

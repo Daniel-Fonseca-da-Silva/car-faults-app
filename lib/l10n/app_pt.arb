@@ -842,6 +842,20 @@
       }
     }
   },
+  "garageSelectVehicle": "Ver defeitos conhecidos de {brand} {model}",
+  "@garageSelectVehicle": {
+    "description": "Accessibility label of a garage vehicle card, announcing that tapping it highlights that vehicle's known issues on the same screen.",
+    "placeholders": {
+      "brand": {
+        "type": "String",
+        "example": "Fiat"
+      },
+      "model": {
+        "type": "String",
+        "example": "Punto"
+      }
+    }
+  },
   "garageKnownIssuesTitle": "Defeitos conhecidos",
   "@garageKnownIssuesTitle": {
     "description": "Uppercase title of the known-issues section on the garage screen."
@@ -887,6 +901,20 @@
   "favoritesRemoveVehicle": "Remover {brand} {model} dos favoritos",
   "@favoritesRemoveVehicle": {
     "description": "Accessibility label / tooltip of the heart icon on a favorites vehicle card.",
+    "placeholders": {
+      "brand": {
+        "type": "String",
+        "example": "Fiat"
+      },
+      "model": {
+        "type": "String",
+        "example": "Punto"
+      }
+    }
+  },
+  "favoritesViewVehicle": "Ver detalhes de {brand} {model}",
+  "@favoritesViewVehicle": {
+    "description": "Accessibility label of a favorites vehicle card, announcing that tapping it opens that vehicle's lookup results.",
     "placeholders": {
       "brand": {
         "type": "String",

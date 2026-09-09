@@ -5,7 +5,6 @@ import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/theme/app_theme.dart';
 import 'package:car_faults_app/ui/core/view_models/auth_session_view_model.dart';
 import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
-import 'package:car_faults_app/ui/features/lookup/views/lookup_results_view.dart';
 import 'package:car_faults_app/ui/features/profile/profile_demo_display.dart';
 import 'package:car_faults_app/ui/features/profile/views/widgets/profile_saved_vehicle_row.dart';
 import 'package:car_faults_app/ui/features/profile/views/widgets/profile_saved_vehicles_card.dart';
@@ -13,7 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 
-Widget _app(List<SavedVehicle> vehicles) {
+Widget _app(
+  List<SavedVehicle> vehicles, {
+  ValueChanged<SavedVehicle>? onOpenVehicle,
+  bool Function(String vehicleId)? isOpeningVehicle,
+}) {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -28,7 +31,13 @@ Widget _app(List<SavedVehicle> vehicles) {
       locale: const Locale('pt'),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: Scaffold(body: ProfileSavedVehiclesCard(vehicles: vehicles)),
+      home: Scaffold(
+        body: ProfileSavedVehiclesCard(
+          vehicles: vehicles,
+          onOpenVehicle: onOpenVehicle ?? (_) {},
+          isOpeningVehicle: isOpeningVehicle ?? (_) => false,
+        ),
+      ),
     ),
   );
 }
@@ -67,14 +76,31 @@ void main() {
     expect(find.byType(ProfileSavedVehicleRow), findsNothing);
   });
 
-  testWidgets('tapping a row pushes LookupResultsView', (
+  testWidgets('tapping a row calls onOpenVehicle with that vehicle', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(_app(ProfileDemoDisplay.snapshot.vehicles));
+    SavedVehicle? opened;
+    await tester.pumpWidget(
+      _app(
+        ProfileDemoDisplay.snapshot.vehicles,
+        onOpenVehicle: (vehicle) => opened = vehicle,
+      ),
+    );
 
     await tester.tap(find.text('Volkswagen Polo 6N1'));
     await tester.pumpAndSettle();
 
-    expect(find.byType(LookupResultsView), findsOneWidget);
+    expect(opened?.id, ProfileDemoDisplay.snapshot.vehicles.first.id);
+  });
+
+  testWidgets('marks the row matching isOpeningVehicle as loading', (
+    WidgetTester tester,
+  ) async {
+    final vehicles = ProfileDemoDisplay.snapshot.vehicles;
+    await tester.pumpWidget(
+      _app(vehicles, isOpeningVehicle: (id) => id == vehicles.first.id),
+    );
+
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 }

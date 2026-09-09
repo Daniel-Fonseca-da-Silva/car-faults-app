@@ -7,7 +7,6 @@ import 'package:car_faults_app/ui/core/theme/app_theme.dart';
 import 'package:car_faults_app/ui/core/view_models/auth_session_view_model.dart';
 import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
 import 'package:car_faults_app/ui/features/garage/views/widgets/garage_known_issues_section.dart';
-import 'package:car_faults_app/ui/features/lookup/views/lookup_results_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +41,11 @@ const _issues = <KnownIssue>[
   ),
 ];
 
-Widget _app({List<KnownIssue> issues = const []}) {
+Widget _app({
+  List<KnownIssue> issues = const [],
+  VoidCallback? onViewDetails,
+  bool isOpening = false,
+}) {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -57,7 +60,13 @@ Widget _app({List<KnownIssue> issues = const []}) {
       locale: const Locale('pt'),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: Scaffold(body: GarageKnownIssuesSection(issues: issues)),
+      home: Scaffold(
+        body: GarageKnownIssuesSection(
+          issues: issues,
+          onViewDetails: onViewDetails,
+          isOpening: isOpening,
+        ),
+      ),
     ),
   );
 }
@@ -85,14 +94,26 @@ void main() {
     expect(find.text('Ver detalhes'), findsNothing);
   });
 
-  testWidgets('tapping "Ver detalhes" pushes LookupResultsView', (
+  testWidgets('tapping "Ver detalhes" calls onViewDetails', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(_app(issues: _issues));
+    var tapped = false;
+    await tester.pumpWidget(
+      _app(issues: _issues, onViewDetails: () => tapped = true),
+    );
 
     await tester.tap(find.text('Ver detalhes'));
     await tester.pumpAndSettle();
 
-    expect(find.byType(LookupResultsView), findsOneWidget);
+    expect(tapped, isTrue);
+  });
+
+  testWidgets('shows a spinner instead of the chevron while opening', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app(issues: _issues, isOpening: true));
+
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    expect(find.byIcon(Icons.chevron_right), findsNothing);
   });
 }

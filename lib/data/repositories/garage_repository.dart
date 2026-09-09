@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../domain/models/app_locale.dart';
 import '../../domain/models/known_issue.dart';
 import '../../domain/models/saved_vehicle.dart';
+import '../mappers/locale_mapper.dart';
 import '../mappers/lookup_mapper.dart';
 import '../services/api_client.dart';
 import '../services/secure_token_storage.dart';
@@ -55,9 +57,15 @@ class GarageRepository {
   final UserVehiclesApiService _apiService;
 
   /// `GET /v1/user-vehicles` — first page only. Returns `null` on failure.
-  Future<List<SavedVehicle>?> fetchVehicles() async {
+  ///
+  /// [locale] is sent as `language` so the known-issues count matches the
+  /// issues actually stored for that language, the same way
+  /// `LookupRepository.search` already does — omitting it left the API
+  /// defaulting to `en-GB` and reporting 0 known issues for vehicles whose
+  /// issues are only recorded in `pt-PT`/`es-ES`.
+  Future<List<SavedVehicle>?> fetchVehicles({required AppLocale locale}) async {
     try {
-      final json = await _apiService.list();
+      final json = await _apiService.list(language: apiLanguageFor(locale));
       final items = json['items'] as List<dynamic>;
       return items
           .map(
@@ -71,10 +79,16 @@ class GarageRepository {
   }
 
   /// `GET /v1/user-vehicles/:id` — the selected vehicle's known issues.
-  /// Returns `null` on failure.
-  Future<List<KnownIssue>?> fetchKnownIssues(String vehicleId) async {
+  /// Returns `null` on failure. See [fetchVehicles] on why [locale] matters.
+  Future<List<KnownIssue>?> fetchKnownIssues(
+    String vehicleId, {
+    required AppLocale locale,
+  }) async {
     try {
-      final json = await _apiService.getById(vehicleId);
+      final json = await _apiService.getById(
+        vehicleId,
+        language: apiLanguageFor(locale),
+      );
       final issuesJson = json['knownIssues'] as List<dynamic>;
       return issuesJson
           .map((issue) => mapKnownIssue(issue as Map<String, dynamic>))

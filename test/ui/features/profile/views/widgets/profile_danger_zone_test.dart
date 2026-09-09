@@ -1,4 +1,5 @@
 import 'package:car_faults_app/data/repositories/auth_repository.dart';
+import 'package:car_faults_app/domain/models/app_locale.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/theme/app_theme.dart';
 import 'package:car_faults_app/ui/features/profile/view_models/profile_view_model.dart';
@@ -29,7 +30,10 @@ void main() {
   testWidgets('shows the danger-zone title, description and button', (
     WidgetTester tester,
   ) async {
-    final viewModel = ProfileViewModel(authRepository: _FakeAuthRepository());
+    final viewModel = ProfileViewModel(
+      authRepository: _FakeAuthRepository(),
+      locale: AppLocale.pt,
+    );
     await tester.pumpWidget(_app(viewModel));
 
     expect(find.text('ZONA DE RISCO'), findsOneWidget);
@@ -46,7 +50,10 @@ void main() {
   testWidgets('tapping the button opens the confirmation dialog', (
     WidgetTester tester,
   ) async {
-    final viewModel = ProfileViewModel(authRepository: _FakeAuthRepository());
+    final viewModel = ProfileViewModel(
+      authRepository: _FakeAuthRepository(),
+      locale: AppLocale.pt,
+    );
     await tester.pumpWidget(_app(viewModel));
 
     await tester.tap(find.text('Excluir conta').last);
@@ -59,7 +66,10 @@ void main() {
   testWidgets('Cancelar closes the dialog without calling the repository', (
     WidgetTester tester,
   ) async {
-    final viewModel = ProfileViewModel(authRepository: _FakeAuthRepository());
+    final viewModel = ProfileViewModel(
+      authRepository: _FakeAuthRepository(),
+      locale: AppLocale.pt,
+    );
     await tester.pumpWidget(_app(viewModel));
 
     await tester.tap(find.text('Excluir conta').last);
@@ -75,7 +85,10 @@ void main() {
   testWidgets('confirming calls deleteAccount and resolves to success', (
     WidgetTester tester,
   ) async {
-    final viewModel = ProfileViewModel(authRepository: _FakeAuthRepository());
+    final viewModel = ProfileViewModel(
+      authRepository: _FakeAuthRepository(),
+      locale: AppLocale.pt,
+    );
     await tester.pumpWidget(_app(viewModel));
 
     await tester.tap(find.text('Excluir conta').last);

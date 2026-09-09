@@ -180,6 +180,7 @@
   "garageVehiclesTitle": "Tus vehículos",
   "garageVehiclesEmpty": "Todavía no tienes vehículos en el garaje.",
   "garageRemoveVehicle": "Quitar {brand} {model} del garaje",
+  "garageSelectVehicle": "Ver fallos conocidos de {brand} {model}",
   "garageRemoveError": "No se pudo eliminar el vehículo. Inténtalo de nuevo.",
   "garageKnownIssuesTitle": "Fallos conocidos",
   "garageViewDetails": "Ver detalles",
@@ -189,5 +190,6 @@
   "favoritesEmpty": "Todavía no tienes vehículos favoritos.",
   "favoritesLoadError": "No se pudieron cargar tus favoritos.",
   "favoritesRemoveError": "No se pudo eliminar el vehículo de favoritos. Inténtalo de nuevo.",
-  "favoritesRemoveVehicle": "Quitar {brand} {model} de favoritos"
+  "favoritesRemoveVehicle": "Quitar {brand} {model} de favoritos",
+  "favoritesViewVehicle": "Ver detalles de {brand} {model}"
 }

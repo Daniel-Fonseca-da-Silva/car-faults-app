@@ -12,10 +12,14 @@ class GarageVehiclesSection extends StatelessWidget {
     super.key,
     required this.vehicles,
     required this.onRemoveVehicle,
+    required this.onSelectVehicle,
+    this.selectedVehicleId,
   });
 
   final List<SavedVehicle> vehicles;
   final ValueChanged<String> onRemoveVehicle;
+  final ValueChanged<String> onSelectVehicle;
+  final String? selectedVehicleId;
 
   static const _borderRadius = 14.0;
   static const _borderOpacity = 0.15;
@@ -62,6 +66,8 @@ class GarageVehiclesSection extends StatelessWidget {
                 GarageVehicleCard(
                   vehicle: vehicle,
                   onRemove: () => onRemoveVehicle(vehicle.id),
+                  onTap: () => onSelectVehicle(vehicle.id),
+                  isSelected: vehicle.id == selectedVehicleId,
                 ),
             ],
           ),

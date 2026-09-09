@@ -9,6 +9,10 @@ class SavedVehicle {
     required this.yearFrom,
     required this.yearTo,
     required this.knownIssuesCount,
+    required this.engine,
+    this.vehicleModelId,
+    this.fuelType,
+    this.doors,
   });
 
   /// Builds a [SavedVehicle] from `car-faults-api`'s `UserVehicleResponseDto`
@@ -17,7 +21,10 @@ class SavedVehicle {
   /// The API reports a single [year]; this app's model splits it into
   /// [yearFrom]/[yearTo] to match [name]'s year-range display, so both are
   /// set to the same value. [name] falls back to `'brand model'` when the
-  /// API's is `null` (never named by the owner).
+  /// API's is `null` (never named by the owner). [vehicleModelId], [engine],
+  /// [fuelType] and [doors] round out what `LookupRepository.search` needs
+  /// to re-resolve this vehicle's real known issues, the way
+  /// `FavoriteVehicle` already does for the favorites screen.
   factory SavedVehicle.fromUserVehicleJson(Map<String, dynamic> json) {
     final brand = json['brand'] as String;
     final model = json['model'] as String;
@@ -31,6 +38,10 @@ class SavedVehicle {
       yearFrom: year,
       yearTo: year,
       knownIssuesCount: json['knownIssuesCount'] as int,
+      engine: json['engine'] as String,
+      vehicleModelId: json['vehicleModelId'] as String?,
+      fuelType: json['fuelType'] as String?,
+      doors: json['doors'] as int?,
     );
   }
 
@@ -41,4 +52,8 @@ class SavedVehicle {
   final int yearFrom;
   final int yearTo;
   final int knownIssuesCount;
+  final String engine;
+  final String? vehicleModelId;
+  final String? fuelType;
+  final int? doors;
 }

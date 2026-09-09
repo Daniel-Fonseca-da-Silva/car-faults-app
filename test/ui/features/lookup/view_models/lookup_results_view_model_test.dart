@@ -143,6 +143,7 @@ class _FakeGarageRepository extends GarageRepository {
             yearFrom: 2015,
             yearTo: 2015,
             knownIssuesCount: 0,
+            engine: '1.0',
           ),
         );
   }

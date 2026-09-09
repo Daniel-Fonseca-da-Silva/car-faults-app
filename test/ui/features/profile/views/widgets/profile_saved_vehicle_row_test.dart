@@ -5,7 +5,6 @@ import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/theme/app_theme.dart';
 import 'package:car_faults_app/ui/core/view_models/auth_session_view_model.dart';
 import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
-import 'package:car_faults_app/ui/features/lookup/views/lookup_results_view.dart';
 import 'package:car_faults_app/ui/features/profile/views/widgets/profile_saved_vehicle_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -19,9 +18,10 @@ const _vehicle = SavedVehicle(
   yearFrom: 1994,
   yearTo: 1999,
   knownIssuesCount: 3,
+  engine: '1.4',
 );
 
-Widget _app() {
+Widget _app({VoidCallback? onTap, bool isLoading = false}) {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -36,7 +36,13 @@ Widget _app() {
       locale: const Locale('pt'),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const Scaffold(body: ProfileSavedVehicleRow(vehicle: _vehicle)),
+      home: Scaffold(
+        body: ProfileSavedVehicleRow(
+          vehicle: _vehicle,
+          onTap: onTap ?? () {},
+          isLoading: isLoading,
+        ),
+      ),
     ),
   );
 }
@@ -56,14 +62,32 @@ void main() {
     );
   });
 
-  testWidgets('tapping the row pushes LookupResultsView', (
-    WidgetTester tester,
-  ) async {
-    await tester.pumpWidget(_app());
+  testWidgets('tapping the row calls onTap', (WidgetTester tester) async {
+    var tapped = false;
+    await tester.pumpWidget(_app(onTap: () => tapped = true));
 
     await tester.tap(find.byType(ProfileSavedVehicleRow));
     await tester.pumpAndSettle();
 
-    expect(find.byType(LookupResultsView), findsOneWidget);
+    expect(tapped, isTrue);
+  });
+
+  testWidgets('shows a spinner instead of the chevron while loading', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app(isLoading: true));
+
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    expect(find.byIcon(Icons.chevron_right), findsNothing);
+  });
+
+  testWidgets('ignores taps while loading', (WidgetTester tester) async {
+    var tapped = false;
+    await tester.pumpWidget(_app(onTap: () => tapped = true, isLoading: true));
+
+    await tester.tap(find.byType(ProfileSavedVehicleRow));
+    await tester.pump();
+
+    expect(tapped, isFalse);
   });
 }

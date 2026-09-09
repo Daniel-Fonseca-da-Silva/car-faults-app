@@ -1,7 +1,13 @@
+import 'dart:async';
+
 import 'package:car_faults_app/data/repositories/garage_repository.dart';
+import 'package:car_faults_app/data/repositories/lookup_repository.dart';
+import 'package:car_faults_app/domain/models/app_locale.dart';
 import 'package:car_faults_app/domain/models/issue_severity.dart';
 import 'package:car_faults_app/domain/models/known_issue.dart';
+import 'package:car_faults_app/domain/models/lookup_vehicle.dart';
 import 'package:car_faults_app/domain/models/saved_vehicle.dart';
+import 'package:car_faults_app/ui/features/home/home_search_options.dart';
 import 'package:car_faults_app/ui/features/garage/view_models/garage_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -13,6 +19,9 @@ const _vehicle = SavedVehicle(
   yearFrom: 2001,
   yearTo: 2001,
   knownIssuesCount: 3,
+  engine: '1.2',
+  fuelType: 'gasoline',
+  doors: 3,
 );
 
 const _otherVehicle = SavedVehicle(
@@ -23,6 +32,7 @@ const _otherVehicle = SavedVehicle(
   yearFrom: 1996,
   yearTo: 2000,
   knownIssuesCount: 1,
+  engine: '1.0',
 );
 
 const _issue = KnownIssue(
@@ -33,6 +43,19 @@ const _issue = KnownIssue(
   sources: [],
   fixes: [],
   reviews: [],
+);
+
+const _lookupVehicle = LookupVehicle(
+  id: 'vm-1',
+  brand: 'Fiat',
+  model: 'Punto',
+  name: 'Punto',
+  yearFrom: 2001,
+  yearTo: 2001,
+  engine: '1.2',
+  doors: 3,
+  fuelType: 'gasoline',
+  powerHp: 60,
 );
 
 class _FakeGarageRepository extends GarageRepository {
@@ -50,14 +73,23 @@ class _FakeGarageRepository extends GarageRepository {
   bool removeSucceeds;
 
   var fetchKnownIssuesCalls = <String>[];
+  var fetchVehiclesLocales = <AppLocale>[];
+  var fetchKnownIssuesLocales = <AppLocale>[];
   var removeVehicleCalls = <String>[];
 
   @override
-  Future<List<SavedVehicle>?> fetchVehicles() async => vehicles;
+  Future<List<SavedVehicle>?> fetchVehicles({required AppLocale locale}) async {
+    fetchVehiclesLocales.add(locale);
+    return vehicles;
+  }
 
   @override
-  Future<List<KnownIssue>?> fetchKnownIssues(String vehicleId) async {
+  Future<List<KnownIssue>?> fetchKnownIssues(
+    String vehicleId, {
+    required AppLocale locale,
+  }) async {
     fetchKnownIssuesCalls.add(vehicleId);
+    fetchKnownIssuesLocales.add(locale);
     return issuesByVehicleId[vehicleId];
   }
 
@@ -68,11 +100,51 @@ class _FakeGarageRepository extends GarageRepository {
   }
 }
 
+class _FakeLookupRepository extends LookupRepository {
+  _FakeLookupRepository({this.result});
+
+  LookupSearchResult? result;
+  var searchCalls = <AppLocale>[];
+
+  @override
+  Future<LookupSearchResult> search({
+    required String brand,
+    required String model,
+    required int year,
+    required String engine,
+    required FuelOption fuel,
+    int? doors,
+    required AppLocale locale,
+  }) async {
+    searchCalls.add(locale);
+    return result ??
+        const LookupSearchSuccess(vehicle: _lookupVehicle, issues: [_issue]);
+  }
+}
+
+class _DelayedLookupRepository extends LookupRepository {
+  _DelayedLookupRepository(this.completer);
+
+  final Completer<LookupSearchResult> completer;
+
+  @override
+  Future<LookupSearchResult> search({
+    required String brand,
+    required String model,
+    required int year,
+    required String engine,
+    required FuelOption fuel,
+    int? doors,
+    required AppLocale locale,
+  }) => completer.future;
+}
+
 void main() {
   group('load', () {
     test('loads one vehicle, selects it and loads its known issues', () async {
       final viewModel = GarageViewModel(
         repository: _FakeGarageRepository(vehicles: const [_vehicle]),
+        locale: AppLocale.pt,
       );
 
       await viewModel.load();
@@ -85,9 +157,25 @@ void main() {
       expect(viewModel.issues.single.id, _issue.id);
     });
 
+    test('sends the ViewModel locale to both calls', () async {
+      final repository = _FakeGarageRepository(vehicles: const [_vehicle]);
+      final viewModel = GarageViewModel(
+        repository: repository,
+        locale: AppLocale.es,
+      );
+
+      await viewModel.load();
+      await Future<void>.value();
+      await Future<void>.value();
+
+      expect(repository.fetchVehiclesLocales, [AppLocale.es]);
+      expect(repository.fetchKnownIssuesLocales, [AppLocale.es]);
+    });
+
     test('empty vehicles: no selected vehicle and no issues', () async {
       final viewModel = GarageViewModel(
         repository: _FakeGarageRepository(vehicles: const []),
+        locale: AppLocale.pt,
       );
 
       await viewModel.load();
@@ -99,6 +187,7 @@ void main() {
     test('sets hasError when the vehicles request fails', () async {
       final viewModel = GarageViewModel(
         repository: _FakeGarageRepository(vehicles: null),
+        locale: AppLocale.pt,
       );
 
       await viewModel.load();
@@ -109,7 +198,10 @@ void main() {
 
     test('ignores a second call while one is in flight', () async {
       final repository = _FakeGarageRepository(vehicles: const [_vehicle]);
-      final viewModel = GarageViewModel(repository: repository);
+      final viewModel = GarageViewModel(
+        repository: repository,
+        locale: AppLocale.pt,
+      );
 
       final first = viewModel.load();
       final second = viewModel.load();
@@ -126,6 +218,7 @@ void main() {
     test('removes the only vehicle and clears the selection', () async {
       final viewModel = GarageViewModel(
         repository: _FakeGarageRepository(vehicles: const [_vehicle]),
+        locale: AppLocale.pt,
       );
       await viewModel.load();
       await Future<void>.value();
@@ -142,7 +235,10 @@ void main() {
         vehicles: const [_vehicle, _otherVehicle],
       );
       repository.issuesByVehicleId[_otherVehicle.id] = const [];
-      final viewModel = GarageViewModel(repository: repository);
+      final viewModel = GarageViewModel(
+        repository: repository,
+        locale: AppLocale.pt,
+      );
       await viewModel.load();
       await Future<void>.value();
       await Future<void>.value();
@@ -158,6 +254,7 @@ void main() {
     test('ignores an unknown id', () async {
       final viewModel = GarageViewModel(
         repository: _FakeGarageRepository(vehicles: const [_vehicle]),
+        locale: AppLocale.pt,
       );
       await viewModel.load();
 
@@ -174,6 +271,7 @@ void main() {
             vehicles: const [_vehicle],
             removeSucceeds: false,
           ),
+          locale: AppLocale.pt,
         );
         await viewModel.load();
 
@@ -190,6 +288,7 @@ void main() {
           vehicles: const [_vehicle],
           removeSucceeds: false,
         ),
+        locale: AppLocale.pt,
       );
       await viewModel.load();
       await viewModel.removeVehicle('fiat-punto-2001');
@@ -202,6 +301,7 @@ void main() {
     test('notifies listeners', () async {
       final viewModel = GarageViewModel(
         repository: _FakeGarageRepository(vehicles: const [_vehicle]),
+        locale: AppLocale.pt,
       );
       await viewModel.load();
       var notified = false;
@@ -210,6 +310,91 @@ void main() {
       await viewModel.removeVehicle('fiat-punto-2001');
 
       expect(notified, isTrue);
+    });
+  });
+
+  group('openVehicle', () {
+    test('looks up the vehicle with the ViewModel locale', () async {
+      final lookupRepository = _FakeLookupRepository();
+      final viewModel = GarageViewModel(
+        repository: _FakeGarageRepository(),
+        lookupRepository: lookupRepository,
+        locale: AppLocale.pt,
+      );
+
+      await viewModel.openVehicle(_vehicle);
+
+      expect(lookupRepository.searchCalls, [AppLocale.pt]);
+      expect(viewModel.pendingSearchedYear, _vehicle.yearFrom);
+      expect(viewModel.pendingResult, isA<LookupSearchSuccess>());
+    });
+
+    test(
+      'isOpeningVehicle is true only while the lookup is in flight',
+      () async {
+        final completer = Completer<LookupSearchResult>();
+        final viewModel = GarageViewModel(
+          repository: _FakeGarageRepository(),
+          lookupRepository: _DelayedLookupRepository(completer),
+          locale: AppLocale.pt,
+        );
+
+        final future = viewModel.openVehicle(_vehicle);
+        expect(viewModel.isOpeningVehicle(_vehicle.id), isTrue);
+
+        completer.complete(
+          const LookupSearchSuccess(vehicle: _lookupVehicle, issues: [_issue]),
+        );
+        await future;
+
+        expect(viewModel.isOpeningVehicle(_vehicle.id), isFalse);
+      },
+    );
+
+    test('ignores a second call while one is in flight', () async {
+      final lookupRepository = _FakeLookupRepository();
+      final viewModel = GarageViewModel(
+        repository: _FakeGarageRepository(),
+        lookupRepository: lookupRepository,
+        locale: AppLocale.pt,
+      );
+
+      final first = viewModel.openVehicle(_vehicle);
+      final second = viewModel.openVehicle(_vehicle);
+      await first;
+      await second;
+
+      expect(lookupRepository.searchCalls, hasLength(1));
+    });
+
+    test('surfaces a lookup failure as pendingResult', () async {
+      final viewModel = GarageViewModel(
+        repository: _FakeGarageRepository(),
+        lookupRepository: _FakeLookupRepository(
+          result: const LookupSearchFailure(LookupFailureReason.notFound),
+        ),
+        locale: AppLocale.pt,
+      );
+
+      await viewModel.openVehicle(_vehicle);
+
+      expect(
+        viewModel.pendingResult,
+        const LookupSearchFailure(LookupFailureReason.notFound),
+      );
+    });
+
+    test('acknowledgePendingResult clears pendingResult', () async {
+      final viewModel = GarageViewModel(
+        repository: _FakeGarageRepository(),
+        lookupRepository: _FakeLookupRepository(),
+        locale: AppLocale.pt,
+      );
+      await viewModel.openVehicle(_vehicle);
+
+      viewModel.acknowledgePendingResult();
+
+      expect(viewModel.pendingResult, isNull);
     });
   });
 }
