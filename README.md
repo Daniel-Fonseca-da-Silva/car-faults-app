@@ -20,6 +20,24 @@ We do **not** call the AI service directly, provide VIN history, odometer fraud 
 
 Known-issue information is fragmented across forums, YouTube, ADAC/TÜV reports, and Facebook groups. Buyers and used-car owners often discover chronic faults too late. This app gives them one place to look up a model before they buy, on a phone.
 
+## Screenshots
+
+<p align="center">
+  <img src="design/store/screenshots/01-home.png" width="180" alt="Home">
+  <img src="design/store/screenshots/02-about.png" width="180" alt="About">
+  <img src="design/store/screenshots/03-login.png" width="180" alt="Sign in">
+  <img src="design/store/screenshots/04-languages.png" width="180" alt="Languages">
+  <img src="design/store/screenshots/05-search.png" width="180" alt="Search">
+  <img src="design/store/screenshots/06-problems.png" width="180" alt="Known issues">
+</p>
+<p align="center">
+  <img src="design/store/screenshots/07-cause.png" width="180" alt="Cause">
+  <img src="design/store/screenshots/08-solution.png" width="180" alt="Fix">
+  <img src="design/store/screenshots/09-favorite.png" width="180" alt="Favorite">
+  <img src="design/store/screenshots/10-garage.png" width="180" alt="Garage">
+  <img src="design/store/screenshots/11-profile.png" width="180" alt="Profile">
+</p>
+
 ## Stack
 
 | Layer | Technology |
@@ -100,6 +118,22 @@ Local config lives in `env/dev.json` (gitignored). Copy `env/dev.example.json` a
 VS Code / Cursor: use the **car_faults_app (dev)** launch configuration (`.vscode/launch.json`).
 
 Agent skills are optional: they're defined in `skills-lock.json` and installed into `.agents/` (gitignored) via `npx skills update`, not required to run or build the app.
+
+### Release build (Play Store)
+
+Release builds use a separate, production-only config file so a real build can
+never accidentally ship with dev/localhost values.
+
+```bash
+cp env/prod.example.json env/prod.json   # first time only — fill in production values
+flutter build appbundle --release --dart-define-from-file=env/prod.json
+```
+
+This requires `android/key.properties` to be set up first (see
+`android/key.properties.example`) so the bundle is signed with the release
+keystore instead of the debug one. The generated `.aab` is at
+`build/app/outputs/bundle/release/app-release.aab`, ready to upload to the
+Play Console.
 
 ### Useful URLs
 
