@@ -12,6 +12,7 @@ class _FakeLookupRepository extends LookupRepository {
 
   final Future<LookupSearchResult> Function()? onSearch;
   var searchCalls = 0;
+  String? lastEngine;
 
   @override
   Future<LookupSearchResult> search({
@@ -24,6 +25,7 @@ class _FakeLookupRepository extends LookupRepository {
     required AppLocale locale,
   }) async {
     searchCalls++;
+    lastEngine = engine;
     if (onSearch != null) return onSearch!();
     return LookupSearchSuccess(
       vehicle: LookupDemoDisplay.vehicle,
@@ -140,5 +142,39 @@ void main() {
     await second;
 
     expect(repository.searchCalls, 1);
+  });
+
+  group('electric fuel', () {
+    test('canSubmit is true without an engine when fuel is electric', () {
+      final viewModel = HomeSearchViewModel(repository: _FakeLookupRepository())
+        ..setBrand('Tesla')
+        ..setModel('Model 3')
+        ..setYear(2020)
+        ..setFuel(FuelOption.electric);
+
+      expect(viewModel.canSubmit, isTrue);
+    });
+
+    test('setFuel(electric) clears a previously typed engine', () {
+      final viewModel = HomeSearchViewModel(repository: _FakeLookupRepository())
+        ..setEngine('1.6')
+        ..setFuel(FuelOption.electric);
+
+      expect(viewModel.engine, isNull);
+    });
+
+    test('search sends the electric engine sentinel', () async {
+      final repository = _FakeLookupRepository();
+      final viewModel = HomeSearchViewModel(repository: repository)
+        ..setBrand('Tesla')
+        ..setModel('Model 3')
+        ..setYear(2020)
+        ..setFuel(FuelOption.electric);
+
+      await viewModel.search(locale: AppLocale.pt);
+
+      expect(repository.searchCalls, 1);
+      expect(repository.lastEngine, HomeSearchViewModel.electricEngineSentinel);
+    });
   });
 }
