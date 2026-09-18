@@ -2,6 +2,7 @@ import 'package:car_faults_app/data/repositories/auth_repository.dart';
 import 'package:car_faults_app/data/repositories/favorites_repository.dart';
 import 'package:car_faults_app/data/repositories/garage_repository.dart';
 import 'package:car_faults_app/data/repositories/locale_repository.dart';
+import 'package:car_faults_app/data/repositories/platform_repository.dart';
 import 'package:car_faults_app/data/repositories/profile_repository.dart';
 import 'package:car_faults_app/data/services/locale_preferences_service.dart';
 import 'package:car_faults_app/domain/models/app_locale.dart';
@@ -9,6 +10,7 @@ import 'package:car_faults_app/domain/models/favorite_vehicle.dart';
 import 'package:car_faults_app/domain/models/known_issue.dart';
 import 'package:car_faults_app/domain/models/profile_snapshot.dart';
 import 'package:car_faults_app/domain/models/saved_vehicle.dart';
+import 'package:car_faults_app/domain/models/top_faults_page.dart';
 import 'package:car_faults_app/domain/models/user.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/theme/app_theme.dart';
@@ -18,6 +20,7 @@ import 'package:car_faults_app/ui/core/widgets/app_menu_button.dart';
 import 'package:car_faults_app/ui/core/widgets/app_scaffold.dart';
 import 'package:car_faults_app/ui/core/widgets/google_user_avatar.dart';
 import 'package:car_faults_app/ui/features/about/views/about_view.dart';
+import 'package:car_faults_app/ui/features/defects/views/defects_view.dart';
 import 'package:car_faults_app/ui/features/favorites/views/favorites_view.dart';
 import 'package:car_faults_app/ui/features/garage/views/garage_view.dart';
 import 'package:car_faults_app/ui/features/login/views/login_view.dart';
@@ -58,6 +61,15 @@ class _FakeFavoritesRepository extends FavoritesRepository {
   Future<List<FavoriteVehicle>?> fetchFavorites({int? limit}) async => const [];
 }
 
+class _FakePlatformRepository extends PlatformRepository {
+  @override
+  Future<TopFaultsPage> getTopFaultsPage({
+    required AppLocale locale,
+    int limit = 20,
+    String? cursor,
+  }) async => const TopFaultsPage(items: [], nextCursor: null);
+}
+
 Widget _app({AuthSessionViewModel? session}) {
   return MultiProvider(
     providers: [
@@ -71,6 +83,7 @@ Widget _app({AuthSessionViewModel? session}) {
       Provider<ProfileRepository>.value(value: _FakeProfileRepository()),
       Provider<GarageRepository>.value(value: _FakeGarageRepository()),
       Provider<FavoritesRepository>.value(value: _FakeFavoritesRepository()),
+      Provider<PlatformRepository>.value(value: _FakePlatformRepository()),
     ],
     child: MaterialApp(
       theme: AppTheme.dark,
@@ -98,6 +111,7 @@ void main() {
     expect(find.byIcon(Icons.login), findsOneWidget);
     expect(find.text('Sair'), findsNothing);
     expect(find.byType(GoogleUserAvatar), findsNothing);
+    expect(find.text('Busca'), findsOneWidget);
     expect(find.text('Defeitos'), findsOneWidget);
     expect(find.text('Sobre'), findsOneWidget);
     expect(find.text('Perfil'), findsOneWidget);
@@ -219,7 +233,19 @@ void main() {
     expect(find.byType(AboutView), findsOneWidget);
   });
 
-  testWidgets('tapping Defeitos returns to the first route', (
+  testWidgets('tapping Defeitos opens the DefectsView', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app());
+    await _openDrawer(tester);
+
+    await tester.tap(find.text('Defeitos'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(DefectsView), findsOneWidget);
+  });
+
+  testWidgets('tapping Busca returns to the first route', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(_app());
@@ -228,7 +254,7 @@ void main() {
     await tester.pumpAndSettle();
 
     await _openDrawer(tester);
-    await tester.tap(find.text('Defeitos'));
+    await tester.tap(find.text('Busca'));
     await tester.pumpAndSettle();
 
     expect(find.byType(AboutView), findsNothing);

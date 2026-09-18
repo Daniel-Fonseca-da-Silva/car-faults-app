@@ -5,18 +5,24 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/format_count.dart';
 
 /// Single "most reported fault" card: brand/model/year, a report-count badge,
-/// the fault title and a decorative "view reports" footer.
+/// the fault title and a "view reports" footer.
 ///
-/// No `onTap` in this slice — neither the card nor the footer link navigate.
+/// The home teaser passes no [onTap], so neither the card nor the footer
+/// link navigate there. The Defects list passes one to open the vehicle's
+/// lookup results, and sets [isLoading] while that lookup is in flight.
 class TopFaultCard extends StatelessWidget {
   const TopFaultCard({
     super.key,
     required this.fault,
     required this.viewReportsLabel,
+    this.onTap,
+    this.isLoading = false,
   });
 
   final TopFault fault;
   final String viewReportsLabel;
+  final VoidCallback? onTap;
+  final bool isLoading;
 
   static const _cardRadius = 12.0;
   static const _badgeRadius = 999.0;
@@ -24,36 +30,56 @@ class TopFaultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final content = Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(_cardRadius),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _header(),
+          const SizedBox(height: 10),
+          Text(
+            fault.title,
+            style: const TextStyle(color: AppColors.muted, fontSize: 13),
+          ),
+          const SizedBox(height: 14),
+          Container(
+            height: _dividerHeight,
+            color: AppColors.muted.withValues(alpha: 0.15),
+          ),
+          const SizedBox(height: 12),
+          _footer(),
+        ],
+      ),
+    );
+
+    final semanticsLabel =
+        '${fault.vehicleBrand} ${fault.vehicleModel}, '
+        '${fault.vehicleYearFrom}, ${fault.title}, '
+        '${formatCount(fault.reportCount)}';
+
+    if (onTap == null) {
+      return Semantics(
+        label: semanticsLabel,
+        excludeSemantics: true,
+        child: content,
+      );
+    }
+
     return Semantics(
-      label:
-          '${fault.vehicleBrand} ${fault.vehicleModel}, '
-          '${fault.vehicleYearFrom}, ${fault.title}, '
-          '${formatCount(fault.reportCount)}',
+      label: semanticsLabel,
+      button: true,
       excludeSemantics: true,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
           borderRadius: BorderRadius.circular(_cardRadius),
-          border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _header(),
-            const SizedBox(height: 10),
-            Text(
-              fault.title,
-              style: const TextStyle(color: AppColors.muted, fontSize: 13),
-            ),
-            const SizedBox(height: 14),
-            Container(
-              height: _dividerHeight,
-              color: AppColors.muted.withValues(alpha: 0.15),
-            ),
-            const SizedBox(height: 12),
-            _footer(),
-          ],
+          onTap: isLoading ? null : onTap,
+          child: content,
         ),
       ),
     );
@@ -130,7 +156,17 @@ class TopFaultCard extends StatelessWidget {
           viewReportsLabel,
           style: const TextStyle(color: AppColors.muted, fontSize: 13),
         ),
-        const Icon(Icons.arrow_forward, color: AppColors.muted, size: 16),
+        if (isLoading)
+          const SizedBox(
+            width: 14,
+            height: 14,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: AppColors.muted,
+            ),
+          )
+        else
+          const Icon(Icons.arrow_forward, color: AppColors.muted, size: 16),
       ],
     );
   }

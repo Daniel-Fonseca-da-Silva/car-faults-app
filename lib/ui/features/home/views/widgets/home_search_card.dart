@@ -35,34 +35,37 @@ class HomeSearchCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(_cardRadius),
         border: Border.all(color: AppColors.muted.withValues(alpha: 0.15)),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _Header(l10n: l10n),
-          const SizedBox(height: 20),
-          Column(
+      // A single Consumer for the whole card (rather than one per field) so
+      // the engine field's visibility reacts to the fuel field regardless of
+      // whether an ancestor also happens to watch the view model.
+      child: Consumer<HomeSearchViewModel>(
+        builder: (context, viewModel, _) {
+          final canPress = viewModel.canSubmit && !viewModel.isSearching;
+          return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: _fieldGap,
-            children: _fields(context, l10n),
-          ),
-          const SizedBox(height: _fieldGap),
-          Consumer<HomeSearchViewModel>(
-            builder: (context, viewModel, _) {
-              final canPress = viewModel.canSubmit && !viewModel.isSearching;
-              return AppPrimaryButton(
+            children: [
+              _Header(l10n: l10n),
+              const SizedBox(height: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: _fieldGap,
+                children: _fields(l10n, viewModel),
+              ),
+              const SizedBox(height: _fieldGap),
+              AppPrimaryButton(
                 icon: Icons.search,
                 label: l10n.homeSearchSubmit,
                 onPressed: canPress ? onSubmit : null,
-              );
-            },
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 
-  List<Widget> _fields(BuildContext context, AppLocalizations l10n) {
-    final viewModel = context.read<HomeSearchViewModel>();
+  List<Widget> _fields(AppLocalizations l10n, HomeSearchViewModel viewModel) {
+    final isElectric = viewModel.fuel == FuelOption.electric;
 
     return [
       LabeledField(
@@ -83,49 +86,41 @@ class HomeSearchCard extends StatelessWidget {
       ),
       LabeledField(
         label: l10n.homeSearchFieldYear,
-        child: Consumer<HomeSearchViewModel>(
-          builder: (context, viewModel, _) {
-            return AppDropdownField<int>(
-              hintText: l10n.homeSearchFieldYearPlaceholder,
-              options: _optionsOf(HomeSearchOptions.years()),
-              value: viewModel.year,
-              onChanged: viewModel.setYear,
-            );
-          },
+        child: AppDropdownField<int>(
+          hintText: l10n.homeSearchFieldYearPlaceholder,
+          options: _optionsOf(HomeSearchOptions.years()),
+          value: viewModel.year,
+          onChanged: viewModel.setYear,
         ),
       ),
-      LabeledField(
-        label: l10n.homeSearchFieldEngine,
-        child: AppTextField(
-          hintText: l10n.homeSearchFieldEnginePlaceholder,
-          onChanged: viewModel.setEngine,
+      // Electric vehicles have no engine to enter — same rule as the web
+      // app's search form, which hides this field for that fuel type and
+      // sends `HomeSearchViewModel.electricEngineSentinel` instead.
+      if (!isElectric)
+        LabeledField(
+          label: l10n.homeSearchFieldEngine,
+          child: AppTextField(
+            hintText: l10n.homeSearchFieldEnginePlaceholder,
+            onChanged: viewModel.setEngine,
+          ),
         ),
-      ),
       LabeledField(
         label: l10n.homeSearchFieldFuel,
-        child: Consumer<HomeSearchViewModel>(
-          builder: (context, viewModel, _) {
-            return AppDropdownField<FuelOption>(
-              hintText: l10n.homeSearchFieldFuelPlaceholder,
-              options: _fuelOptions(l10n),
-              value: viewModel.fuel,
-              onChanged: viewModel.setFuel,
-            );
-          },
+        child: AppDropdownField<FuelOption>(
+          hintText: l10n.homeSearchFieldFuelPlaceholder,
+          options: _fuelOptions(l10n),
+          value: viewModel.fuel,
+          onChanged: viewModel.setFuel,
         ),
       ),
       LabeledField(
         label: l10n.homeSearchFieldDoors,
         showOptionalBadge: true,
-        child: Consumer<HomeSearchViewModel>(
-          builder: (context, viewModel, _) {
-            return AppDropdownField<int>(
-              hintText: l10n.homeSearchFieldDoorsPlaceholder,
-              options: _optionsOf(HomeSearchOptions.doors),
-              value: viewModel.doors,
-              onChanged: viewModel.setDoors,
-            );
-          },
+        child: AppDropdownField<int>(
+          hintText: l10n.homeSearchFieldDoorsPlaceholder,
+          options: _optionsOf(HomeSearchOptions.doors),
+          value: viewModel.doors,
+          onChanged: viewModel.setDoors,
         ),
       ),
     ];

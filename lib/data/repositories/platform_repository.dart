@@ -1,6 +1,9 @@
+import 'package:dio/dio.dart';
+
 import '../../domain/models/app_locale.dart';
 import '../../domain/models/platform_stats.dart';
 import '../../domain/models/top_fault.dart';
+import '../../domain/models/top_faults_page.dart';
 import '../mappers/locale_mapper.dart';
 import '../mappers/lookup_mapper.dart';
 import '../services/api_client.dart';
@@ -17,6 +20,7 @@ class PlatformRepository {
   PlatformRepository({
     PlatformApiService? apiService,
     SecureTokenStorage? tokenStorage,
+    this.retryDelay = const Duration(seconds: 3),
   }) : _apiService =
            apiService ??
            PlatformApiService(
@@ -27,8 +31,25 @@ class PlatformRepository {
 
   final PlatformApiService _apiService;
 
+  /// Overridable for tests, so they don't have to wait out a real delay.
+  final Duration retryDelay;
+
+  /// `car-faults-api` runs on Railway, which can idle the service after
+  /// inactivity: the first request after a lull wakes it back up and often
+  /// fails or times out while it boots, even though the exact same request
+  /// then succeeds a moment later. One retry after a short delay smooths
+  /// that over instead of surfacing an error the user has to retry by hand.
+  Future<T> _withColdStartRetry<T>(Future<T> Function() request) async {
+    try {
+      return await request();
+    } on DioException {
+      await Future.delayed(retryDelay);
+      return await request();
+    }
+  }
+
   Future<PlatformStats> getStats() async {
-    final json = await _apiService.getStats();
+    final json = await _withColdStartRetry(_apiService.getStats);
     return PlatformStats(
       reportsCount: json['reportsCount'] as int,
       vehiclesCount: json['vehiclesCount'] as int,
@@ -40,14 +61,31 @@ class PlatformRepository {
     required AppLocale locale,
     int limit = _defaultFaultsLimit,
   }) async {
-    final json = await _apiService.getFaults(
-      locale: apiLanguageFor(locale),
-      limit: limit,
+    final page = await getTopFaultsPage(locale: locale, limit: limit);
+    return page.items;
+  }
+
+  /// Cursor-paginated version of [getTopFaults], for the full "Defeitos"
+  /// list screen (the home teaser only ever needs the first page).
+  Future<TopFaultsPage> getTopFaultsPage({
+    required AppLocale locale,
+    int limit = _defaultFaultsLimit,
+    String? cursor,
+  }) async {
+    final json = await _withColdStartRetry(
+      () => _apiService.getFaults(
+        locale: apiLanguageFor(locale),
+        limit: limit,
+        cursor: cursor,
+      ),
     );
     final items = json['items'] as List<dynamic>;
-    return items
-        .map((item) => _mapTopFault(item as Map<String, dynamic>))
-        .toList();
+    return TopFaultsPage(
+      items: items
+          .map((item) => _mapTopFault(item as Map<String, dynamic>))
+          .toList(),
+      nextCursor: json['nextCursor'] as String?,
+    );
   }
 
   TopFault _mapTopFault(Map<String, dynamic> json) {
@@ -61,6 +99,9 @@ class PlatformRepository {
       vehicleBrand: vehicle['brand'] as String,
       vehicleModel: vehicle['model'] as String,
       vehicleYearFrom: vehicle['yearFrom'] as int,
+      vehicleEngine: vehicle['engine'] as String?,
+      vehicleFuelType: vehicle['fuelType'] as String?,
+      vehicleDoors: vehicle['doors'] as int?,
     );
   }
 }

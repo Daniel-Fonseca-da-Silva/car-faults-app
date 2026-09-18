@@ -268,6 +268,34 @@ void main() {
 
     expect(submitButton(tester).onPressed, isNotNull);
   });
+
+  testWidgets('selecting Elétrico hides the engine field', (
+    WidgetTester tester,
+  ) async {
+    await pumpCard(tester);
+    await openDropdown(tester, find.byType(AppDropdownField<FuelOption>));
+
+    await tester.tap(find.text('Elétrico').last);
+    await tester.pumpAndSettle();
+
+    expect(find.text('MOTOR'), findsNothing);
+    expect(find.byType(LabeledField), findsNWidgets(5));
+  });
+
+  testWidgets(
+    'submit button enables for an electric vehicle without an engine',
+    (WidgetTester tester) async {
+      final viewModel = HomeSearchViewModel(repository: LookupRepository())
+        ..setBrand('Tesla')
+        ..setModel('Model 3')
+        ..setYear(2020)
+        ..setFuel(FuelOption.electric);
+
+      await pumpCard(tester, viewModel: viewModel);
+
+      expect(submitButton(tester).onPressed, isNotNull);
+    },
+  );
 }
 
 void _noop() {}

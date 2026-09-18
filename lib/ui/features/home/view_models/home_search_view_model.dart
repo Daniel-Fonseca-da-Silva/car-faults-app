@@ -11,6 +11,11 @@ class HomeSearchViewModel extends ChangeNotifier {
 
   final LookupRepository repository;
 
+  /// Sent as `engine` for electric vehicles, which have none to enter —
+  /// same sentinel and rule as the web app's `VehicleSearchForm`
+  /// (`ELECTRIC_ENGINE_SENTINEL`).
+  static const electricEngineSentinel = 'electric';
+
   String? _brand;
   String? _model;
   int? _year;
@@ -34,12 +39,13 @@ class HomeSearchViewModel extends ChangeNotifier {
   LookupSearchResult? get lastResult => _lastResult;
 
   /// `car-faults-api`'s `LookupQueryDto` requires brand, model, year, engine
-  /// and fuel type; only doors is optional.
+  /// and fuel type; only doors is optional. Engine is skipped for electric
+  /// vehicles — see [electricEngineSentinel].
   bool get canSubmit {
     return _hasText(_brand) &&
         _hasText(_model) &&
         _year != null &&
-        _hasText(_engine) &&
+        (_fuel == FuelOption.electric || _hasText(_engine)) &&
         _fuel != null;
   }
 
@@ -47,7 +53,14 @@ class HomeSearchViewModel extends ChangeNotifier {
   void setModel(String value) => _setField(() => _model = value);
   void setYear(int? value) => _setField(() => _year = value);
   void setEngine(String value) => _setField(() => _engine = value);
-  void setFuel(FuelOption? value) => _setField(() => _fuel = value);
+
+  /// Clears any typed engine when switching to electric — the field is then
+  /// hidden, and a stale value would otherwise be silently resubmitted if
+  /// the user later switches back to a fuel that shows it again empty.
+  void setFuel(FuelOption? value) => _setField(() {
+    _fuel = value;
+    if (value == FuelOption.electric) _engine = null;
+  });
   void setDoors(int? value) => _setField(() => _doors = value);
 
   Future<void> search({required AppLocale locale}) async {
@@ -57,11 +70,15 @@ class HomeSearchViewModel extends ChangeNotifier {
     _lastResult = null;
     notifyListeners();
 
+    final engine = _fuel == FuelOption.electric
+        ? electricEngineSentinel
+        : _engine!;
+
     final result = await repository.search(
       brand: _brand!,
       model: _model!,
       year: _year!,
-      engine: _engine!,
+      engine: engine,
       fuel: _fuel!,
       doors: _doors,
       locale: locale,

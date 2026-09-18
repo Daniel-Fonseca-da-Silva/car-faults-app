@@ -66,4 +66,19 @@ void main() {
       expect(data['items'], isEmpty);
     },
   );
+
+  test('getFaults forwards a cursor when given one', () async {
+    final adapter = _FakeAdapter()..responseData = {'items': <dynamic>[]};
+    final dio = Dio(BaseOptions(baseUrl: 'http://example.test'))
+      ..httpClientAdapter = adapter;
+    final service = PlatformApiService(dio: dio);
+
+    await service.getFaults(locale: 'pt-PT', limit: 20, cursor: 'cursor-1');
+
+    expect(adapter.lastOptions?.queryParameters, {
+      'locale': 'pt-PT',
+      'limit': 20,
+      'cursor': 'cursor-1',
+    });
+  });
 }
