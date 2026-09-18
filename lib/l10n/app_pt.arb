@@ -24,9 +24,13 @@
   "@navSignOut": {
     "description": "Navigation drawer item that signs the user out, shown when signed in."
   },
+  "navSearch": "Busca",
+  "@navSearch": {
+    "description": "Navigation drawer item that returns to the home screen's vehicle search form."
+  },
   "navDefects": "Defeitos",
   "@navDefects": {
-    "description": "Navigation drawer item that returns to the home (vehicle lookup) screen."
+    "description": "Navigation drawer item that opens the full Defects (most-reported-faults) screen."
   },
   "navAbout": "Sobre",
   "@navAbout": {
@@ -290,7 +294,7 @@
   },
   "homeTopFaultsViewReports": "Ver relatos",
   "@homeTopFaultsViewReports": {
-    "description": "Decorative footer label of each top fault card. No navigation in this slice."
+    "description": "Footer label of each top fault card. Decorative on the home teaser; opens the vehicle's reports on the Defects screen."
   },
   "homeTopFaultsSemanticLabel": "Avarias mais reportadas",
   "@homeTopFaultsSemanticLabel": {
@@ -303,6 +307,18 @@
   "homeTopFaultsEmpty": "Ainda não há avarias reportadas. Seja o primeiro a reportar uma.",
   "@homeTopFaultsEmpty": {
     "description": "Empty state shown in the most-reported-faults section when the platform has no reports yet."
+  },
+  "defectsLoadError": "Não foi possível carregar os defeitos.",
+  "@defectsLoadError": {
+    "description": "Error message shown on the Defects screen when the first page of faults fails to load."
+  },
+  "defectsLoadMoreError": "Não foi possível carregar mais defeitos.",
+  "@defectsLoadMoreError": {
+    "description": "Error message shown at the bottom of the Defects list when loading an additional page fails."
+  },
+  "defectsEmpty": "Ainda não há avarias reportadas.",
+  "@defectsEmpty": {
+    "description": "Empty state shown on the Defects screen when the platform has no reports yet."
   },
   "loginHeroEyebrow": "Auto Crónica",
   "@loginHeroEyebrow": {

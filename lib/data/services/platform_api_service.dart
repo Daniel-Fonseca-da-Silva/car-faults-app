@@ -12,14 +12,15 @@ class PlatformApiService {
     return response.data!;
   }
 
-  /// `GET /v1/platform/faults?locale=&limit=`.
+  /// `GET /v1/platform/faults?locale=&limit=&cursor=`.
   Future<Map<String, dynamic>> getFaults({
     required String locale,
     required int limit,
+    String? cursor,
   }) async {
     final response = await dio.get<Map<String, dynamic>>(
       '/v1/platform/faults',
-      queryParameters: {'locale': locale, 'limit': limit},
+      queryParameters: {'locale': locale, 'limit': limit, 'cursor': ?cursor},
     );
     return response.data!;
   }
