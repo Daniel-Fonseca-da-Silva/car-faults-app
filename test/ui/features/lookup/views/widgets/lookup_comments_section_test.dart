@@ -15,6 +15,7 @@ import 'package:car_faults_app/ui/features/login/views/login_view.dart';
 import 'package:car_faults_app/ui/features/lookup/lookup_demo_display.dart';
 import 'package:car_faults_app/ui/features/lookup/view_models/lookup_results_view_model.dart';
 import 'package:car_faults_app/ui/features/lookup/views/lookup_results_view.dart';
+import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_comment_item.dart';
 import 'package:car_faults_app/ui/features/lookup/views/widgets/lookup_issue_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -176,6 +177,16 @@ Finder _submitButtonIn(String title) {
   );
 }
 
+/// The report ("flag") buttons on comment items within [title]'s card —
+/// distinct from the ones review items also render since reviews and
+/// comments share the same icon.
+Finder _commentReportButtonsIn(String title) {
+  return find.descendant(
+    of: _inCard(title, find.byType(LookupCommentItem)),
+    matching: find.byIcon(Icons.flag_outlined),
+  );
+}
+
 void main() {
   const gearboxTitle = 'Caixa de câmbio problemática';
   const emptyState =
@@ -257,10 +268,7 @@ void main() {
 
     await _openIssue(tester, gearboxTitle);
 
-    final reportButtonFinder = _inCard(
-      gearboxTitle,
-      find.byIcon(Icons.flag_outlined),
-    );
+    final reportButtonFinder = _commentReportButtonsIn(gearboxTitle);
     await tester.ensureVisible(reportButtonFinder);
     await tester.tap(reportButtonFinder);
     await tester.pumpAndSettle();
@@ -298,10 +306,7 @@ void main() {
       await tester.tap(submitButtonFinder);
       await tester.pumpAndSettle();
 
-      expect(
-        _inCard(gearboxTitle, find.byIcon(Icons.flag_outlined)),
-        findsNothing,
-      );
+      expect(_commentReportButtonsIn(gearboxTitle), findsNothing);
     },
   );
 }
