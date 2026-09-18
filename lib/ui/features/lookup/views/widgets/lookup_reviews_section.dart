@@ -11,6 +11,7 @@ import '../../view_models/lookup_results_view_model.dart';
 import 'lookup_review_form.dart';
 import 'lookup_review_item.dart';
 import 'lookup_star_rating.dart';
+import 'report_content_dialog.dart';
 
 /// "AVALIAR ESTE DEFEITO" section inside an expanded [LookupIssueCard]:
 /// average rating + review list when there are any, otherwise an empty
@@ -90,6 +91,9 @@ class LookupReviewsSection extends StatelessWidget {
                 comment: review.comment,
                 submittedAgo: relativeTimeLabel(review.submittedAt, l10n),
                 isOwner: review.userId == currentUserId,
+                onReport: review.userId == currentUserId
+                    ? null
+                    : () => _showReportReview(context, review.id),
               ),
             ),
         ],
@@ -120,5 +124,30 @@ class LookupReviewsSection extends StatelessWidget {
         ],
       ],
     );
+  }
+
+  Future<void> _showReportReview(BuildContext context, String reviewId) {
+    final l10n = AppLocalizations.of(context)!;
+
+    return requireSignIn(context, () async {
+      final picked = await showReportContentDialog(context);
+      if (picked == null || !context.mounted) return;
+      final (reason, details) = picked;
+
+      final result = await context.read<LookupResultsViewModel>().reportReview(
+        reviewId: reviewId,
+        reason: reason,
+        details: details,
+      );
+      if (!context.mounted) return;
+
+      final message = switch (result) {
+        SubmitReportSuccess() => l10n.lookupReportSuccess,
+        SubmitReportDuplicate() => l10n.lookupReportDuplicateError,
+        SubmitReportFailure() => l10n.lookupReportSubmitError,
+      };
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
+    });
   }
 }

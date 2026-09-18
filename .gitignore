@@ -47,6 +47,14 @@ app.*.map.json
 # Local dev config (copy from env/dev.example.json)
 env/dev.json
 
+# Production build config (copy from env/prod.example.json)
+env/prod.json
+
+# Release signing secrets (copy android/key.properties.example -> android/key.properties)
+android/key.properties
+*.jks
+*.keystore
+
 .widget_preview/
 prompts
 

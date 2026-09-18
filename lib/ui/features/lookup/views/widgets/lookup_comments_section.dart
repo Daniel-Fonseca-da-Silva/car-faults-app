@@ -11,6 +11,7 @@ import '../../../../core/view_models/auth_session_view_model.dart';
 import '../../view_models/lookup_results_view_model.dart';
 import 'lookup_comment_form.dart';
 import 'lookup_comment_item.dart';
+import 'report_content_dialog.dart';
 
 /// "COMENTÁRIOS DA COMUNIDADE" section inside an expanded [LookupIssueCard]:
 /// comment list when there are any, otherwise an empty state or a loading
@@ -73,6 +74,9 @@ class LookupCommentsSection extends StatelessWidget {
                 imageUrl: comment.imageUrl,
                 submittedAgo: relativeTimeLabel(comment.submittedAt, l10n),
                 isOwner: comment.userId == currentUserId,
+                onReport: comment.userId == currentUserId
+                    ? null
+                    : () => _showReportComment(context, comment.id),
               ),
             ),
         const SizedBox(height: 12),
@@ -109,5 +113,30 @@ class LookupCommentsSection extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future<void> _showReportComment(BuildContext context, String commentId) {
+    final l10n = AppLocalizations.of(context)!;
+
+    return requireSignIn(context, () async {
+      final picked = await showReportContentDialog(context);
+      if (picked == null || !context.mounted) return;
+      final (reason, details) = picked;
+
+      final result = await context.read<LookupResultsViewModel>().reportComment(
+        commentId: commentId,
+        reason: reason,
+        details: details,
+      );
+      if (!context.mounted) return;
+
+      final message = switch (result) {
+        SubmitReportSuccess() => l10n.lookupReportSuccess,
+        SubmitReportDuplicate() => l10n.lookupReportDuplicateError,
+        SubmitReportFailure() => l10n.lookupReportSubmitError,
+      };
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
+    });
   }
 }

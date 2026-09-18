@@ -1,9 +1,11 @@
 import 'package:car_faults_app/data/repositories/community_repository.dart';
 import 'package:car_faults_app/data/services/comments_api_service.dart';
 import 'package:car_faults_app/data/services/fixes_api_service.dart';
+import 'package:car_faults_app/data/services/reports_api_service.dart';
 import 'package:car_faults_app/data/services/reviews_api_service.dart';
 import 'package:car_faults_app/data/services/storage_api_service.dart';
 import 'package:car_faults_app/domain/models/fix_vote_value.dart';
+import 'package:car_faults_app/domain/models/report_reason.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -115,6 +117,33 @@ class _FakeStorageApiService extends StorageApiService {
     lastFilePath = filePath;
     if (error != null) throw error!;
     return uploadResponse!;
+  }
+}
+
+class _FakeReportsApiService extends ReportsApiService {
+  _FakeReportsApiService({this.createResponse, this.error}) : super(dio: Dio());
+
+  final Map<String, dynamic>? createResponse;
+  final DioException? error;
+
+  String? lastContentType;
+  String? lastContentId;
+  String? lastReason;
+  String? lastDetails;
+
+  @override
+  Future<Map<String, dynamic>> create({
+    required String contentType,
+    required String contentId,
+    required String reason,
+    String? details,
+  }) async {
+    lastContentType = contentType;
+    lastContentId = contentId;
+    lastReason = reason;
+    lastDetails = details;
+    if (error != null) throw error!;
+    return createResponse!;
   }
 }
 
@@ -365,6 +394,73 @@ void main() {
       );
 
       expect(await repository.uploadCommentImage('/tmp/photo.jpg'), isNull);
+    });
+  });
+
+  group('reportComment', () {
+    test('returns SubmitReportSuccess and posts a comment report', () async {
+      final api = _FakeReportsApiService(createResponse: const {'id': 'r-1'});
+      final repository = CommunityRepository(reportsApiService: api);
+
+      final result = await repository.reportComment(
+        commentId: 'comment-1',
+        reason: ReportReason.spam,
+        details: 'Repeated ad.',
+      );
+
+      expect(api.lastContentType, 'comment');
+      expect(api.lastContentId, 'comment-1');
+      expect(api.lastReason, 'spam');
+      expect(api.lastDetails, 'Repeated ad.');
+      expect(result, isA<SubmitReportSuccess>());
+    });
+
+    test('maps a 409 response to SubmitReportDuplicate', () async {
+      final repository = CommunityRepository(
+        reportsApiService: _FakeReportsApiService(
+          error: _dioError(statusCode: 409),
+        ),
+      );
+
+      final result = await repository.reportComment(
+        commentId: 'comment-1',
+        reason: ReportReason.spam,
+      );
+
+      expect(result, isA<SubmitReportDuplicate>());
+    });
+
+    test('maps other errors to SubmitReportFailure', () async {
+      final repository = CommunityRepository(
+        reportsApiService: _FakeReportsApiService(
+          error: _dioError(statusCode: 500),
+        ),
+      );
+
+      final result = await repository.reportComment(
+        commentId: 'comment-1',
+        reason: ReportReason.spam,
+      );
+
+      expect(result, isA<SubmitReportFailure>());
+    });
+  });
+
+  group('reportReview', () {
+    test('posts a review report', () async {
+      final api = _FakeReportsApiService(createResponse: const {'id': 'r-2'});
+      final repository = CommunityRepository(reportsApiService: api);
+
+      final result = await repository.reportReview(
+        reviewId: 'review-1',
+        reason: ReportReason.harassment,
+      );
+
+      expect(api.lastContentType, 'review');
+      expect(api.lastContentId, 'review-1');
+      expect(api.lastReason, 'harassment');
+      expect(api.lastDetails, isNull);
+      expect(result, isA<SubmitReportSuccess>());
     });
   });
 }

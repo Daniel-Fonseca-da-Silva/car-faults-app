@@ -3,6 +3,7 @@ import '../../domain/models/issue_fix.dart';
 import '../../domain/models/issue_severity.dart';
 import '../../domain/models/known_issue.dart';
 import '../../domain/models/lookup_vehicle.dart';
+import '../../domain/models/report_reason.dart';
 import '../../ui/features/home/home_search_options.dart';
 
 /// `FuelOption` (en-GB naming used by the search form) to `car-faults-api`'s
@@ -135,3 +136,17 @@ FixVoteValue? fixVoteValueFromApiValue(String? value) {
 /// Reverse of [fixVoteValueFromApiValue], for the `POST /v1/fixes/:id/vote`
 /// request body.
 String fixVoteValueApiValue(FixVoteValue value) => value.name;
+
+/// [ReportReason] to `car-faults-api`'s `ReportReason` enum value
+/// (`reports/enums/report-reason.enum.ts`), for the `POST /v1/reports`
+/// request body.
+const _reportReasonApiValues = <ReportReason, String>{
+  ReportReason.spam: 'spam',
+  ReportReason.offensive: 'offensive',
+  ReportReason.inappropriatePhoto: 'inappropriate_photo',
+  ReportReason.harassment: 'harassment',
+  ReportReason.other: 'other',
+};
+
+String reportReasonApiValue(ReportReason reason) =>
+    _reportReasonApiValues[reason]!;

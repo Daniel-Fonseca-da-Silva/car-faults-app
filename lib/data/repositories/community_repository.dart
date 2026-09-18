@@ -4,12 +4,14 @@ import '../../domain/models/comment.dart';
 import '../../domain/models/fix_vote_value.dart';
 import '../../domain/models/issue_fix.dart';
 import '../../domain/models/issue_review.dart';
+import '../../domain/models/report_reason.dart';
 import '../mappers/comments_mapper.dart';
 import '../mappers/community_mapper.dart';
 import '../mappers/lookup_mapper.dart';
 import '../services/api_client.dart';
 import '../services/comments_api_service.dart';
 import '../services/fixes_api_service.dart';
+import '../services/reports_api_service.dart';
 import '../services/reviews_api_service.dart';
 import '../services/secure_token_storage.dart';
 import '../services/storage_api_service.dart';
@@ -47,9 +49,28 @@ class SubmitCommentFailure extends SubmitCommentResult {
   const SubmitCommentFailure();
 }
 
-/// Persists community reviews, comments and fix votes via `car-faults-api`:
-/// listing and creating reviews/comments for a known issue, uploading a
-/// comment's image, and voting/unvoting on a fix.
+/// Outcome of [CommunityRepository.reportComment]/[reportReview].
+sealed class SubmitReportResult {
+  const SubmitReportResult();
+}
+
+class SubmitReportSuccess extends SubmitReportResult {
+  const SubmitReportSuccess();
+}
+
+/// The signed-in user already reported this content (`409 Conflict`).
+class SubmitReportDuplicate extends SubmitReportResult {
+  const SubmitReportDuplicate();
+}
+
+class SubmitReportFailure extends SubmitReportResult {
+  const SubmitReportFailure();
+}
+
+/// Persists community reviews, comments, fix votes and content reports via
+/// `car-faults-api`: listing and creating reviews/comments for a known
+/// issue, uploading a comment's image, voting/unvoting on a fix, and
+/// reporting a comment or review for moderation.
 ///
 /// Every parameter can be overridden — tests subclass [CommunityRepository]
 /// and override individual methods instead of injecting fakes here, but the
@@ -60,6 +81,7 @@ class CommunityRepository {
     FixesApiService? fixesApiService,
     CommentsApiService? commentsApiService,
     StorageApiService? storageApiService,
+    ReportsApiService? reportsApiService,
     SecureTokenStorage? tokenStorage,
   }) : _reviewsApiService =
            reviewsApiService ??
@@ -88,12 +110,20 @@ class CommunityRepository {
              dio: buildApiDio(
                tokenStorage: tokenStorage ?? SecureTokenStorage(),
              ),
+           ),
+       _reportsApiService =
+           reportsApiService ??
+           ReportsApiService(
+             dio: buildApiDio(
+               tokenStorage: tokenStorage ?? SecureTokenStorage(),
+             ),
            );
 
   final ReviewsApiService _reviewsApiService;
   final FixesApiService _fixesApiService;
   final CommentsApiService _commentsApiService;
   final StorageApiService _storageApiService;
+  final ReportsApiService _reportsApiService;
 
   /// `GET /v1/reviews?knownIssueId=` — public. Returns `null` on failure so
   /// callers can leave whatever reviews are already shown in place instead
@@ -187,6 +217,51 @@ class CommunityRepository {
       return json['url'] as String;
     } on DioException {
       return null;
+    }
+  }
+
+  /// `POST /v1/reports` — JWT required. Reports [commentId] (its text and
+  /// attached photo, if any) for moderation.
+  Future<SubmitReportResult> reportComment({
+    required String commentId,
+    required ReportReason reason,
+    String? details,
+  }) => _submitReport(
+    contentType: 'comment',
+    contentId: commentId,
+    reason: reason,
+    details: details,
+  );
+
+  /// `POST /v1/reports` — JWT required. Reports [reviewId] for moderation.
+  Future<SubmitReportResult> reportReview({
+    required String reviewId,
+    required ReportReason reason,
+    String? details,
+  }) => _submitReport(
+    contentType: 'review',
+    contentId: reviewId,
+    reason: reason,
+    details: details,
+  );
+
+  Future<SubmitReportResult> _submitReport({
+    required String contentType,
+    required String contentId,
+    required ReportReason reason,
+    String? details,
+  }) async {
+    try {
+      await _reportsApiService.create(
+        contentType: contentType,
+        contentId: contentId,
+        reason: reportReasonApiValue(reason),
+        details: details,
+      );
+      return const SubmitReportSuccess();
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 409) return const SubmitReportDuplicate();
+      return const SubmitReportFailure();
     }
   }
 }

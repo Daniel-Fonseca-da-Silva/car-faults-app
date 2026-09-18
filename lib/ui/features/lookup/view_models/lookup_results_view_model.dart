@@ -12,6 +12,7 @@ import '../../../../domain/models/issue_fix.dart';
 import '../../../../domain/models/issue_review.dart';
 import '../../../../domain/models/known_issue.dart';
 import '../../../../domain/models/lookup_vehicle.dart';
+import '../../../../domain/models/report_reason.dart';
 import '../lookup_demo_display.dart';
 
 /// Owns [LookupResultsView]'s matched vehicle and known issues, and the
@@ -204,6 +205,30 @@ class LookupResultsViewModel extends ChangeNotifier {
   Future<String?> uploadCommentImage(String filePath) {
     return _repository.uploadCommentImage(filePath);
   }
+
+  /// `POST /v1/reports` for a comment. Doesn't change [commentsFor] — the
+  /// report is only visible to moderators.
+  Future<SubmitReportResult> reportComment({
+    required String commentId,
+    required ReportReason reason,
+    String? details,
+  }) => _repository.reportComment(
+    commentId: commentId,
+    reason: reason,
+    details: details,
+  );
+
+  /// `POST /v1/reports` for a review. Doesn't change [reviewsFor] — the
+  /// report is only visible to moderators.
+  Future<SubmitReportResult> reportReview({
+    required String reviewId,
+    required ReportReason reason,
+    String? details,
+  }) => _repository.reportReview(
+    reviewId: reviewId,
+    reason: reason,
+    details: details,
+  );
 
   bool isFixExpanded(String fixId) => _expandedFixIds.contains(fixId);
 

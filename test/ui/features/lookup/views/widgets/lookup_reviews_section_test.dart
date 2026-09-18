@@ -6,6 +6,7 @@ import 'package:car_faults_app/data/repositories/locale_repository.dart';
 import 'package:car_faults_app/data/services/locale_preferences_service.dart';
 import 'package:car_faults_app/domain/models/comment.dart';
 import 'package:car_faults_app/domain/models/issue_review.dart';
+import 'package:car_faults_app/domain/models/report_reason.dart';
 import 'package:car_faults_app/domain/models/user.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:car_faults_app/ui/core/view_models/auth_session_view_model.dart';
@@ -56,6 +57,24 @@ class _FakeCommunityRepository extends CommunityRepository {
   }
 }
 
+/// Like [_FakeCommunityRepository], but also records [reportReview] calls.
+class _FakeCommunityRepositoryTrackingReports extends _FakeCommunityRepository {
+  SubmitReportResult reportResult = const SubmitReportSuccess();
+  String? lastReportedReviewId;
+  ReportReason? lastReportReason;
+
+  @override
+  Future<SubmitReportResult> reportReview({
+    required String reviewId,
+    required ReportReason reason,
+    String? details,
+  }) async {
+    lastReportedReviewId = reviewId;
+    lastReportReason = reason;
+    return reportResult;
+  }
+}
+
 /// Never reaches a real network: the add-to-garage button isn't exercised
 /// by these tests.
 class _FakeGarageRepository extends GarageRepository {
@@ -72,7 +91,7 @@ class _FakeActivityLogRepository extends ActivityLogRepository {
   Future<bool> recordDefectConsulted(String knownIssueId) async => true;
 }
 
-Widget _app({AuthSessionViewModel? session}) {
+Widget _app({AuthSessionViewModel? session, CommunityRepository? repository}) {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -91,7 +110,7 @@ Widget _app({AuthSessionViewModel? session}) {
         viewModel: LookupResultsViewModel(
           vehicle: LookupDemoDisplay.vehicle,
           issues: LookupDemoDisplay.issues,
-          repository: _FakeCommunityRepository(),
+          repository: repository ?? _FakeCommunityRepository(),
           garageRepository: _FakeGarageRepository(),
           activityLogRepository: _FakeActivityLogRepository(),
         ),
@@ -214,5 +233,56 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(LoginView), findsOneWidget);
+  });
+
+  testWidgets('reporting another user\'s review while signed in submits the report '
+      'and shows a success message', (WidgetTester tester) async {
+    final session = AuthSessionViewModel()..setUser(_signedInUser);
+    final repository = _FakeCommunityRepositoryTrackingReports();
+    await tester.pumpWidget(_app(session: session, repository: repository));
+
+    await _openIssue(tester, gearboxTitle);
+
+    final reportButtonFinder = _inCard(
+      gearboxTitle,
+      find.byIcon(Icons.flag_outlined),
+    ).first;
+    await tester.ensureVisible(reportButtonFinder);
+    await tester.tap(reportButtonFinder);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Spam'));
+    await tester.pump();
+    await tester.tap(find.text('Enviar denúncia'));
+    await tester.pumpAndSettle();
+
+    expect(repository.lastReportedReviewId, 'review-ricardo');
+    expect(repository.lastReportReason, ReportReason.spam);
+    expect(
+      find.text(
+        'Denúncia enviada. Obrigado por ajudares a manter a comunidade segura.',
+      ),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('reporting a review while signed out asks to sign in first', (
+    WidgetTester tester,
+  ) async {
+    final repository = _FakeCommunityRepositoryTrackingReports();
+    await tester.pumpWidget(_app(repository: repository));
+
+    await _openIssue(tester, gearboxTitle);
+
+    final reportButtonFinder = _inCard(
+      gearboxTitle,
+      find.byIcon(Icons.flag_outlined),
+    ).first;
+    await tester.ensureVisible(reportButtonFinder);
+    await tester.tap(reportButtonFinder);
+    await tester.pumpAndSettle();
+
+    expect(find.byType(LoginView), findsOneWidget);
+    expect(repository.lastReportedReviewId, isNull);
   });
 }
