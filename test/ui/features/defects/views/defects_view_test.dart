@@ -209,34 +209,33 @@ void main() {
     },
   );
 
-  testWidgets(
-    'a fault with no engine on record is not tappable',
-    (WidgetTester tester) async {
-      final viewModel = DefectsViewModel(
-        repository: _FakePlatformRepository(
-          page: const TopFaultsPage(
-            items: [_faultWithNoEngine],
-            nextCursor: null,
-          ),
+  testWidgets('a fault with no engine on record is not tappable', (
+    WidgetTester tester,
+  ) async {
+    final viewModel = DefectsViewModel(
+      repository: _FakePlatformRepository(
+        page: const TopFaultsPage(
+          items: [_faultWithNoEngine],
+          nextCursor: null,
         ),
-      );
+      ),
+    );
 
-      await tester.pumpWidget(_app(viewModel));
-      await tester.pumpAndSettle();
+    await tester.pumpWidget(_app(viewModel));
+    await tester.pumpAndSettle();
 
-      expect(
-        find.descendant(
-          of: find.byType(TopFaultCard),
-          matching: find.byType(InkWell),
-        ),
-        findsNothing,
-      );
+    expect(
+      find.descendant(
+        of: find.byType(TopFaultCard),
+        matching: find.byType(InkWell),
+      ),
+      findsNothing,
+    );
 
-      await tester.tap(find.byType(TopFaultCard));
-      await tester.pumpAndSettle();
+    await tester.tap(find.byType(TopFaultCard));
+    await tester.pumpAndSettle();
 
-      expect(find.byType(DefectsView), findsOneWidget);
-      expect(find.byType(LookupResultsView), findsNothing);
-    },
-  );
+    expect(find.byType(DefectsView), findsOneWidget);
+    expect(find.byType(LookupResultsView), findsNothing);
+  });
 }

@@ -121,9 +121,8 @@ class AppNavDrawer extends StatelessWidget {
 
   void _goToDefects(BuildContext context) {
     Navigator.of(context).pop();
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute<void>(builder: (_) => const DefectsView()));
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(builder: (_) => const DefectsView()));
   }
 
   void _goToAbout(BuildContext context) {

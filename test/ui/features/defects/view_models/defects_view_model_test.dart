@@ -226,24 +226,21 @@ void main() {
       expect(call['doors'], 4);
     });
 
-    test(
-      'falls back to FuelOption.petrol when the fault has no fuel type '
-      'on record',
-      () async {
-        final lookupRepository = _FakeLookupRepository(
-          result: const LookupSearchFailure(LookupFailureReason.network),
-        );
-        final viewModel = DefectsViewModel(
-          repository: _FakePlatformRepository(),
-          lookupRepository: lookupRepository,
-        );
+    test('falls back to FuelOption.petrol when the fault has no fuel type '
+        'on record', () async {
+      final lookupRepository = _FakeLookupRepository(
+        result: const LookupSearchFailure(LookupFailureReason.network),
+      );
+      final viewModel = DefectsViewModel(
+        repository: _FakePlatformRepository(),
+        lookupRepository: lookupRepository,
+      );
 
-        await viewModel.openVehicle(_fault2, locale: AppLocale.pt);
+      await viewModel.openVehicle(_fault2, locale: AppLocale.pt);
 
-        expect(lookupRepository.searchCalls, hasLength(1));
-        expect(lookupRepository.searchCalls.single['fuel'], FuelOption.petrol);
-      },
-    );
+      expect(lookupRepository.searchCalls, hasLength(1));
+      expect(lookupRepository.searchCalls.single['fuel'], FuelOption.petrol);
+    });
 
     test('no-ops when the fault has no engine on record', () async {
       final lookupRepository = _FakeLookupRepository();

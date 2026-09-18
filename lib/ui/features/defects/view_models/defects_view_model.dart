@@ -11,8 +11,10 @@ import '../../home/home_search_options.dart';
 /// "Defeitos" screen, and opens one of them via [LookupRepository] — the
 /// full-screen counterpart to [HomeTopFaultsViewModel]'s fixed teaser.
 class DefectsViewModel extends ChangeNotifier {
-  DefectsViewModel({required this.repository, LookupRepository? lookupRepository})
-    : _lookupRepository = lookupRepository ?? LookupRepository();
+  DefectsViewModel({
+    required this.repository,
+    LookupRepository? lookupRepository,
+  }) : _lookupRepository = lookupRepository ?? LookupRepository();
 
   static const _pageSize = 20;
 
