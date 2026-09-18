@@ -17,6 +17,7 @@ class LookupReviewItem extends StatelessWidget {
     required this.comment,
     required this.submittedAgo,
     required this.isOwner,
+    this.onReport,
   });
 
   final String initials;
@@ -25,6 +26,10 @@ class LookupReviewItem extends StatelessWidget {
   final String comment;
   final String submittedAgo;
   final bool isOwner;
+
+  /// Opens the report dialog for this review. `null` when [isOwner] — a
+  /// user can't report their own content.
+  final VoidCallback? onReport;
 
   static const _avatarRadius = 16.0;
   static const _borderRadius = 12.0;
@@ -72,6 +77,16 @@ class LookupReviewItem extends StatelessWidget {
                 ),
               ),
               if (isOwner) _OwnerBadge(text: l10n.lookupReviewsYourBadge),
+              if (onReport != null)
+                IconButton(
+                  icon: const Icon(Icons.flag_outlined, size: 18),
+                  color: AppColors.muted,
+                  tooltip: l10n.lookupReportAction,
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  visualDensity: VisualDensity.compact,
+                  onPressed: onReport,
+                ),
             ],
           ),
           const SizedBox(height: 8),

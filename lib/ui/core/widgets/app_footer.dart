@@ -8,6 +8,7 @@ import '../../features/legal/view_models/legal_view_model.dart';
 import '../../features/legal/views/legal_view.dart';
 import '../constants/app_brand.dart';
 import '../theme/app_colors.dart';
+import 'ad_privacy_link.dart';
 import 'brand_wordmark.dart';
 
 /// Bottom block shared by every screen: wordmark, data disclaimer, legal links
@@ -61,6 +62,7 @@ class AppFooter extends StatelessWidget {
           label: l10n.legalLinkTerms,
           onTap: () => _openLegal(context, LegalSectionTarget.terms),
         ),
+        const AdPrivacyLink(),
       ],
     );
   }

@@ -1,0 +1,4 @@
+storePassword=your_keystore_password
+keyPassword=your_key_password
+keyAlias=car-faults-release
+storeFile=/home/your_user/keys/car-faults-release.jks

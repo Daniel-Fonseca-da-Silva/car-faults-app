@@ -12,6 +12,8 @@ import 'data/repositories/locale_repository.dart';
 import 'data/repositories/lookup_repository.dart';
 import 'data/repositories/platform_repository.dart';
 import 'data/repositories/profile_repository.dart';
+import 'data/services/admob_config.dart';
+import 'data/services/consent_service.dart';
 import 'data/services/locale_preferences_service.dart';
 import 'data/services/secure_token_storage.dart';
 import 'domain/models/app_locale.dart';
@@ -26,10 +28,17 @@ Future<void> main() async {
 
   if (Platform.isAndroid) {
     try {
-      await MobileAds.instance.initialize();
+      // GDPR (EEA/UK, incl. Portugal): gather ad consent via the UMP SDK
+      // before requesting ads. Skip Mobile Ads init entirely if the user
+      // hasn't consented and consent is required.
+      final canRequestAds = await ConsentService.gatherConsent();
+      AdMobConfig.adsAllowed = canRequestAds;
+      if (canRequestAds) {
+        await MobileAds.instance.initialize();
+      }
     } catch (error) {
-      // Ads are optional: keep the app usable if the SDK fails to init.
-      debugPrint('MobileAds.initialize failed: $error');
+      // Ads are optional: keep the app usable if consent/SDK init fails.
+      debugPrint('Ad consent/MobileAds.initialize failed: $error');
     }
   }
 

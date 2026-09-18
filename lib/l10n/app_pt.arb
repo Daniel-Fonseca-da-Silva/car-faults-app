@@ -378,6 +378,10 @@
   "@legalLinkTerms": {
     "description": "Footer link that opens the terms of service section of the legal screen."
   },
+  "legalLinkAdConsent": "Consentimento de anúncios",
+  "@legalLinkAdConsent": {
+    "description": "Footer link that reopens the GDPR ad consent (privacy options) form. Only shown when the UMP SDK reports it's required."
+  },
   "legalLoadError": "Não foi possível carregar o documento legal.",
   "@legalLoadError": {
     "description": "Error message shown when the privacy/terms JSON fails to load."
@@ -653,6 +657,58 @@
   "lookupCommentsSubmitError": "Não foi possível publicar o teu comentário. Tenta novamente.",
   "@lookupCommentsSubmitError": {
     "description": "Generic error shown when submitting a comment fails."
+  },
+  "lookupReportAction": "Denunciar",
+  "@lookupReportAction": {
+    "description": "Tooltip/label of the button that opens the report-content dialog on a comment or review."
+  },
+  "lookupReportDialogTitle": "Denunciar conteúdo",
+  "@lookupReportDialogTitle": {
+    "description": "Title of the report-content dialog."
+  },
+  "lookupReportReasonSpam": "Spam",
+  "@lookupReportReasonSpam": {
+    "description": "Report reason option: spam."
+  },
+  "lookupReportReasonOffensive": "Ofensivo ou abusivo",
+  "@lookupReportReasonOffensive": {
+    "description": "Report reason option: offensive or abusive content."
+  },
+  "lookupReportReasonInappropriatePhoto": "Foto inadequada",
+  "@lookupReportReasonInappropriatePhoto": {
+    "description": "Report reason option: inappropriate photo."
+  },
+  "lookupReportReasonHarassment": "Assédio",
+  "@lookupReportReasonHarassment": {
+    "description": "Report reason option: harassment."
+  },
+  "lookupReportReasonOther": "Outro",
+  "@lookupReportReasonOther": {
+    "description": "Report reason option: other, catch-all."
+  },
+  "lookupReportDetailsHint": "Detalhes adicionais (opcional)",
+  "@lookupReportDetailsHint": {
+    "description": "Placeholder of the optional free-text details field in the report dialog."
+  },
+  "lookupReportSubmit": "Enviar denúncia",
+  "@lookupReportSubmit": {
+    "description": "Label of the report dialog's submit button."
+  },
+  "lookupReportCancel": "Cancelar",
+  "@lookupReportCancel": {
+    "description": "Label of the report dialog's cancel button."
+  },
+  "lookupReportSuccess": "Denúncia enviada. Obrigado por ajudares a manter a comunidade segura.",
+  "@lookupReportSuccess": {
+    "description": "Confirmation shown after successfully submitting a report."
+  },
+  "lookupReportDuplicateError": "Já denunciaste este conteúdo.",
+  "@lookupReportDuplicateError": {
+    "description": "Error shown when the signed-in user already reported this content (API 409)."
+  },
+  "lookupReportSubmitError": "Não foi possível enviar a denúncia. Tenta novamente.",
+  "@lookupReportSubmitError": {
+    "description": "Generic error shown when submitting a report fails."
   },
   "lookupAddToGarage": "Adicionar à garagem",
   "@lookupAddToGarage": {

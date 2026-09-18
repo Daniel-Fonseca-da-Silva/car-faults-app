@@ -22,11 +22,17 @@ abstract final class AdMobConfig {
   static String get effectiveHomeBannerId =>
       kDebugMode ? _testHomeBannerId : homeBannerId;
 
-  /// Whether the home banner should be shown: Android only, and either
-  /// running in debug (test ads always available) or a real unit id has
-  /// been configured for release.
+  /// Whether GDPR ad consent (gathered via [ConsentService] at startup)
+  /// allows ads to be requested. Defaults to `false` so no ad ever loads
+  /// before consent has been resolved.
+  static bool adsAllowed = false;
+
+  /// Whether the home banner should be shown: Android only, ad consent
+  /// resolved, and either running in debug (test ads always available) or
+  /// a real unit id has been configured for release.
   static bool get isHomeBannerEnabled {
     if (!Platform.isAndroid) return false;
+    if (!adsAllowed) return false;
     return kDebugMode || homeBannerId.isNotEmpty;
   }
 }

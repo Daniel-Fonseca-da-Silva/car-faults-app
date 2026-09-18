@@ -16,6 +16,7 @@ class LookupCommentItem extends StatelessWidget {
     required this.imageUrl,
     required this.submittedAgo,
     required this.isOwner,
+    this.onReport,
   });
 
   final String initials;
@@ -24,6 +25,10 @@ class LookupCommentItem extends StatelessWidget {
   final String? imageUrl;
   final String submittedAgo;
   final bool isOwner;
+
+  /// Opens the report dialog for this comment. `null` when [isOwner] — a
+  /// user can't report their own content.
+  final VoidCallback? onReport;
 
   static const _avatarRadius = 16.0;
   static const _borderRadius = 12.0;
@@ -79,6 +84,16 @@ class LookupCommentItem extends StatelessWidget {
                   style: const TextStyle(color: AppColors.muted, fontSize: 12),
                 ),
               ],
+              if (onReport != null)
+                IconButton(
+                  icon: const Icon(Icons.flag_outlined, size: 18),
+                  color: AppColors.muted,
+                  tooltip: l10n.lookupReportAction,
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  visualDensity: VisualDensity.compact,
+                  onPressed: onReport,
+                ),
             ],
           ),
           if (body.isNotEmpty) ...[
