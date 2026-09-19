@@ -19,7 +19,7 @@
       },
       "controller": {
         "heading": "2. Informações do Controlador de Dados e Detalhes de Contacto",
-        "body": "Controlador de dados: Daniel Fonseca da Silva (Portugal).\n\nConsultas de privacidade: envie um pedido com o assunto \"Pedido de Privacidade\" através do contacto indicado na página Sobre do Serviço (perfil LinkedIn do controlador), até que um endereço de e-mail dedicado seja publicado no Serviço."
+        "body": "Controlador de dados: Daniel Fonseca da Silva (Portugal).\n\nConsultas de privacidade: envie um pedido com o assunto \"Pedido de Privacidade\" para dafondeveloper@gmail.com, com informação suficiente para verificar a sua identidade."
       },
       "dataCollected": {
         "heading": "3. Categorias de Informações Pessoais que Recolhemos",
@@ -86,7 +86,7 @@
     "sections": {
       "provider": {
         "heading": "1. Informações do Prestador de Serviço e Visão Geral do Serviço",
-        "body": "O Serviço é prestado por Daniel Fonseca da Silva, trabalhador independente em Portugal. Para questões relacionadas com estes Termos, entre em contacto através do email contact@autocronica.autos.\n\nA Auto Crónica é um catálogo de defeitos crónicos de veículos, organizado por marca e modelo, que permite pesquisar falhas conhecidas, guardar veículos numa garage pessoal, comentar e avaliar relatos, e votar em correções sugeridas pela comunidade.\n\nDivulgação de processamento por IA: quando uma pesquisa ainda não tem dados suficientes no catálogo, o Serviço pode recorrer a sistemas de inteligência artificial (através de fornecedores de modelos de linguagem, como Google Gemini, Groq ou OpenRouter) para gerar ou enriquecer sugestões de defeitos e correções com base nos atributos do veículo. As sugestões geradas por IA são informativas e não substituem inspeção profissional, diagnóstico mecânico ou aconselhamento jurídico."
+        "body": "O Serviço é prestado por Daniel Fonseca da Silva, trabalhador independente em Portugal. Para questões relacionadas com estes Termos, entre em contacto através do email dafondeveloper@gmail.com.\n\nA Auto Crónica é um catálogo de defeitos crónicos de veículos, organizado por marca e modelo, que permite pesquisar falhas conhecidas, guardar veículos numa garage pessoal, comentar e avaliar relatos, e votar em correções sugeridas pela comunidade.\n\nDivulgação de processamento por IA: quando uma pesquisa ainda não tem dados suficientes no catálogo, o Serviço pode recorrer a sistemas de inteligência artificial (através de fornecedores de modelos de linguagem, como Google Gemini, Groq ou OpenRouter) para gerar ou enriquecer sugestões de defeitos e correções com base nos atributos do veículo. As sugestões geradas por IA são informativas e não substituem inspeção profissional, diagnóstico mecânico ou aconselhamento jurídico."
       },
       "acceptance": {
         "heading": "2. Aceitação e Modificação dos Termos",
@@ -142,7 +142,7 @@
       },
       "additionalProvisions": {
         "heading": "15. Disposições Adicionais",
-        "body": "Estes Termos, juntamente com a Política de Privacidade, constituem o acordo completo entre o utilizador e o Prestador de Serviço relativamente ao uso do Serviço e substituem todos os acordos anteriores.\n\nSe qualquer disposição destes Termos for considerada inválida ou inexequível, as disposições restantes permanecerão em pleno vigor e efeito. A versão em português destes Termos prevalecerá em caso de conflito com traduções.\n\nA falha do Prestador de Serviço em fazer valer qualquer direito ou disposição destes Termos não constituirá uma renúncia a tal direito ou disposição. O utilizador não pode ceder ou transferir estes Termos sem o consentimento prévio por escrito do Prestador de Serviço; o Prestador de Serviço pode ceder estes Termos sem restrições.\n\nPara questões relacionadas com estes Termos, entre em contacto através do email contact@autocronica.autos."
+        "body": "Estes Termos, juntamente com a Política de Privacidade, constituem o acordo completo entre o utilizador e o Prestador de Serviço relativamente ao uso do Serviço e substituem todos os acordos anteriores.\n\nSe qualquer disposição destes Termos for considerada inválida ou inexequível, as disposições restantes permanecerão em pleno vigor e efeito. A versão em português destes Termos prevalecerá em caso de conflito com traduções.\n\nA falha do Prestador de Serviço em fazer valer qualquer direito ou disposição destes Termos não constituirá uma renúncia a tal direito ou disposição. O utilizador não pode ceder ou transferir estes Termos sem o consentimento prévio por escrito do Prestador de Serviço; o Prestador de Serviço pode ceder estes Termos sem restrições.\n\nPara questões relacionadas com estes Termos, entre em contacto através do email dafondeveloper@gmail.com."
       }
     }
   }

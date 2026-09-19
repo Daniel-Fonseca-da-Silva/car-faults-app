@@ -19,7 +19,7 @@
       },
       "controller": {
         "heading": "2. Data Controller Information and Contact Details",
-        "body": "Data controller: Daniel Fonseca da Silva (Portugal).\n\nPrivacy enquiries: send a request with the subject \"Privacy Request\" through the contact listed on the Service's About page (the controller's LinkedIn profile), until a dedicated email address is published on the Service."
+        "body": "Data controller: Daniel Fonseca da Silva (Portugal).\n\nPrivacy enquiries: send a request with the subject \"Privacy Request\" to dafondeveloper@gmail.com, with enough information to verify your identity."
       },
       "dataCollected": {
         "heading": "3. Categories of Personal Information We Collect",
@@ -86,7 +86,7 @@
     "sections": {
       "provider": {
         "heading": "1. Service Provider Information and Service Overview",
-        "body": "The Service is provided by Daniel Fonseca da Silva, a self-employed professional in Portugal. For questions relating to these Terms, please contact us at contact@autocronica.autos.\n\nAuto Crónica is a catalogue of chronic vehicle faults, organised by make and model, that lets you search for known faults, save vehicles to a personal garage, comment on and rate reports, and vote on fixes suggested by the community.\n\nAI processing disclosure: when a search doesn't yet have enough data in the catalogue, the Service may use artificial intelligence systems (through language model providers such as Google Gemini, Groq or OpenRouter) to generate or enrich fault and fix suggestions based on the vehicle's attributes. AI-generated suggestions are informational and do not replace a professional inspection, mechanical diagnosis or legal advice."
+        "body": "The Service is provided by Daniel Fonseca da Silva, a self-employed professional in Portugal. For questions relating to these Terms, please contact us at dafondeveloper@gmail.com.\n\nAuto Crónica is a catalogue of chronic vehicle faults, organised by make and model, that lets you search for known faults, save vehicles to a personal garage, comment on and rate reports, and vote on fixes suggested by the community.\n\nAI processing disclosure: when a search doesn't yet have enough data in the catalogue, the Service may use artificial intelligence systems (through language model providers such as Google Gemini, Groq or OpenRouter) to generate or enrich fault and fix suggestions based on the vehicle's attributes. AI-generated suggestions are informational and do not replace a professional inspection, mechanical diagnosis or legal advice."
       },
       "acceptance": {
         "heading": "2. Acceptance and Modification of the Terms",
@@ -142,7 +142,7 @@
       },
       "additionalProvisions": {
         "heading": "15. Additional Provisions",
-        "body": "These Terms, together with the Privacy Policy, constitute the entire agreement between the user and the Service Provider regarding use of the Service and supersede all prior agreements.\n\nIf any provision of these Terms is found to be invalid or unenforceable, the remaining provisions will remain in full force and effect. The Portuguese-language version of these Terms shall prevail in the event of any conflict with translations.\n\nThe Service Provider's failure to enforce any right or provision of these Terms will not constitute a waiver of that right or provision. Users may not assign or transfer these Terms without the Service Provider's prior written consent; the Service Provider may assign these Terms without restriction.\n\nFor questions relating to these Terms, please contact us at contact@autocronica.autos."
+        "body": "These Terms, together with the Privacy Policy, constitute the entire agreement between the user and the Service Provider regarding use of the Service and supersede all prior agreements.\n\nIf any provision of these Terms is found to be invalid or unenforceable, the remaining provisions will remain in full force and effect. The Portuguese-language version of these Terms shall prevail in the event of any conflict with translations.\n\nThe Service Provider's failure to enforce any right or provision of these Terms will not constitute a waiver of that right or provision. Users may not assign or transfer these Terms without the Service Provider's prior written consent; the Service Provider may assign these Terms without restriction.\n\nFor questions relating to these Terms, please contact us at dafondeveloper@gmail.com."
       }
     }
   }
