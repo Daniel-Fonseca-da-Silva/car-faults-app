@@ -1,6 +1,7 @@
 import 'package:car_faults_app/data/repositories/locale_repository.dart';
 import 'package:car_faults_app/data/services/locale_preferences_service.dart';
 import 'package:car_faults_app/l10n/app_localizations.dart';
+import 'package:car_faults_app/ui/core/constants/app_support.dart';
 import 'package:car_faults_app/ui/core/view_models/auth_session_view_model.dart';
 import 'package:car_faults_app/ui/core/view_models/locale_view_model.dart';
 import 'package:car_faults_app/ui/features/support/views/support_view.dart';
@@ -29,6 +30,8 @@ Widget _app() {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   final messenger =
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
   String? copiedText;
@@ -59,7 +62,8 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('Apoia o Auto Crónica'), findsOneWidget);
-    expect(find.text('Daniel Fonseca da Silva'), findsOneWidget);
+    // Appears twice: the author byline in the hero and the closing signature.
+    expect(find.text('Daniel Fonseca da Silva'), findsNWidgets(2));
     expect(
       find.text('Criador e único programador do Auto Crónica'),
       findsOneWidget,
@@ -114,7 +118,7 @@ void main() {
       await tester.tap(find.text('Copiar código Pix'));
       await tester.pump();
 
-      expect(copiedText, '309ecf2b-ec2b-4f9a-916b-061e298ab6fc');
+      expect(copiedText, AppSupport.pixBrCode);
       expect(find.text('Copiado!'), findsOneWidget);
 
       await tester.pump(const Duration(seconds: 2));

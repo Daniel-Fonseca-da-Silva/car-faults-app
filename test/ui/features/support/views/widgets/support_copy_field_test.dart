@@ -20,6 +20,8 @@ Widget _app() {
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   final messenger =
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
   String? copiedText;
