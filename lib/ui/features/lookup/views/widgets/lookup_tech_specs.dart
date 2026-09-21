@@ -32,7 +32,7 @@ class LookupTechSpecs extends StatelessWidget {
       LookupSpecTile(
         icon: Icons.calendar_today,
         label: l10n.lookupSpecYears,
-        value: '${vehicle.yearFrom} - ${vehicle.yearTo}',
+        value: vehicle.yearRangeLabel,
       ),
       LookupSpecTile(
         icon: Icons.build,

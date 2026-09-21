@@ -2,6 +2,7 @@ import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../data/mappers/locale_mapper.dart';
 import '../../../../data/repositories/lookup_repository.dart';
 import '../../../../data/repositories/platform_repository.dart';
 import '../../../../domain/models/app_locale.dart';
@@ -135,11 +136,18 @@ class _DefectsViewState extends State<DefectsView> {
         // vehicleEngine is always present per `TopFaultVehicleDto`; the null
         // check here only guards the nullable Dart field defensively.
         final canOpen = fault.vehicleEngine != null;
+        final requestedLocale = _requestedLocale;
+        final isOtherLanguage =
+            requestedLocale != null &&
+            fault.contentLocale != apiLanguageFor(requestedLocale);
         return TopFaultCard(
           fault: fault,
           viewReportsLabel: l10n.homeTopFaultsViewReports,
           isLoading: _viewModel.isOpeningFault(fault.id),
           onTap: canOpen ? () => _openVehicle(fault) : null,
+          otherLanguageNotice: isOtherLanguage
+              ? l10n.homeTopFaultsOtherLanguageNotice
+              : null,
         );
       },
     );

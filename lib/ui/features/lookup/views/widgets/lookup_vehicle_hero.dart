@@ -10,9 +10,10 @@ import '../../view_models/lookup_results_view_model.dart';
 /// Card at the top of the results screen showing the matched vehicle's
 /// photo, name and model, matching [LoginHeroSection]'s gradient pattern.
 ///
-/// The vehicle comes from [LookupResultsViewModel]; the hero photo is still
-/// a fixed placeholder ([LookupDemoDisplay.vehicleImage]) since the API's
-/// vehicle image isn't wired up yet.
+/// The vehicle comes from [LookupResultsViewModel]. When it has a
+/// [LookupVehicle.imageUrl], that photo is loaded from the network; otherwise
+/// (or if it fails to load) a fixed placeholder
+/// ([LookupDemoDisplay.vehicleImage]) is shown instead.
 class LookupVehicleHero extends StatelessWidget {
   const LookupVehicleHero({super.key});
 
@@ -24,6 +25,8 @@ class LookupVehicleHero extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final vehicle = context.watch<LookupResultsViewModel>().vehicle;
+    final imageUrl = vehicle.imageUrl?.trim();
+    final hasImageUrl = imageUrl != null && imageUrl.isNotEmpty;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -37,10 +40,19 @@ class LookupVehicleHero extends StatelessWidget {
               Semantics(
                 label: l10n.lookupHeroImageAlt,
                 image: true,
-                child: Image.asset(
-                  LookupDemoDisplay.vehicleImage,
-                  fit: BoxFit.cover,
-                ),
+                child: hasImageUrl
+                    ? Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) => Image.asset(
+                          LookupDemoDisplay.vehicleImage,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : Image.asset(
+                        LookupDemoDisplay.vehicleImage,
+                        fit: BoxFit.cover,
+                      ),
               ),
               DecoratedBox(
                 decoration: BoxDecoration(

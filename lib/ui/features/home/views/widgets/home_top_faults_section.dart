@@ -2,6 +2,7 @@ import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../data/mappers/locale_mapper.dart';
 import '../../../../../data/repositories/platform_repository.dart';
 import '../../../../../domain/models/app_locale.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -88,6 +89,8 @@ class _HomeTopFaultsSectionState extends State<HomeTopFaultsSection> {
       return _emptyState(l10n);
     }
 
+    final requestedLocale = _requestedLocale;
+
     return Column(
       spacing: _cardGap,
       children: [
@@ -95,6 +98,11 @@ class _HomeTopFaultsSectionState extends State<HomeTopFaultsSection> {
           TopFaultCard(
             fault: fault,
             viewReportsLabel: l10n.homeTopFaultsViewReports,
+            otherLanguageNotice:
+                requestedLocale != null &&
+                    fault.contentLocale != apiLanguageFor(requestedLocale)
+                ? l10n.homeTopFaultsOtherLanguageNotice
+                : null,
           ),
       ],
     );

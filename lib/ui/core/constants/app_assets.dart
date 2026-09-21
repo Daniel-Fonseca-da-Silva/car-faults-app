@@ -3,8 +3,8 @@ abstract final class AppAssets {
   static const garage =
       'assets/images/garage/1951-volkswagen-beetle-garage-scene.webp';
   static const privacyHero = 'assets/images/privacy-term/Fiat-500-docs.webp';
-  static const aboutFounderPhoto =
-      'assets/images/about/daniel-fonseca-da-silva.jpg';
+  static const aboutFounderPhoto = 'assets/images/about/vw-1300-1973.webp';
+  static const supportFounderPhoto = 'assets/images/support/polo-6n1.webp';
   static const citroen2Cv = 'assets/images/show/citroen-2CV.webp';
   static const googleLogo = 'assets/images/auth/google_logo.svg';
 

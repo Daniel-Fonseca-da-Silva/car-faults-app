@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../view_models/login_view_model.dart';
 
-/// "Não tem conta? Cadastre-se grátis" prompt below the Google button.
+/// "Não tem conta? Regista-te grátis" prompt below the Google button.
 ///
 /// Sign-up and sign-in are the same OAuth command — Google decides whether
 /// the account already exists.
