@@ -222,7 +222,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      find.text('Não foi possível carregar o seu perfil.'),
+      find.text('Não foi possível carregar o teu perfil.'),
       findsOneWidget,
     );
     expect(find.byType(ProfileIdentityCard), findsNothing);
@@ -264,11 +264,11 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    final deleteButton = find.text('Excluir conta').last;
+    final deleteButton = find.text('Eliminar conta').last;
     await tester.ensureVisible(deleteButton);
     await tester.tap(deleteButton);
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Sim, excluir conta'));
+    await tester.tap(find.text('Sim, eliminar conta'));
     await tester.pumpAndSettle();
 
     expect(session.isSignedIn, isFalse);
@@ -287,15 +287,15 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    final deleteButton = find.text('Excluir conta').last;
+    final deleteButton = find.text('Eliminar conta').last;
     await tester.ensureVisible(deleteButton);
     await tester.tap(deleteButton);
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Sim, excluir conta'));
+    await tester.tap(find.text('Sim, eliminar conta'));
     await tester.pumpAndSettle();
 
     expect(
-      find.text('Não foi possível excluir a sua conta. Tente novamente.'),
+      find.text('Não foi possível eliminar a tua conta. Tenta novamente.'),
       findsOneWidget,
     );
   });

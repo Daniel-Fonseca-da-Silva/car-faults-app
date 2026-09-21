@@ -17,12 +17,19 @@ class TopFaultCard extends StatelessWidget {
     required this.viewReportsLabel,
     this.onTap,
     this.isLoading = false,
+    this.otherLanguageNotice,
   });
 
   final TopFault fault;
   final String viewReportsLabel;
   final VoidCallback? onTap;
   final bool isLoading;
+
+  /// Shown under the vehicle header when the caller determines [fault]'s
+  /// content locale doesn't match the app's current language (the API
+  /// fell back to another locale because none exists yet for this one).
+  /// Null hides the notice.
+  final String? otherLanguageNotice;
 
   static const _cardRadius = 12.0;
   static const _badgeRadius = 999.0;
@@ -41,6 +48,10 @@ class TopFaultCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _header(),
+          if (otherLanguageNotice != null) ...[
+            const SizedBox(height: 6),
+            _otherLanguageNotice(otherLanguageNotice!),
+          ],
           const SizedBox(height: 10),
           Text(
             fault.title,
@@ -60,7 +71,8 @@ class TopFaultCard extends StatelessWidget {
     final semanticsLabel =
         '${fault.vehicleBrand} ${fault.vehicleModel}, '
         '${fault.vehicleYearFrom}, ${fault.title}, '
-        '${formatCount(fault.reportCount)}';
+        '${formatCount(fault.reportCount)}'
+        '${otherLanguageNotice == null ? '' : ', $otherLanguageNotice'}';
 
     if (onTap == null) {
       return Semantics(
@@ -145,6 +157,24 @@ class TopFaultCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _otherLanguageNotice(String label) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      spacing: 4,
+      children: [
+        const Icon(Icons.translate, color: AppColors.muted, size: 12),
+        Text(
+          label,
+          style: const TextStyle(
+            color: AppColors.muted,
+            fontSize: 11,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
+      ],
     );
   }
 

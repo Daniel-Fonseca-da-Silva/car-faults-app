@@ -127,7 +127,7 @@ void main() {
       expect(find.byType(LoginAccessSection), findsOneWidget);
       expect(find.text('Entrar na conta'), findsOneWidget);
       expect(
-        find.text('Bem-vindo de volta. Acesse o banco de defeitos.'),
+        find.text('Bem-vindo de volta. Acede ao banco de defeitos.'),
         findsOneWidget,
       );
       expect(find.byType(GoogleSignInButton), findsOneWidget);
@@ -135,7 +135,7 @@ void main() {
 
       expect(find.byType(LoginSignUpPrompt), findsOneWidget);
       expect(find.text('Não tem conta?'), findsOneWidget);
-      expect(find.text('Cadastre-se grátis'), findsOneWidget);
+      expect(find.text('Regista-te grátis'), findsOneWidget);
     },
   );
 
@@ -215,14 +215,14 @@ void main() {
     expect(find.text('Privacidade e Termos de Uso'), findsOneWidget);
   });
 
-  testWidgets('tapping "Cadastre-se grátis" triggers the same Google command', (
+  testWidgets('tapping "Regista-te grátis" triggers the same Google command', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(
       _loginApp(authRepository: _FailingAuthRepository()),
     );
 
-    await tester.tap(find.text('Cadastre-se grátis'));
+    await tester.tap(find.text('Regista-te grátis'));
     await tester.pumpAndSettle();
 
     expect(

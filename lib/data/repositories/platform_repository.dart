@@ -96,6 +96,7 @@ class PlatformRepository {
       title: json['faultTitle'] as String,
       severity: issueSeverityFromApiValue(json['severity'] as String),
       reportCount: json['reportCount'] as int,
+      contentLocale: json['contentLocale'] as String,
       vehicleBrand: vehicle['brand'] as String,
       vehicleModel: vehicle['model'] as String,
       vehicleYearFrom: vehicle['yearFrom'] as int,

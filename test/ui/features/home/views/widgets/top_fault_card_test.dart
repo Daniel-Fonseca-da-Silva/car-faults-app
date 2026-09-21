@@ -10,6 +10,7 @@ void main() {
     title: 'Falha no sistema de injeção eletrónica',
     severity: IssueSeverity.high,
     reportCount: 1842,
+    contentLocale: 'pt-PT',
     vehicleBrand: 'Volkswagen',
     vehicleModel: 'Gol',
     vehicleYearFrom: 2015,

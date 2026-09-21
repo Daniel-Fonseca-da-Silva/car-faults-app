@@ -22,20 +22,32 @@ Known-issue information is fragmented across forums, YouTube, ADAC/TÜV reports,
 
 ## Screenshots
 
+**Phone**
+
 <p align="center">
-  <img src="design/store/screenshots/01-home.png" width="180" alt="Home">
-  <img src="design/store/screenshots/02-about.png" width="180" alt="About">
-  <img src="design/store/screenshots/03-login.png" width="180" alt="Sign in">
-  <img src="design/store/screenshots/04-languages.png" width="180" alt="Languages">
-  <img src="design/store/screenshots/05-search.png" width="180" alt="Search">
-  <img src="design/store/screenshots/06-problems.png" width="180" alt="Known issues">
+  <img src="design/store/cellphone/01-home-pt.png" width="180" alt="Home">
+  <img src="design/store/cellphone/02-defects-pt.png" width="180" alt="Known issues">
+  <img src="design/store/cellphone/03-vehicle-pt.png" width="180" alt="Vehicle lookup">
+  <img src="design/store/cellphone/04-vehicle-fault-pt.png" width="180" alt="Fault detail">
 </p>
 <p align="center">
-  <img src="design/store/screenshots/07-cause.png" width="180" alt="Cause">
-  <img src="design/store/screenshots/08-solution.png" width="180" alt="Fix">
-  <img src="design/store/screenshots/09-favorite.png" width="180" alt="Favorite">
-  <img src="design/store/screenshots/10-garage.png" width="180" alt="Garage">
-  <img src="design/store/screenshots/11-profile.png" width="180" alt="Profile">
+  <img src="design/store/cellphone/05-vehicle-solution-pt.png" width="180" alt="Fix and community comments">
+  <img src="design/store/cellphone/06-garage-pt.png" width="180" alt="Garage">
+  <img src="design/store/cellphone/07-garage-issues-pt.png" width="180" alt="Garage known issues">
+  <img src="design/store/cellphone/08-favorites-pt.png" width="180" alt="Favorites">
+</p>
+
+**Tablet**
+
+<p align="center">
+  <img src="design/store/tablet/01-login-tablet-pt.png" width="260" alt="Sign in">
+  <img src="design/store/tablet/02-home-tablet-pt.png" width="260" alt="Home">
+  <img src="design/store/tablet/03-vehicle-tablet-pt.png" width="260" alt="Vehicle lookup">
+</p>
+<p align="center">
+  <img src="design/store/tablet/06-garage-tablet-pt.png" width="260" alt="Garage">
+  <img src="design/store/tablet/07-favorites-tablet-pt.png" width="260" alt="Favorites">
+  <img src="design/store/tablet/08-profile-tablet-pt.png" width="260" alt="Profile">
 </p>
 
 ## Stack

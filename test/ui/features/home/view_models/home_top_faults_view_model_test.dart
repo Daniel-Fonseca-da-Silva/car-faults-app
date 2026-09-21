@@ -31,6 +31,7 @@ const _sampleFaults = [
     title: 'Oil leak',
     severity: IssueSeverity.medium,
     reportCount: 12,
+    contentLocale: 'en-GB',
     vehicleBrand: 'BMW',
     vehicleModel: '320d',
     vehicleYearFrom: 2012,

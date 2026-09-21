@@ -228,7 +228,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('A sua garagem está vazia'), findsOneWidget);
+    expect(find.text('A tua garagem está vazia'), findsOneWidget);
   });
 
   testWidgets('shows an error state with a retry button when loading fails', (
@@ -238,7 +238,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      find.text('Não foi possível carregar a sua garagem.'),
+      find.text('Não foi possível carregar a tua garagem.'),
       findsOneWidget,
     );
     expect(find.byType(GarageHeroCard), findsNothing);
@@ -255,8 +255,8 @@ void main() {
       await tester.tap(find.byIcon(Icons.delete_outline));
       await tester.pumpAndSettle();
 
-      expect(find.text('A sua garagem está vazia'), findsOneWidget);
-      expect(find.text('Ainda não tem veículos na garagem.'), findsOneWidget);
+      expect(find.text('A tua garagem está vazia'), findsOneWidget);
+      expect(find.text('Ainda não tens veículos na garagem.'), findsOneWidget);
       expect(find.text('Fiat Punto'), findsNothing);
     },
   );
@@ -298,7 +298,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      find.text('Não foi possível remover o veículo. Tente novamente.'),
+      find.text('Não foi possível remover o veículo. Tenta novamente.'),
       findsOneWidget,
     );
     // Hero + vehicles list both keep the name when removal fails.

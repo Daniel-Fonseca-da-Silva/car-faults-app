@@ -23,7 +23,7 @@ void main() {
     await tester.pumpWidget(_app());
 
     expect(find.text('47'), findsOneWidget);
-    expect(find.text('Buscas realizadas'), findsOneWidget);
+    expect(find.text('Pesquisas realizadas'), findsOneWidget);
     expect(find.text('128'), findsOneWidget);
     expect(find.text('Defeitos consultados'), findsOneWidget);
     expect(find.text('6'), findsOneWidget);

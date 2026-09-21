@@ -8,6 +8,7 @@ class TopFault {
     required this.title,
     required this.severity,
     required this.reportCount,
+    required this.contentLocale,
     required this.vehicleBrand,
     required this.vehicleModel,
     required this.vehicleYearFrom,
@@ -20,6 +21,13 @@ class TopFault {
   final String title;
   final IssueSeverity severity;
   final int reportCount;
+
+  /// API language tag (e.g. `pt-PT`) the fault's [title] is actually
+  /// written in. Usually matches the locale it was requested in, but the
+  /// API may fall back to another locale when the requested one has no
+  /// content yet for this fault — compare against `apiLanguageFor` to
+  /// detect that and surface a notice.
+  final String contentLocale;
   final String vehicleBrand;
   final String vehicleModel;
   final int vehicleYearFrom;

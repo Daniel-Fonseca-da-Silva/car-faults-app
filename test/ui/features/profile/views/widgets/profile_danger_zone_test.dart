@@ -37,11 +37,11 @@ void main() {
     await tester.pumpWidget(_app(viewModel));
 
     expect(find.text('ZONA DE RISCO'), findsOneWidget);
-    expect(find.text('Excluir conta'), findsNWidgets(2));
+    expect(find.text('Eliminar conta'), findsNWidgets(2));
     expect(
       find.text(
-        'Apaga permanentemente todos os seus dados. '
-        'Esta acção não pode ser desfeita.',
+        'Apaga permanentemente todos os teus dados. '
+        'Esta ação não pode ser desfeita.',
       ),
       findsOneWidget,
     );
@@ -56,10 +56,10 @@ void main() {
     );
     await tester.pumpWidget(_app(viewModel));
 
-    await tester.tap(find.text('Excluir conta').last);
+    await tester.tap(find.text('Eliminar conta').last);
     await tester.pumpAndSettle();
 
-    expect(find.text('Tem a certeza?'), findsOneWidget);
+    expect(find.text('Tens a certeza?'), findsOneWidget);
     expect(find.byType(AlertDialog), findsOneWidget);
   });
 
@@ -72,7 +72,7 @@ void main() {
     );
     await tester.pumpWidget(_app(viewModel));
 
-    await tester.tap(find.text('Excluir conta').last);
+    await tester.tap(find.text('Eliminar conta').last);
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Cancelar'));
@@ -91,10 +91,10 @@ void main() {
     );
     await tester.pumpWidget(_app(viewModel));
 
-    await tester.tap(find.text('Excluir conta').last);
+    await tester.tap(find.text('Eliminar conta').last);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Sim, excluir conta'));
+    await tester.tap(find.text('Sim, eliminar conta'));
     await tester.pumpAndSettle();
 
     expect(find.byType(AlertDialog), findsNothing);

@@ -71,6 +71,7 @@ LookupVehicle _mapVehicle(Map<String, dynamic> json) {
     doors: (json['doors'] as int?) ?? 0,
     fuelType: (json['fuelType'] as String?) ?? '',
     powerHp: (techSpecs?['power_hp'] as num?)?.toInt() ?? 0,
+    imageUrl: json['imageUrl'] as String?,
   );
 }
 

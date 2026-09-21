@@ -62,7 +62,9 @@ void main() {
     await tester.pumpWidget(_app());
 
     expect(find.text('Sobre a Auto Crónica'), findsOneWidget);
-    final photo = find.bySemanticsLabel('Retrato de Daniel Fonseca da Silva');
+    final photo = find.bySemanticsLabel(
+      'O meu Volkswagen 1300 de 1973, o carocha que tenho na garagem',
+    );
     expect(photo, findsOneWidget);
     expect(
       find.descendant(of: photo, matching: find.byType(Image)),
@@ -81,7 +83,7 @@ void main() {
     );
     expect(find.text('O problema'), findsOneWidget);
     expect(find.text('A solução'), findsOneWidget);
-    expect(find.text('Para quem gosta de carros'), findsOneWidget);
+    expect(find.text('Para quem gosta mesmo de carros'), findsOneWidget);
   });
 
   testWidgets('opens the founder LinkedIn profile', (

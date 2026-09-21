@@ -71,7 +71,7 @@ void main() {
   ) async {
     await tester.pumpWidget(_app(const []));
 
-    expect(find.text('Ainda não tem nenhum veículo.'), findsOneWidget);
+    expect(find.text('Ainda não tens nenhum veículo.'), findsOneWidget);
     expect(find.text('0 veículos'), findsOneWidget);
     expect(find.byType(ProfileSavedVehicleRow), findsNothing);
   });
