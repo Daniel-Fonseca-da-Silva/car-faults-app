@@ -5,19 +5,13 @@ import 'package:flutter_test/flutter_test.dart';
 Widget _app() {
   return const MaterialApp(
     home: Scaffold(
-      body: SupportAmountTile(
-        emoji: '☕',
-        amountLabel: '€ 2',
-        label: 'Um café',
-      ),
+      body: SupportAmountTile(emoji: '☕', amountLabel: '€ 2', label: 'Um café'),
     ),
   );
 }
 
 void main() {
-  testWidgets('shows the emoji, amount and label', (
-    WidgetTester tester,
-  ) async {
+  testWidgets('shows the emoji, amount and label', (WidgetTester tester) async {
     await tester.pumpWidget(_app());
 
     expect(find.text('☕'), findsOneWidget);

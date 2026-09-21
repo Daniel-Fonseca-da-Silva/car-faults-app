@@ -22,7 +22,10 @@ void main() {
 
     await tester.pumpWidget(_app());
 
-    expect(find.bySemanticsLabel('Código QR para pagar pela Wise'), findsOneWidget);
+    expect(
+      find.bySemanticsLabel('Código QR para pagar pela Wise'),
+      findsOneWidget,
+    );
     expect(find.byType(QrImageView), findsOneWidget);
 
     handle.dispose();

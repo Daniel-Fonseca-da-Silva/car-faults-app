@@ -60,8 +60,10 @@ void main() {
     );
     expect(find.text('Apoia o Auto Crónica'), findsOneWidget);
     expect(find.text('Daniel Fonseca da Silva'), findsOneWidget);
-    expect(find.text('Criador e único programador do Auto Crónica'),
-        findsOneWidget);
+    expect(
+      find.text('Criador e único programador do Auto Crónica'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('shows the three benefit cards', (WidgetTester tester) async {
