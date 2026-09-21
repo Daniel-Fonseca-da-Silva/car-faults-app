@@ -24,7 +24,7 @@
   "@navSignOut": {
     "description": "Navigation drawer item that signs the user out, shown when signed in."
   },
-  "navSearch": "Busca",
+  "navSearch": "Pesquisa",
   "@navSearch": {
     "description": "Navigation drawer item that returns to the home screen's vehicle search form."
   },
@@ -35,6 +35,10 @@
   "navAbout": "Sobre",
   "@navAbout": {
     "description": "Navigation drawer item that opens the About screen."
+  },
+  "navSupport": "Apoio",
+  "@navSupport": {
+    "description": "Navigation drawer item that opens the Support (donation) screen."
   },
   "navProfile": "Perfil",
   "@navProfile": {
@@ -78,11 +82,11 @@
   "@aboutTitle": {
     "description": "Title of the About screen."
   },
-  "aboutFounderPhoto": "Retrato de Daniel Fonseca da Silva",
+  "aboutFounderPhoto": "O meu Volkswagen 1300 de 1973, o carocha que tenho na garagem",
   "@aboutFounderPhoto": {
     "description": "Accessibility description of the founder's photo on the About screen."
   },
-  "aboutLead": "Chamo-me Daniel Fonseca da Silva. Sou engenheiro de software em Portugal quase nove anos a construir sistemas fiáveis, da cloud aos produtos que as pessoas usam todos os dias e sou também um aficionado por automóveis. A Auto Crónica nasceu do encontro destas duas coisas.",
+  "aboutLead": "Chamo-me Daniel Fonseca da Silva e sou engenheiro de software em Portugal, com quase nove anos a construir sistemas fiáveis, da cloud aos produtos que as pessoas usam todos os dias, e sou também um apaixonado por carros. A Auto Crónica nasceu do encontro destas duas coisas.",
   "@aboutLead": {
     "description": "Lead paragraph of the About screen, below the title."
   },
@@ -94,7 +98,7 @@
   "@aboutProblemTitle": {
     "description": "Heading of the About screen's \"problem\" section."
   },
-  "aboutProblemBody": "Em qualquer país da Europa, comprar um carro novo ou usado significa muitas vezes avançar às cegas. Todo o veículo tem falhas que, mais cedo ou mais tarde, acabam por aparecer: uma peça que falha sempre no mesmo sítio, um motor com um vício conhecido, uma caixa que dá problemas a partir de determinada quilometragem. Essa informação existe, mas está espalhada por fóruns, grupos e conversas soltas e é difícil saber em que confiar.",
+  "aboutProblemBody": "Epah, quem já comprou um carro sabe do que falo: novo ou em segunda mão, é quase sempre um salto no escuro. Todo o carro tem as suas manias, uma peça que parte sempre no mesmo sítio, um motor com um vício conhecido, uma embraiagem que começa a dar problemas a partir de uma certa quilometragem. Essa informação até existe, mas anda espalhada por fóruns, grupos e conversas de café, e nunca se sabe bem em que confiar.",
   "@aboutProblemBody": {
     "description": "Body text of the About screen's \"problem\" section."
   },
@@ -102,15 +106,15 @@
   "@aboutSolutionTitle": {
     "description": "Heading of the About screen's \"solution\" section."
   },
-  "aboutSolutionBody": "A Auto Crónica é um catálogo de defeitos crónicos organizado por marca e modelo, pensado para crescer com o tempo. Quando ainda não há dados suficientes sobre um veículo, a inteligência artificial ajuda a sugerir os problemas mais prováveis; e a comunidade de proprietários comenta, corrige e vota nos relatos, para que a informação fique cada vez mais fiável.",
+  "aboutSolutionBody": "A Auto Crónica é um catálogo de defeitos crónicos organizado por marca e modelo, pensado para crescer com o tempo. Quando ainda não há dados suficientes sobre um carro, a inteligência artificial ajuda a apontar os problemas mais prováveis, e a comunidade de proprietários comenta, corrige e vota nos relatos para que a informação fique cada vez mais fiável. A ideia é simples: antes de fechares negócio num carro usado, ou antes de uma peça te pregar uma partida, sabes sempre ao que vais, porque o vosso próximo carro merece menos surpresas.",
   "@aboutSolutionBody": {
     "description": "Body text of the About screen's \"solution\" section."
   },
-  "aboutCommunityTitle": "Para quem gosta de carros",
+  "aboutCommunityTitle": "Para quem gosta mesmo de carros",
   "@aboutCommunityTitle": {
     "description": "Heading of the About screen's \"community\" section."
   },
-  "aboutCommunityBody": "Este projecto é para quem gosta de urbanos práticos, eléctricos silenciosos, clássicos com história ou desportivos com carácter e quer decidir com mais informação e menos surpresas.",
+  "aboutCommunityBody": "Este projeto é para quem gosta de citadinos práticos, elétricos silenciosos, clássicos giros com história (o meu carocha de 73 ali em cima é prova disso) ou desportivos com carácter, e prefere decidir com informação em vez de levar com surpresas.",
   "@aboutCommunityBody": {
     "description": "Body text of the About screen's \"community\" section."
   },
@@ -118,7 +122,7 @@
   "@aboutCtaLabel": {
     "description": "Label of the About screen's closing call-to-action button."
   },
-  "aboutCtaHint": "Comece por procurar a marca e o modelo que tem em mente.",
+  "aboutCtaHint": "Começa por pesquisar a marca e o modelo que tens em mente.",
   "@aboutCtaHint": {
     "description": "Hint text shown under the About screen's closing call-to-action button."
   },
@@ -148,7 +152,7 @@
   "@homeHeroEyebrow": {
     "description": "Eyebrow label above the home hero title."
   },
-  "homeHeroTitleBeforeHighlight": "Conheça os",
+  "homeHeroTitleBeforeHighlight": "Conhece os",
   "@homeHeroTitleBeforeHighlight": {
     "description": "First part of the home hero title, before the highlighted word."
   },
@@ -192,7 +196,7 @@
   "@homeSearchFieldYear": {
     "description": "Label of the vehicle year field in the search card."
   },
-  "homeSearchFieldYearPlaceholder": "Selecione o ano",
+  "homeSearchFieldYearPlaceholder": "Seleciona o ano",
   "@homeSearchFieldYearPlaceholder": {
     "description": "Placeholder of the vehicle year field."
   },
@@ -208,7 +212,7 @@
   "@homeSearchFieldFuel": {
     "description": "Label of the fuel field in the search card."
   },
-  "homeSearchFieldFuelPlaceholder": "Tipo de combustível",
+  "homeSearchFieldFuelPlaceholder": "Seleciona o combustível",
   "@homeSearchFieldFuelPlaceholder": {
     "description": "Placeholder of the fuel field."
   },
@@ -216,7 +220,7 @@
   "@homeSearchFieldDoors": {
     "description": "Label of the doors field in the search card."
   },
-  "homeSearchFieldDoorsPlaceholder": "Número de portas",
+  "homeSearchFieldDoorsPlaceholder": "Seleciona o número de portas",
   "@homeSearchFieldDoorsPlaceholder": {
     "description": "Placeholder of the doors field."
   },
@@ -296,6 +300,10 @@
   "@homeTopFaultsViewReports": {
     "description": "Footer label of each top fault card. Decorative on the home teaser; opens the vehicle's reports on the Defects screen."
   },
+  "homeTopFaultsOtherLanguageNotice": "Conteúdo disponível noutro idioma",
+  "@homeTopFaultsOtherLanguageNotice": {
+    "description": "Notice shown on a top fault card when its content isn't available yet in the app's language and another language is shown instead."
+  },
   "homeTopFaultsSemanticLabel": "Avarias mais reportadas",
   "@homeTopFaultsSemanticLabel": {
     "description": "Accessibility label announcing the most-reported-faults card list."
@@ -324,7 +332,7 @@
   "@loginHeroEyebrow": {
     "description": "Brand eyebrow shown over the login hero photo."
   },
-  "loginHeroTitleBeforeHighlight": "Conheça os defeitos",
+  "loginHeroTitleBeforeHighlight": "Conhece os defeitos",
   "@loginHeroTitleBeforeHighlight": {
     "description": "First part of the login hero title, before the highlighted word."
   },
@@ -332,7 +340,7 @@
   "@loginHeroTitleHighlight": {
     "description": "Highlighted (orange) word in the login hero title."
   },
-  "loginHeroTitleAfterHighlight": "de ser pego de surpresa.",
+  "loginHeroTitleAfterHighlight": "de seres apanhado de surpresa.",
   "@loginHeroTitleAfterHighlight": {
     "description": "Last part of the login hero title, after the highlighted word."
   },
@@ -348,7 +356,7 @@
   "@loginAccessTitle": {
     "description": "Title of the login access block."
   },
-  "loginAccessSubtitle": "Bem-vindo de volta. Acesse o banco de defeitos.",
+  "loginAccessSubtitle": "Bem-vindo de volta. Acede ao banco de defeitos.",
   "@loginAccessSubtitle": {
     "description": "Subtitle of the login access block."
   },
@@ -360,7 +368,7 @@
   "@loginNoAccount": {
     "description": "Muted lead-in text of the sign-up prompt, before the link."
   },
-  "loginSignUp": "Cadastre-se grátis",
+  "loginSignUp": "Regista-te grátis",
   "@loginSignUp": {
     "description": "Tappable link of the sign-up prompt. Triggers the same Google command as loginGoogle."
   },
@@ -766,7 +774,7 @@
   "@profileCreatedAt": {
     "description": "Label of the account creation date row in the account information card."
   },
-  "profileUpdatedAt": "Actualizado em",
+  "profileUpdatedAt": "Atualizado em",
   "@profileUpdatedAt": {
     "description": "Label of the account last-updated date row in the account information card."
   },
@@ -782,7 +790,7 @@
   "@profileCopied": {
     "description": "Accessibility label of the copy button next to the account ID, right after it is tapped."
   },
-  "profileStatSearches": "Buscas realizadas",
+  "profileStatSearches": "Pesquisas realizadas",
   "@profileStatSearches": {
     "description": "Label of the searches-made stat card on the profile screen."
   },
@@ -816,7 +824,7 @@
       }
     }
   },
-  "profileVehiclesEmpty": "Ainda não tem nenhum veículo.",
+  "profileVehiclesEmpty": "Ainda não tens nenhum veículo.",
   "@profileVehiclesEmpty": {
     "description": "Empty state of the saved-vehicles card when there are no saved vehicles."
   },
@@ -848,19 +856,19 @@
   "@profileDangerTitle": {
     "description": "Uppercase title of the danger-zone card on the profile screen."
   },
-  "profileDeleteAccount": "Excluir conta",
+  "profileDeleteAccount": "Eliminar conta",
   "@profileDeleteAccount": {
     "description": "Label of the delete-account button and its bold heading inside the danger-zone card."
   },
-  "profileDeleteAccountDescription": "Apaga permanentemente todos os seus dados. Esta acção não pode ser desfeita.",
+  "profileDeleteAccountDescription": "Apaga permanentemente todos os teus dados. Esta ação não pode ser desfeita.",
   "@profileDeleteAccountDescription": {
     "description": "Muted description under the delete-account heading, warning that the action is permanent."
   },
-  "profileDeleteConfirmTitle": "Tem a certeza?",
+  "profileDeleteConfirmTitle": "Tens a certeza?",
   "@profileDeleteConfirmTitle": {
     "description": "Title of the confirmation dialog shown before deleting the account."
   },
-  "profileDeleteConfirmDescription": "A sua conta e todos os dados serão apagados de imediato. Esta acção não pode ser desfeita.",
+  "profileDeleteConfirmDescription": "A tua conta e todos os dados serão apagados de imediato. Esta ação não pode ser desfeita.",
   "@profileDeleteConfirmDescription": {
     "description": "Body of the confirmation dialog shown before deleting the account."
   },
@@ -868,15 +876,15 @@
   "@profileDeleteConfirmCancel": {
     "description": "Cancel action of the delete-account confirmation dialog."
   },
-  "profileDeleteConfirmDelete": "Sim, excluir conta",
+  "profileDeleteConfirmDelete": "Sim, eliminar conta",
   "@profileDeleteConfirmDelete": {
     "description": "Confirm action of the delete-account confirmation dialog, triggering the delete command."
   },
-  "profileDeleteError": "Não foi possível excluir a sua conta. Tente novamente.",
+  "profileDeleteError": "Não foi possível eliminar a tua conta. Tenta novamente.",
   "@profileDeleteError": {
     "description": "SnackBar shown when the DELETE /v1/users/me request fails."
   },
-  "profileLoadError": "Não foi possível carregar o seu perfil.",
+  "profileLoadError": "Não foi possível carregar o teu perfil.",
   "@profileLoadError": {
     "description": "Error message shown on the profile screen when loading the snapshot fails."
   },
@@ -884,7 +892,7 @@
   "@garageEyebrow": {
     "description": "Uppercase eyebrow label on the garage screen's hero card."
   },
-  "garageEmptyTitle": "A sua garagem está vazia",
+  "garageEmptyTitle": "A tua garagem está vazia",
   "@garageEmptyTitle": {
     "description": "Hero title shown when the garage has no saved vehicles."
   },
@@ -896,7 +904,7 @@
   "@garageVehiclesTitle": {
     "description": "Uppercase title of the owned-vehicles section on the garage screen."
   },
-  "garageVehiclesEmpty": "Ainda não tem veículos na garagem.",
+  "garageVehiclesEmpty": "Ainda não tens veículos na garagem.",
   "@garageVehiclesEmpty": {
     "description": "Empty state message shown when there are no vehicles in the garage."
   },
@@ -946,11 +954,11 @@
       }
     }
   },
-  "garageRemoveError": "Não foi possível remover o veículo. Tente novamente.",
+  "garageRemoveError": "Não foi possível remover o veículo. Tenta novamente.",
   "@garageRemoveError": {
     "description": "SnackBar shown when the DELETE /v1/user-vehicles/:id request fails."
   },
-  "garageLoadError": "Não foi possível carregar a sua garagem.",
+  "garageLoadError": "Não foi possível carregar a tua garagem.",
   "@garageLoadError": {
     "description": "Error message shown on the garage screen when loading the vehicles fails."
   },
@@ -997,5 +1005,187 @@
         "example": "Punto"
       }
     }
+  },
+  "supportBadge": "🚀 Projeto independente",
+  "@supportBadge": {
+    "description": "Badge shown above the title on the Support screen."
+  },
+  "supportTitle": "Apoia o Auto Crónica",
+  "@supportTitle": {
+    "description": "Title of the Support screen."
+  },
+  "supportPhotoAlt": "O meu Volkswagen Polo 6N1",
+  "@supportPhotoAlt": {
+    "description": "Accessibility description of the founder's photo on the Support screen."
+  },
+  "supportAuthorName": "Daniel Fonseca da Silva",
+  "@supportAuthorName": {
+    "description": "Founder's name shown on the Support screen."
+  },
+  "supportAuthorRole": "Criador e único programador do Auto Crónica",
+  "@supportAuthorRole": {
+    "description": "Founder's role shown under their name on the Support screen."
+  },
+  "supportIntro": "Olá, sou eu outra vez. O Auto Crónica é feito e mantido por mim sozinho, nas horas livres e sem financiamento nenhum. Se o projeto já te ajudou a comprar um carro com mais confiança, uma doação por MBWay faz cá uma bela diferença. 🙏",
+  "@supportIntro": {
+    "description": "Intro paragraph of the Support screen, below the founder's name and role."
+  },
+  "supportBenefitsTitle": "Para que serve a tua doação",
+  "@supportBenefitsTitle": {
+    "description": "Heading of the Support screen's benefits section."
+  },
+  "supportBenefitServersEmoji": "🖥️",
+  "@supportBenefitServersEmoji": {
+    "description": "Emoji of the \"servers\" benefit card."
+  },
+  "supportBenefitServersTitle": "Mantém os servidores a funcionar",
+  "@supportBenefitServersTitle": {
+    "description": "Title of the \"servers\" benefit card."
+  },
+  "supportBenefitServersBody": "A tua doação ajuda a pagar o alojamento, a base de dados e a inteligência artificial que analisa os defeitos, para o site estar sempre disponível.",
+  "@supportBenefitServersBody": {
+    "description": "Body text of the \"servers\" benefit card."
+  },
+  "supportBenefitFeaturesEmoji": "🚀",
+  "@supportBenefitFeaturesEmoji": {
+    "description": "Emoji of the \"features\" benefit card."
+  },
+  "supportBenefitFeaturesTitle": "Incentivo para novas funcionalidades",
+  "@supportBenefitFeaturesTitle": {
+    "description": "Title of the \"features\" benefit card."
+  },
+  "supportBenefitFeaturesBody": "Cada apoio é um empurrão extra para continuar a desenvolver novidades: mais marcas, mais modelos e melhores ferramentas de pesquisa.",
+  "@supportBenefitFeaturesBody": {
+    "description": "Body text of the \"features\" benefit card."
+  },
+  "supportBenefitCoffeeEmoji": "☕",
+  "@supportBenefitCoffeeEmoji": {
+    "description": "Emoji of the \"coffee\" benefit card."
+  },
+  "supportBenefitCoffeeTitle": "Um café para o programador",
+  "@supportBenefitCoffeeTitle": {
+    "description": "Title of the \"coffee\" benefit card."
+  },
+  "supportBenefitCoffeeBody": "Este projeto nasce de horas livres. Um café (ou dois) ajuda-me a manter a energia para o continuar a construir com carinho.",
+  "@supportBenefitCoffeeBody": {
+    "description": "Body text of the \"coffee\" benefit card."
+  },
+  "supportDonationTitle": "☕ Oferece-me um café",
+  "@supportDonationTitle": {
+    "description": "Title of the donation card on the Support screen."
+  },
+  "supportDonationBody": "Manda a tua doação por MBWay para o número abaixo, pela app do teu banco.",
+  "@supportDonationBody": {
+    "description": "Body text of the MBWay donation section."
+  },
+  "supportNumberLabel": "Número MBWay",
+  "@supportNumberLabel": {
+    "description": "Label above the MBWay phone number."
+  },
+  "supportCopyNumber": "Copiar número",
+  "@supportCopyNumber": {
+    "description": "Label of the button that copies the MBWay phone number, before it is tapped."
+  },
+  "supportCopied": "Copiado!",
+  "@supportCopied": {
+    "description": "Label shown on a copy button right after it is tapped, replacing its normal label for a couple of seconds."
+  },
+  "supportInternationalTitle": "🌍 Fora de Portugal? Paga com a Wise",
+  "@supportInternationalTitle": {
+    "description": "Title of the Wise (international payment) section."
+  },
+  "supportInternationalBody": "O MBWay só funciona com contas portuguesas. Se estás no estrangeiro, digitaliza o código com a app da Wise ou usa o botão abaixo, sem precisares de saber o IBAN nem o SWIFT.",
+  "@supportInternationalBody": {
+    "description": "Body text of the Wise (international payment) section."
+  },
+  "supportWiseQrAlt": "Código QR para pagar pela Wise",
+  "@supportWiseQrAlt": {
+    "description": "Accessibility label of the Wise payment QR code."
+  },
+  "supportWiseButtonLabel": "Pagar pela Wise",
+  "@supportWiseButtonLabel": {
+    "description": "Label of the button that opens the Wise payment link."
+  },
+  "supportWiseLinkLabel": "Link de pagamento Wise",
+  "@supportWiseLinkLabel": {
+    "description": "Label above the Wise payment link."
+  },
+  "supportCopyLink": "Copiar link",
+  "@supportCopyLink": {
+    "description": "Label of the button that copies the Wise payment link, before it is tapped."
+  },
+  "supportPixTitle": "🇧🇷 No Brasil? Paga por Pix",
+  "@supportPixTitle": {
+    "description": "Title of the Pix (Brazil payment) section."
+  },
+  "supportPixBody": "Digitaliza o código com a app do teu banco ou copia o código Pix. O valor fica em aberto, escolhes tu quanto queres doar.",
+  "@supportPixBody": {
+    "description": "Body text of the Pix (Brazil payment) section."
+  },
+  "supportPixQrAlt": "Código QR para pagar por Pix",
+  "@supportPixQrAlt": {
+    "description": "Accessibility label of the Pix payment QR code."
+  },
+  "supportCopyPixCode": "Copiar código Pix",
+  "@supportCopyPixCode": {
+    "description": "Label of the button that copies the Pix \"BR Code\", before it is tapped."
+  },
+  "supportPixKeyLabel": "Ou usa a chave Pix",
+  "@supportPixKeyLabel": {
+    "description": "Label above the Pix key."
+  },
+  "supportCopyPixKey": "Copiar chave",
+  "@supportCopyPixKey": {
+    "description": "Label of the button that copies the Pix key, before it is tapped."
+  },
+  "supportAmountsTitle": "Sugestões de valores",
+  "@supportAmountsTitle": {
+    "description": "Uppercase title above the suggested donation amounts."
+  },
+  "supportAmountCoffeeEmoji": "☕",
+  "@supportAmountCoffeeEmoji": {
+    "description": "Emoji of the smallest suggested amount tier."
+  },
+  "supportAmountCoffeeLabel": "Um café",
+  "@supportAmountCoffeeLabel": {
+    "description": "Label of the smallest suggested amount tier (€2)."
+  },
+  "supportAmountSnackEmoji": "🥐",
+  "@supportAmountSnackEmoji": {
+    "description": "Emoji of the middle suggested amount tier."
+  },
+  "supportAmountSnackLabel": "Café com pastel de nata",
+  "@supportAmountSnackLabel": {
+    "description": "Label of the middle suggested amount tier (€5)."
+  },
+  "supportAmountBoostEmoji": "🚀",
+  "@supportAmountBoostEmoji": {
+    "description": "Emoji of the largest suggested amount tier."
+  },
+  "supportAmountBoostLabel": "Impulsiona uma nova funcionalidade",
+  "@supportAmountBoostLabel": {
+    "description": "Label of the largest suggested amount tier (€10)."
+  },
+  "supportAmountValue": "€ {amount}",
+  "@supportAmountValue": {
+    "description": "Formatted euro amount of a suggested donation tier.",
+    "placeholders": {
+      "amount": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "supportThanksTitle": "Obrigado! 🙌",
+  "@supportThanksTitle": {
+    "description": "Title of the closing thank-you section."
+  },
+  "supportThanksBody": "Qualquer valor é bem-vindo e faz toda a diferença. Obrigado por fazeres parte desta comunidade de apaixonados por carros.",
+  "@supportThanksBody": {
+    "description": "Body text of the closing thank-you section."
+  },
+  "supportSignature": "Daniel Fonseca da Silva",
+  "@supportSignature": {
+    "description": "Signature under the closing thank-you section."
   }
 }
