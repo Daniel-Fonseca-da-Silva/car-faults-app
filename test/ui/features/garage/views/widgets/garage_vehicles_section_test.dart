@@ -46,7 +46,7 @@ void main() {
   ) async {
     await tester.pumpWidget(_app());
 
-    expect(find.text('Ainda não tem veículos na garagem.'), findsOneWidget);
+    expect(find.text('Ainda não tens veículos na garagem.'), findsOneWidget);
     expect(find.text('Fiat Punto'), findsNothing);
   });
 

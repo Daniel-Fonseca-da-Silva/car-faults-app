@@ -56,6 +56,7 @@ void main() {
           'doors': 3,
           'fuelType': 'gasoline',
           'techSpecs': {'power_hp': 75},
+          'imageUrl': 'https://cdn.example.com/vehicles/polo.jpg',
         },
         'knownIssues': [
           {
@@ -89,6 +90,10 @@ void main() {
       expect(mapped.vehicle.doors, 3);
       expect(mapped.vehicle.fuelType, 'gasoline');
       expect(mapped.vehicle.powerHp, 75);
+      expect(
+        mapped.vehicle.imageUrl,
+        'https://cdn.example.com/vehicles/polo.jpg',
+      );
 
       expect(mapped.issues, hasLength(1));
       final issue = mapped.issues.single;
@@ -125,6 +130,7 @@ void main() {
       expect(mapped.vehicle.doors, 0);
       expect(mapped.vehicle.fuelType, '');
       expect(mapped.vehicle.powerHp, 0);
+      expect(mapped.vehicle.imageUrl, isNull);
       expect(mapped.issues, isEmpty);
     });
 

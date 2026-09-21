@@ -22,6 +22,7 @@ void main() {
       title: 'Oil leak',
       severity: IssueSeverity.high,
       reportCount: 9,
+      contentLocale: 'en-GB',
       vehicleBrand: 'Audi',
       vehicleModel: 'A3',
       vehicleYearFrom: 2015,

@@ -31,7 +31,7 @@ void main() {
   ) async {
     await tester.pumpWidget(_app());
 
-    expect(find.text('A sua garagem está vazia'), findsOneWidget);
+    expect(find.text('A tua garagem está vazia'), findsOneWidget);
     expect(find.text('2001'), findsNothing);
   });
 
@@ -42,7 +42,7 @@ void main() {
 
     expect(find.text('Fiat Punto'), findsOneWidget);
     expect(find.text('2001'), findsOneWidget);
-    expect(find.text('A sua garagem está vazia'), findsNothing);
+    expect(find.text('A tua garagem está vazia'), findsNothing);
   });
 
   testWidgets('shows the eyebrow label', (WidgetTester tester) async {

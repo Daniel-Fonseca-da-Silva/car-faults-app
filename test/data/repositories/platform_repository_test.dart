@@ -79,6 +79,7 @@ void main() {
               'faultTitle': 'Oil leak',
               'severity': 'medium',
               'reportCount': 42,
+              'contentLocale': 'es-ES',
               'vehicle': {'brand': 'BMW', 'model': '320d', 'yearFrom': 2012},
             },
           ],
@@ -95,6 +96,7 @@ void main() {
       expect(faults.single.title, 'Oil leak');
       expect(faults.single.severity, IssueSeverity.medium);
       expect(faults.single.reportCount, 42);
+      expect(faults.single.contentLocale, 'es-ES');
       expect(faults.single.vehicleBrand, 'BMW');
       expect(faults.single.vehicleModel, '320d');
       expect(faults.single.vehicleYearFrom, 2012);
@@ -126,6 +128,7 @@ void main() {
               'faultTitle': 'Oil leak',
               'severity': 'medium',
               'reportCount': 42,
+              'contentLocale': 'en-GB',
               'vehicle': {
                 'brand': 'BMW',
                 'model': '320d',

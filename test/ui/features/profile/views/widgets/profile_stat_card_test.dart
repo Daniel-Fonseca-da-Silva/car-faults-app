@@ -8,7 +8,7 @@ Widget _app() {
       body: ProfileStatCard(
         icon: Icons.search,
         value: '47',
-        label: 'Buscas realizadas',
+        label: 'Pesquisas realizadas',
       ),
     ),
   );
@@ -19,7 +19,7 @@ void main() {
     await tester.pumpWidget(_app());
 
     expect(find.text('47'), findsOneWidget);
-    expect(find.text('Buscas realizadas'), findsOneWidget);
+    expect(find.text('Pesquisas realizadas'), findsOneWidget);
   });
 
   testWidgets('exposes value and label as a single semantics label', (
@@ -27,6 +27,6 @@ void main() {
   ) async {
     await tester.pumpWidget(_app());
 
-    expect(find.bySemanticsLabel('47 Buscas realizadas'), findsOneWidget);
+    expect(find.bySemanticsLabel('47 Pesquisas realizadas'), findsOneWidget);
   });
 }

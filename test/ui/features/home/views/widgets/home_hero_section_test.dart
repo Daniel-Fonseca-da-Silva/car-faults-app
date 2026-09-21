@@ -33,7 +33,7 @@ void main() {
     expect(find.textContaining('Pesquise avarias crónicas'), findsOneWidget);
     expect(
       titleText(tester).textSpan!.toPlainText(),
-      'Conheça os defeitos antes de comprar',
+      'Conhece os defeitos antes de comprar',
     );
   });
 

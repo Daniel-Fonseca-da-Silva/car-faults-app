@@ -141,7 +141,7 @@ void main() {
     expect(find.byType(AppDropdownField<int>), findsNWidgets(2));
     expect(find.byType(AppDropdownField<FuelOption>), findsOneWidget);
     expect(find.text('Ex.: Gol, Civic, Corolla...'), findsOneWidget);
-    expect(find.text('Número de portas'), findsOneWidget);
+    expect(find.text('Seleciona o número de portas'), findsOneWidget);
   });
 
   testWidgets('brand field suggests every make when focused', (
@@ -215,7 +215,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Gasóleo'), findsOneWidget);
-    expect(find.text('Tipo de combustível'), findsNothing);
+    expect(find.text('Seleciona o combustível'), findsNothing);
   });
 
   testWidgets('doors dropdown lists two to five', (WidgetTester tester) async {

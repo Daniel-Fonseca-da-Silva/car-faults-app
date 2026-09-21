@@ -111,7 +111,7 @@ void main() {
     expect(find.byIcon(Icons.login), findsOneWidget);
     expect(find.text('Sair'), findsNothing);
     expect(find.byType(GoogleUserAvatar), findsNothing);
-    expect(find.text('Busca'), findsOneWidget);
+    expect(find.text('Pesquisa'), findsOneWidget);
     expect(find.text('Defeitos'), findsOneWidget);
     expect(find.text('Sobre'), findsOneWidget);
     expect(find.text('Perfil'), findsOneWidget);
@@ -254,7 +254,7 @@ void main() {
     await tester.pumpAndSettle();
 
     await _openDrawer(tester);
-    await tester.tap(find.text('Busca'));
+    await tester.tap(find.text('Pesquisa'));
     await tester.pumpAndSettle();
 
     expect(find.byType(AboutView), findsNothing);
