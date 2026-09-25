@@ -109,6 +109,16 @@ void main() {
     }
   });
 
+  testWidgets('shows the fuel field above the engine field', (
+    WidgetTester tester,
+  ) async {
+    await pumpCard(tester);
+
+    final fuelY = tester.getTopLeft(find.text('COMBUSTÍVEL')).dy;
+    final engineY = tester.getTopLeft(find.text('MOTOR')).dy;
+    expect(fuelY, lessThan(engineY));
+  });
+
   testWidgets('marks only the doors field as optional', (
     WidgetTester tester,
   ) async {

@@ -93,6 +93,15 @@ class HomeSearchCard extends StatelessWidget {
           onChanged: viewModel.setYear,
         ),
       ),
+      LabeledField(
+        label: l10n.homeSearchFieldFuel,
+        child: AppDropdownField<FuelOption>(
+          hintText: l10n.homeSearchFieldFuelPlaceholder,
+          options: _fuelOptions(l10n),
+          value: viewModel.fuel,
+          onChanged: viewModel.setFuel,
+        ),
+      ),
       // Electric vehicles have no engine to enter — same rule as the web
       // app's search form, which hides this field for that fuel type and
       // sends `HomeSearchViewModel.electricEngineSentinel` instead.
@@ -104,15 +113,6 @@ class HomeSearchCard extends StatelessWidget {
             onChanged: viewModel.setEngine,
           ),
         ),
-      LabeledField(
-        label: l10n.homeSearchFieldFuel,
-        child: AppDropdownField<FuelOption>(
-          hintText: l10n.homeSearchFieldFuelPlaceholder,
-          options: _fuelOptions(l10n),
-          value: viewModel.fuel,
-          onChanged: viewModel.setFuel,
-        ),
-      ),
       LabeledField(
         label: l10n.homeSearchFieldDoors,
         showOptionalBadge: true,
