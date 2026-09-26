@@ -9,9 +9,16 @@ plugins {
 
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
-if (keystorePropertiesFile.exists()) {
+val hasReleaseKeystore = keystorePropertiesFile.exists()
+if (hasReleaseKeystore) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
+// Local-only escape hatch: `flutter run --release -P allowDebugSigning=true`
+// signs the release build with the debug key when key.properties is missing.
+// Without it, release builds fail instead of silently shipping a debug-signed
+// artifact.
+val allowDebugSigning =
+    (project.findProperty("allowDebugSigning") as String?)?.toBoolean() == true
 
 android {
     namespace = "com.autocronica.carfaults"
@@ -41,7 +48,7 @@ android {
     }
 
     signingConfigs {
-        if (keystorePropertiesFile.exists()) {
+        if (hasReleaseKeystore) {
             create("release") {
                 keyAlias = keystoreProperties["keyAlias"] as String
                 keyPassword = keystoreProperties["keyPassword"] as String
@@ -53,13 +60,24 @@ android {
 
     buildTypes {
         release {
-            signingConfig = if (keystorePropertiesFile.exists()) {
-                signingConfigs.getByName("release")
-            } else {
-                // Falls back to debug signing so `flutter run --release` still
-                // works locally when android/key.properties hasn't been created yet.
-                signingConfigs.getByName("debug")
+            signingConfig = when {
+                hasReleaseKeystore -> signingConfigs.getByName("release")
+                allowDebugSigning -> signingConfigs.getByName("debug")
+                else -> null
             }
+        }
+    }
+}
+
+tasks.matching { it.name == "preReleaseBuild" }.configureEach {
+    val missingReleaseKeystore = !hasReleaseKeystore && !allowDebugSigning
+    doFirst {
+        if (missingReleaseKeystore) {
+            throw GradleException(
+                "android/key.properties not found: refusing to build a release " +
+                    "without the release signing key. Create key.properties, or " +
+                    "pass -P allowDebugSigning=true for a local-only debug-signed build.",
+            )
         }
     }
 }

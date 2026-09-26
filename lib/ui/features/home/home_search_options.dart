@@ -23,7 +23,7 @@ extension FuelOptionLabel on FuelOption {
 /// catalogue endpoint replaces this later.
 abstract final class HomeSearchOptions {
   static const doors = <int>[2, 3, 4, 5];
-  static const oldestYear = 1990;
+  static const oldestYear = 1900;
 
   /// Newest first, down to [oldestYear]. Next year is included because models
   /// reach the market before their model year starts.
