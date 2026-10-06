@@ -138,7 +138,6 @@
   "lookupViewSteps": "Ver paso a paso ({count} etapas)",
   "lookupHideSteps": "Ocultar paso a paso",
   "lookupHelpful": "¿Útil?",
-  "lookupCostEur": "€ {amount}",
   "lookupCommentsTitle": "Comentarios de la comunidad",
   "lookupCommentsEmpty": "Aún no hay comentarios. Sé el primero en compartir tu experiencia.",
   "lookupCommentsYourComment": "Tu comentario",

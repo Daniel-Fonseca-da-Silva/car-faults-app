@@ -71,7 +71,6 @@ void main() {
                 'id': 'fix-1',
                 'summary': 'Replace belt kit',
                 'steps': '  Step one\n\nStep two  \n',
-                'estimatedCostEur': '350.4',
                 'likes': 10,
                 'dislikes': 1,
               },
@@ -108,7 +107,6 @@ void main() {
       expect(fix.id, 'fix-1');
       expect(fix.summary, 'Replace belt kit');
       expect(fix.steps, ['Step one', 'Step two']);
-      expect(fix.estimatedCostEur, 350);
       expect(fix.likes, 10);
       expect(fix.dislikes, 1);
     });
@@ -159,15 +157,13 @@ void main() {
                 'id': 'fix-2',
                 'summary': 'Weld patch',
                 'steps': '   \n  ',
-                'estimatedCostEur': 'not-a-number',
                 'likes': 0,
                 'dislikes': 0,
               },
               {
                 'id': 'fix-3',
-                'summary': 'No cost field',
+                'summary': 'Single step',
                 'steps': 'Only one step',
-                'estimatedCostEur': null,
                 'likes': 2,
                 'dislikes': 0,
               },
@@ -179,9 +175,7 @@ void main() {
       final issue = mapped.issues.single;
       expect(issue.sources, isEmpty);
       expect(issue.fixes[0].steps, ['   \n  ']);
-      expect(issue.fixes[0].estimatedCostEur, 0);
       expect(issue.fixes[1].steps, ['Only one step']);
-      expect(issue.fixes[1].estimatedCostEur, 0);
       expect(mapped.vehicle.powerHp, 90);
     });
   });
@@ -215,7 +209,6 @@ void main() {
         'id': 'fix-1',
         'summary': 'Replace belt kit',
         'steps': 'Step one\nStep two',
-        'estimatedCostEur': '350.40',
         'likes': 10,
         'dislikes': 1,
         'myVote': 'dislike',
@@ -230,7 +223,6 @@ void main() {
         'id': 'fix-1',
         'summary': 'Replace belt kit',
         'steps': 'Step one',
-        'estimatedCostEur': null,
         'likes': 0,
         'dislikes': 0,
       });

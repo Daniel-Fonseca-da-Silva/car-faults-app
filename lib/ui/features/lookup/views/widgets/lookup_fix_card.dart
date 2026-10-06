@@ -8,8 +8,8 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/require_sign_in.dart';
 import '../../view_models/lookup_results_view_model.dart';
 
-/// One card inside [LookupSolutionsSection]: check icon, summary, price
-/// badge, an expansible numbered how-to and local ÚTIL? thumbs voting.
+/// One card inside [LookupSolutionsSection]: check icon, summary, an
+/// expansible numbered how-to and local ÚTIL? thumbs voting.
 class LookupFixCard extends StatelessWidget {
   const LookupFixCard({super.key, required this.fix});
 
@@ -57,8 +57,6 @@ class LookupFixCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
-              _CostBadge(amount: fix.estimatedCostEur),
             ],
           ),
           const SizedBox(height: 8),
@@ -157,33 +155,6 @@ class LookupFixCard extends StatelessWidget {
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _CostBadge extends StatelessWidget {
-  const _CostBadge({required this.amount});
-
-  final int amount;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppColors.primary),
-      ),
-      child: Text(
-        l10n.lookupCostEur(amount),
-        style: const TextStyle(
-          color: AppColors.primary,
-          fontWeight: FontWeight.w700,
-          fontSize: 13,
-        ),
       ),
     );
   }

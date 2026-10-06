@@ -180,7 +180,6 @@ const _fixJson = {
   'userId': 'user-2',
   'summary': 'Replace gearbox synchros',
   'steps': 'Step one\nStep two',
-  'estimatedCostEur': '450.00',
   'source': 'user',
   'likes': 13,
   'dislikes': 2,

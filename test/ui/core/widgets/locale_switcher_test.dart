@@ -35,7 +35,10 @@ void main() {
   testWidgets('trigger shows the active locale code, not the full label', (
     WidgetTester tester,
   ) async {
-    final viewModel = LocaleViewModel(repository: _FakeLocaleRepository());
+    final viewModel = LocaleViewModel(
+      repository: _FakeLocaleRepository(),
+      initialLocale: AppLocale.pt,
+    );
     await tester.pumpWidget(_app(viewModel));
 
     expect(find.text('PT'), findsOneWidget);
@@ -45,7 +48,10 @@ void main() {
   testWidgets('opening the menu lists all locales and checks the active one', (
     WidgetTester tester,
   ) async {
-    final viewModel = LocaleViewModel(repository: _FakeLocaleRepository());
+    final viewModel = LocaleViewModel(
+      repository: _FakeLocaleRepository(),
+      initialLocale: AppLocale.pt,
+    );
     await tester.pumpWidget(_app(viewModel));
 
     await tester.tap(find.byType(PopupMenuButton<AppLocale>));
@@ -60,7 +66,10 @@ void main() {
     WidgetTester tester,
   ) async {
     final repository = _FakeLocaleRepository();
-    final viewModel = LocaleViewModel(repository: repository);
+    final viewModel = LocaleViewModel(
+      repository: repository,
+      initialLocale: AppLocale.pt,
+    );
     await tester.pumpWidget(_app(viewModel));
 
     await tester.tap(find.byType(PopupMenuButton<AppLocale>));

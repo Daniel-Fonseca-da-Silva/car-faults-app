@@ -25,11 +25,11 @@ void main() {
     expect(await repository.load(), AppLocale.en);
   });
 
-  test('load falls back to pt when nothing is stored', () async {
+  test('load falls back to en when nothing is stored', () async {
     final service = _FakeLocalePreferencesService();
     final repository = LocaleRepository(service: service);
 
-    expect(await repository.load(), AppLocale.pt);
+    expect(await repository.load(), AppLocale.en);
   });
 
   test('save writes the locale language code via the service', () async {
