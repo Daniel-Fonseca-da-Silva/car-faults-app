@@ -6,8 +6,9 @@ import 'app_text_field.dart';
 
 /// Text field with a filtered suggestion list.
 ///
-/// Mirrors the web app's make combobox: suggestions help, but the typed text is
-/// kept even when it matches no option, so unlisted values stay searchable.
+/// Mirrors the web app's make combobox: typing filters the suggestions, but
+/// only a listed option is reported through [onChanged] (an empty string
+/// otherwise), and unmatched text is cleared when the field loses focus.
 class AppAutocompleteField extends StatelessWidget {
   const AppAutocompleteField({
     required this.hintText,
@@ -44,12 +45,33 @@ class AppAutocompleteField extends StatelessWidget {
     FocusNode focusNode,
     VoidCallback onFieldSubmitted,
   ) {
-    return AppTextField(
-      hintText: hintText,
-      controller: controller,
-      focusNode: focusNode,
-      onChanged: onChanged,
+    return Focus(
+      canRequestFocus: false,
+      skipTraversal: true,
+      onFocusChange: (hasFocus) {
+        if (!hasFocus && _matchingOption(controller.text) == null) {
+          controller.clear();
+        }
+      },
+      child: AppTextField(
+        hintText: hintText,
+        controller: controller,
+        focusNode: focusNode,
+        onChanged: (text) => onChanged(_matchingOption(text) ?? ''),
+      ),
     );
+  }
+
+  /// The listed option equal to [text] (ignoring case and surrounding
+  /// spaces), or null when the text is not an option.
+  String? _matchingOption(String text) {
+    final normalizedText = text.trim().toLowerCase();
+    if (normalizedText.isEmpty) return null;
+
+    for (final option in suggestionsFor(text)) {
+      if (option.toLowerCase() == normalizedText) return option;
+    }
+    return null;
   }
 
   Widget _optionsView(

@@ -31,11 +31,15 @@ abstract final class ConsentService {
     consentInfo.requestConsentInfoUpdate(
       params,
       () async {
-        await ConsentForm.loadAndShowConsentFormIfRequired((formError) {
-          if (formError != null) {
-            debugPrint('Consent form error: ${formError.message}');
-          }
-        });
+        try {
+          await ConsentForm.loadAndShowConsentFormIfRequired((formError) {
+            if (formError != null) {
+              debugPrint('Consent form error: ${formError.message}');
+            }
+          });
+        } catch (error) {
+          debugPrint('Consent form failed: $error');
+        }
         if (!completer.isCompleted) completer.complete();
       },
       (formError) {

@@ -7,7 +7,7 @@ import '../../../domain/models/app_locale.dart';
 class LocaleViewModel extends ChangeNotifier {
   LocaleViewModel({
     required LocaleRepository repository,
-    AppLocale initialLocale = AppLocale.pt,
+    AppLocale initialLocale = AppLocale.en,
   })
     // ignore: prefer_initializing_formals
     : _repository = repository,

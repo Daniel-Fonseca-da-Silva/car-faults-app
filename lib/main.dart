@@ -31,7 +31,10 @@ Future<void> main() async {
       // GDPR (EEA/UK, incl. Portugal): gather ad consent via the UMP SDK
       // before requesting ads. Skip Mobile Ads init entirely if the user
       // hasn't consented and consent is required.
-      final canRequestAds = await ConsentService.gatherConsent();
+      final canRequestAds = await ConsentService.gatherConsent().timeout(
+        const Duration(seconds: 15),
+        onTimeout: () => false,
+      );
       AdMobConfig.adsAllowed = canRequestAds;
       if (canRequestAds) {
         await MobileAds.instance.initialize();
@@ -45,7 +48,9 @@ Future<void> main() async {
   final localeRepository = LocaleRepository(
     service: LocalePreferencesService(),
   );
-  final initialLocale = await localeRepository.load();
+  final initialLocale = await localeRepository.load().catchError(
+    (_) => AppLocale.en,
+  );
 
   // One shared token storage and `onUnauthorized` callback so a 401 from any
   // authenticated repository (Auth, Favorites, Garage, Profile) signs the
@@ -71,9 +76,17 @@ Future<void> main() async {
     onUnauthorized: onUnauthorized,
   );
 
-  final restoredUser = await authRepository.restoreSession();
-  if (restoredUser != null) {
-    authSessionViewModel.setUser(restoredUser);
+  // Never block startup on session restore: a keystore read error or a slow
+  // network must fall back to the signed-out state, not a stuck splash screen.
+  try {
+    final restoredUser = await authRepository.restoreSession().timeout(
+      const Duration(seconds: 10),
+    );
+    if (restoredUser != null) {
+      authSessionViewModel.setUser(restoredUser);
+    }
+  } catch (error) {
+    debugPrint('Session restore failed: $error');
   }
 
   runApp(
@@ -93,7 +106,7 @@ class CarFaultsApp extends StatelessWidget {
   CarFaultsApp({
     super.key,
     LocaleRepository? localeRepository,
-    this.initialLocale = AppLocale.pt,
+    this.initialLocale = AppLocale.en,
     AuthRepository? authRepository,
     AuthSessionViewModel? authSessionViewModel,
     LookupRepository? lookupRepository,

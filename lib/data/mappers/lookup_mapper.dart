@@ -112,16 +112,10 @@ IssueFix mapFixResponse(Map<String, dynamic> json) {
     id: json['id'] as String,
     summary: json['summary'] as String,
     steps: steps.isEmpty ? [rawSteps] : steps,
-    estimatedCostEur: _parseCostEur(json['estimatedCostEur'] as String?),
     likes: json['likes'] as int,
     dislikes: json['dislikes'] as int,
     myVote: fixVoteValueFromApiValue(json['myVote'] as String?),
   );
-}
-
-int _parseCostEur(String? value) {
-  if (value == null) return 0;
-  return double.tryParse(value)?.round() ?? 0;
 }
 
 /// Parses `car-faults-api`'s `FixVoteValue` enum value

@@ -16,11 +16,11 @@ extension AppLocaleX on AppLocale {
 
 /// Resolves a persisted language code back to [AppLocale].
 ///
-/// Falls back to [AppLocale.pt] for `null` or an unsupported code, matching
+/// Falls back to [AppLocale.en] for `null` or an unsupported code, matching
 /// the app's default locale.
 AppLocale appLocaleFromLanguageCode(String? languageCode) {
   return AppLocale.values.firstWhere(
     (locale) => locale.languageCode == languageCode,
-    orElse: () => AppLocale.pt,
+    orElse: () => AppLocale.en,
   );
 }

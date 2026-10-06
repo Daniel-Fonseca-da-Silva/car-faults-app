@@ -65,6 +65,10 @@ android {
                 allowDebugSigning -> signingConfigs.getByName("debug")
                 else -> null
             }
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 }
@@ -90,4 +94,12 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    // google_mobile_ads pulls in WorkManager 2.7.0 (Room 2.2.5), which builds
+    // WorkDatabase_Impl via reflection. R8 full mode (AGP 9) strips that
+    // constructor and the release build crashes on launch. Newer WorkManager
+    // ships its own keep rules.
+    implementation("androidx.work:work-runtime:2.10.5")
 }

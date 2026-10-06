@@ -265,7 +265,6 @@ class LookupResultsViewModel extends ChangeNotifier {
         id: current.id,
         summary: current.summary,
         steps: current.steps,
-        estimatedCostEur: current.estimatedCostEur,
         likes: value == FixVoteValue.like ? current.likes - 1 : current.likes,
         dislikes: value == FixVoteValue.dislike
             ? current.dislikes - 1
