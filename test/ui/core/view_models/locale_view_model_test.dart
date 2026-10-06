@@ -29,7 +29,10 @@ void main() {
 
   test('setLocale updates the locale, persists it and notifies', () async {
     final repository = _FakeLocaleRepository();
-    final viewModel = LocaleViewModel(repository: repository);
+    final viewModel = LocaleViewModel(
+      repository: repository,
+      initialLocale: AppLocale.pt,
+    );
     var notifications = 0;
     viewModel.addListener(() => notifications++);
 
@@ -42,7 +45,10 @@ void main() {
 
   test('setLocale is a no-op when the locale is already active', () async {
     final repository = _FakeLocaleRepository();
-    final viewModel = LocaleViewModel(repository: repository);
+    final viewModel = LocaleViewModel(
+      repository: repository,
+      initialLocale: AppLocale.pt,
+    );
     var notified = false;
     viewModel.addListener(() => notified = true);
 

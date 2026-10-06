@@ -17,8 +17,8 @@ void main() {
     expect(appLocaleFromLanguageCode('es'), AppLocale.es);
   });
 
-  test('appLocaleFromLanguageCode falls back to pt for null or unknown', () {
-    expect(appLocaleFromLanguageCode(null), AppLocale.pt);
-    expect(appLocaleFromLanguageCode('fr'), AppLocale.pt);
+  test('appLocaleFromLanguageCode falls back to en for null or unknown', () {
+    expect(appLocaleFromLanguageCode(null), AppLocale.en);
+    expect(appLocaleFromLanguageCode('fr'), AppLocale.en);
   });
 }

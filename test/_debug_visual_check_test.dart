@@ -1,3 +1,4 @@
+import 'package:car_faults_app/domain/models/app_locale.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,7 @@ void main() {
           ChangeNotifierProvider(
             create: (_) => LocaleViewModel(
               repository: LocaleRepository(service: LocalePreferencesService()),
+              initialLocale: AppLocale.pt,
             ),
           ),
           ChangeNotifierProvider(create: (_) => AuthSessionViewModel()),

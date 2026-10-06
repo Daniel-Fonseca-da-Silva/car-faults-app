@@ -71,6 +71,7 @@ class _FakePlatformRepository extends PlatformRepository {
 
 Widget _app() {
   return CarFaultsApp(
+    initialLocale: AppLocale.pt,
     lookupRepository: _FakeLookupRepository(),
     platformRepository: _FakePlatformRepository(),
   );

@@ -48,7 +48,6 @@ class _FakeCommunityRepository extends CommunityRepository {
       id: fix.id,
       summary: fix.summary,
       steps: fix.steps,
-      estimatedCostEur: fix.estimatedCostEur,
       likes: value == FixVoteValue.like ? fix.likes + 1 : fix.likes,
       dislikes: value == FixVoteValue.dislike ? fix.dislikes + 1 : fix.dislikes,
       myVote: value,
@@ -122,21 +121,16 @@ Future<void> _openIssue(WidgetTester tester, String title) async {
 void main() {
   const gearboxTitle = 'Caixa de câmbio problemática';
 
-  testWidgets(
-    'the gearbox issue shows its 2 fixes with the € 450 and € 55 badges',
-    (WidgetTester tester) async {
-      await tester.pumpWidget(_app());
+  testWidgets('the gearbox issue shows its 2 fixes without a cost badge', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(_app());
 
-      await _openIssue(tester, gearboxTitle);
+    await _openIssue(tester, gearboxTitle);
 
-      expect(
-        _inCard(gearboxTitle, find.byType(LookupFixCard)),
-        findsNWidgets(2),
-      );
-      expect(_inCard(gearboxTitle, find.text('€ 450')), findsOneWidget);
-      expect(_inCard(gearboxTitle, find.text('€ 55')), findsOneWidget);
-    },
-  );
+    expect(_inCard(gearboxTitle, find.byType(LookupFixCard)), findsNWidgets(2));
+    expect(_inCard(gearboxTitle, find.textContaining('€')), findsNothing);
+  });
 
   testWidgets(
     'tapping "Ver passo a passo" on the overhaul fix reveals its 6 steps',
