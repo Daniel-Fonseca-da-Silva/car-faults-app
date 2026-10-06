@@ -7,9 +7,9 @@ import '../../../../core/utils/format_count.dart';
 /// Single "most reported fault" card: brand/model/year, a report-count badge,
 /// the fault title and a "view reports" footer.
 ///
-/// The home teaser passes no [onTap], so neither the card nor the footer
-/// link navigate there. The Defects list passes one to open the vehicle's
-/// lookup results, and sets [isLoading] while that lookup is in flight.
+/// Callers pass [onTap] to open the vehicle's lookup results, and set
+/// [isLoading] while that lookup is in flight. A null [onTap] (no engine on
+/// record) leaves the card non-interactive.
 class TopFaultCard extends StatelessWidget {
   const TopFaultCard({
     super.key,

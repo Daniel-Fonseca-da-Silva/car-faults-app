@@ -4,13 +4,19 @@ import 'package:provider/provider.dart';
 
 import '../../../../../data/mappers/locale_mapper.dart';
 import '../../../../../data/repositories/platform_repository.dart';
+import '../../../../../data/repositories/lookup_repository.dart';
 import '../../../../../domain/models/app_locale.dart';
+import '../../../../../domain/models/top_fault.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../lookup/lookup_failure_message.dart';
+import '../../../lookup/view_models/lookup_results_view_model.dart';
+import '../../../lookup/views/lookup_results_view.dart';
 import '../../view_models/home_top_faults_view_model.dart';
 import 'top_fault_card.dart';
 
 /// "Most reported faults" section: header with a warning icon and title,
 /// followed by a [TopFaultCard] per fault loaded by [HomeTopFaultsViewModel].
+/// Tapping a card opens that vehicle's lookup results.
 class HomeTopFaultsSection extends StatefulWidget {
   const HomeTopFaultsSection({super.key, this.viewModel});
 
@@ -25,6 +31,7 @@ class HomeTopFaultsSection extends StatefulWidget {
 class _HomeTopFaultsSectionState extends State<HomeTopFaultsSection> {
   late final HomeTopFaultsViewModel _viewModel;
   AppLocale? _requestedLocale;
+  int? _lastOpenedYear;
 
   static const _cardGap = 12.0;
   static const _ruleHeight = 1.0;
@@ -68,7 +75,17 @@ class _HomeTopFaultsSectionState extends State<HomeTopFaultsSection> {
             label: l10n.homeTopFaultsSemanticLabel,
             child: ListenableBuilder(
               listenable: _viewModel,
-              builder: (context, _) => _body(l10n),
+              builder: (context, _) {
+                final pendingResult = _viewModel.pendingResult;
+                if (pendingResult != null) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (!context.mounted) return;
+                    _handlePendingResult(context, l10n, pendingResult);
+                  });
+                }
+
+                return _body(l10n);
+              },
             ),
           ),
         ],
@@ -98,6 +115,10 @@ class _HomeTopFaultsSectionState extends State<HomeTopFaultsSection> {
           TopFaultCard(
             fault: fault,
             viewReportsLabel: l10n.homeTopFaultsViewReports,
+            isLoading: _viewModel.isOpeningFault(fault.id),
+            onTap: fault.vehicleEngine != null && requestedLocale != null
+                ? () => _openVehicle(fault, requestedLocale)
+                : null,
             otherLanguageNotice:
                 requestedLocale != null &&
                     fault.contentLocale != apiLanguageFor(requestedLocale)
@@ -106,6 +127,38 @@ class _HomeTopFaultsSectionState extends State<HomeTopFaultsSection> {
           ),
       ],
     );
+  }
+
+  Future<void> _openVehicle(TopFault fault, AppLocale locale) async {
+    _lastOpenedYear = fault.vehicleYearFrom;
+    await _viewModel.openVehicle(fault, locale: locale);
+  }
+
+  void _handlePendingResult(
+    BuildContext context,
+    AppLocalizations l10n,
+    LookupSearchResult result,
+  ) {
+    _viewModel.acknowledgePendingResult();
+
+    switch (result) {
+      case LookupSearchSuccess(:final vehicle, :final issues):
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => LookupResultsView(
+              viewModel: LookupResultsViewModel(
+                vehicle: vehicle,
+                issues: issues,
+                searchedYear: _lastOpenedYear,
+              ),
+            ),
+          ),
+        );
+      case LookupSearchFailure(:final reason):
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(lookupFailureMessage(l10n, reason))),
+        );
+    }
   }
 
   Widget _errorState(AppLocalizations l10n) {
