@@ -47,9 +47,7 @@ class _HomeTopFaultsSectionState extends State<HomeTopFaultsSection> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final locale = appLocaleFromLanguageCode(
-      Localizations.localeOf(context).languageCode,
-    );
+    final locale = appLocaleFromLocale(Localizations.localeOf(context));
     if (_requestedLocale == locale) return;
     _requestedLocale = locale;
 

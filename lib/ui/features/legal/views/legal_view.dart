@@ -2,6 +2,7 @@ import 'package:car_faults_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../domain/models/app_locale.dart';
 import '../../../core/theme/app_colors.dart';
 import '../view_models/legal_view_model.dart';
 import 'widgets/legal_document_body.dart';
@@ -33,7 +34,8 @@ class _LegalViewState extends State<LegalView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final languageCode = Localizations.localeOf(context).languageCode;
+    final languageCode = appLocaleFromLocale(Localizations.localeOf(context))
+        .code;
     if (_requestedLanguage == languageCode) return;
     _requestedLanguage = languageCode;
     _didScrollToInitial = false;
@@ -132,7 +134,9 @@ class _LegalViewState extends State<LegalView> {
             const SizedBox(height: 16),
             TextButton(
               onPressed: () {
-                final code = Localizations.localeOf(context).languageCode;
+                final code = appLocaleFromLocale(
+                  Localizations.localeOf(context),
+                ).code;
                 viewModel.reload(code);
               },
               child: Text(l10n.legalRetry),

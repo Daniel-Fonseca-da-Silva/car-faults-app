@@ -8,13 +8,14 @@ abstract final class AppAssets {
   static const citroen2Cv = 'assets/images/show/citroen-2CV.webp';
   static const googleLogo = 'assets/images/auth/google_logo.svg';
 
-  static const _supportedLegalLanguages = {'pt', 'en', 'es'};
+  static const _supportedLegalLanguages = {'pt', 'pt_BR', 'en', 'es', 'fr'};
   static const _defaultLegalLanguage = 'pt';
 
-  /// Path to the bundled privacy/terms JSON for [languageCode].
+  /// Path to the bundled privacy/terms JSON for [languageCode] (an
+  /// `AppLocale.code`, e.g. `pt` or `pt_BR`).
   ///
   /// Falls back to Portuguese when the language is not one of the
-  /// product locales (pt, en, es).
+  /// product locales (pt, pt_BR, en, es, fr).
   static String legalDocument(String languageCode) {
     final code = _supportedLegalLanguages.contains(languageCode)
         ? languageCode

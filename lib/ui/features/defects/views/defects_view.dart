@@ -50,9 +50,7 @@ class _DefectsViewState extends State<DefectsView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final locale = appLocaleFromLanguageCode(
-      Localizations.localeOf(context).languageCode,
-    );
+    final locale = appLocaleFromLocale(Localizations.localeOf(context));
     if (_requestedLocale == locale) return;
     _requestedLocale = locale;
 

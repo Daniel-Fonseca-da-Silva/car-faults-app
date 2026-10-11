@@ -47,8 +47,10 @@ class LocaleSwitcher extends StatelessWidget {
   static String _labelFor(AppLocalizations l10n, AppLocale locale) =>
       switch (locale) {
         AppLocale.pt => l10n.localePt,
+        AppLocale.ptBr => l10n.localePtBr,
         AppLocale.en => l10n.localeEn,
         AppLocale.es => l10n.localeEs,
+        AppLocale.fr => l10n.localeFr,
       };
 }
 
@@ -71,7 +73,7 @@ class _LocaleTrigger extends StatelessWidget {
           LocaleFlag(locale: locale),
           const SizedBox(width: 6),
           Text(
-            locale.languageCode.toUpperCase(),
+            (locale.countryCode ?? locale.languageCode).toUpperCase(),
             style: const TextStyle(
               color: AppColors.onSurface,
               fontSize: 12,

@@ -19,6 +19,6 @@ void main() {
 
   test('appLocaleFromLanguageCode falls back to en for null or unknown', () {
     expect(appLocaleFromLanguageCode(null), AppLocale.en);
-    expect(appLocaleFromLanguageCode('fr'), AppLocale.en);
+    expect(appLocaleFromLanguageCode('xx'), AppLocale.en);
   });
 }
