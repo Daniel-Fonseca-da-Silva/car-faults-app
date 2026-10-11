@@ -62,7 +62,7 @@ class GarageRepository {
   /// issues actually stored for that language, the same way
   /// `LookupRepository.search` already does — omitting it left the API
   /// defaulting to `en-GB` and reporting 0 known issues for vehicles whose
-  /// issues are only recorded in `pt-PT`/`es-ES`.
+  /// issues are only recorded in `pt-PT`/`es-ES`/`fr-FR`.
   Future<List<SavedVehicle>?> fetchVehicles({required AppLocale locale}) async {
     try {
       final json = await _apiService.list(language: apiLanguageFor(locale));

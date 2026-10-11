@@ -70,6 +70,10 @@
   "@localePt": {
     "description": "Label of the Portuguese option in the language switcher."
   },
+  "localePtBr": "Português (BR)",
+  "@localePtBr": {
+    "description": "Label of the Brazilian Portuguese option in the language switcher."
+  },
   "localeEn": "English (UK)",
   "@localeEn": {
     "description": "Label of the English option in the language switcher."
@@ -77,6 +81,10 @@
   "localeEs": "Español (ES)",
   "@localeEs": {
     "description": "Label of the Spanish option in the language switcher."
+  },
+  "localeFr": "Français (FR)",
+  "@localeFr": {
+    "description": "Label of the French option in the language switcher."
   },
   "aboutTitle": "Sobre a Auto Crónica",
   "@aboutTitle": {

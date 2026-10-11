@@ -6,9 +6,13 @@ String apiLanguageFor(AppLocale locale) {
   switch (locale) {
     case AppLocale.pt:
       return 'pt-PT';
+    case AppLocale.ptBr:
+      return 'pt-BR';
     case AppLocale.en:
       return 'en-GB';
     case AppLocale.es:
       return 'es-ES';
+    case AppLocale.fr:
+      return 'fr-FR';
   }
 }

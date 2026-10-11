@@ -37,16 +37,25 @@ class _LocaleFlagPainter extends CustomPainter {
   static const _gbBlue = Color(0xFF00247D);
   static const _esRed = Color(0xFFAA151B);
   static const _esYellow = Color(0xFFF1BF00);
+  static const _brGreen = Color(0xFF009C3B);
+  static const _brYellow = Color(0xFFFFDF00);
+  static const _brBlue = Color(0xFF002776);
+  static const _frBlue = Color(0xFF002654);
+  static const _frRed = Color(0xFFCE1126);
 
   @override
   void paint(Canvas canvas, Size size) {
     switch (locale) {
       case AppLocale.pt:
         _paintPt(canvas, size);
+      case AppLocale.ptBr:
+        _paintBr(canvas, size);
       case AppLocale.en:
         _paintGb(canvas, size);
       case AppLocale.es:
         _paintEs(canvas, size);
+      case AppLocale.fr:
+        _paintFr(canvas, size);
     }
   }
 
@@ -64,6 +73,26 @@ class _LocaleFlagPainter extends CustomPainter {
       Offset(splitX, size.height / 2),
       size.height * 0.28,
       Paint()..color = _esYellow,
+    );
+  }
+
+  void _paintBr(Canvas canvas, Size size) {
+    canvas.drawRect(Offset.zero & size, Paint()..color = _brGreen);
+
+    final insetX = size.width * 0.1;
+    final insetY = size.height * 0.14;
+    final rhombus = Path()
+      ..moveTo(size.width / 2, insetY)
+      ..lineTo(size.width - insetX, size.height / 2)
+      ..lineTo(size.width / 2, size.height - insetY)
+      ..lineTo(insetX, size.height / 2)
+      ..close();
+    canvas.drawPath(rhombus, Paint()..color = _brYellow);
+
+    canvas.drawCircle(
+      Offset(size.width / 2, size.height / 2),
+      size.height * 0.2,
+      Paint()..color = _brBlue,
     );
   }
 
@@ -116,6 +145,22 @@ class _LocaleFlagPainter extends CustomPainter {
     canvas.drawRect(
       Rect.fromLTWH(0, bandHeight * 3, size.width, bandHeight),
       Paint()..color = _esRed,
+    );
+  }
+
+  void _paintFr(Canvas canvas, Size size) {
+    final bandWidth = size.width / 3;
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, bandWidth, size.height),
+      Paint()..color = _frBlue,
+    );
+    canvas.drawRect(
+      Rect.fromLTWH(bandWidth, 0, bandWidth, size.height),
+      Paint()..color = Colors.white,
+    );
+    canvas.drawRect(
+      Rect.fromLTWH(bandWidth * 2, 0, bandWidth, size.height),
+      Paint()..color = _frRed,
     );
   }
 

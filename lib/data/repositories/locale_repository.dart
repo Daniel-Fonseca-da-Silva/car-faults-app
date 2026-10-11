@@ -15,6 +15,6 @@ class LocaleRepository {
   }
 
   Future<void> save(AppLocale locale) {
-    return _service.writeLanguageCode(locale.languageCode);
+    return _service.writeLanguageCode(locale.code);
   }
 }
