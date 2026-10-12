@@ -12,6 +12,8 @@ void main() {
       expect(fuelTypeApiValue(FuelOption.electric), 'electric');
       expect(fuelTypeApiValue(FuelOption.lpg), 'gpl');
       expect(fuelTypeApiValue(FuelOption.hybrid), 'hybrid');
+      expect(fuelTypeApiValue(FuelOption.flex), 'flex');
+      expect(fuelTypeApiValue(FuelOption.ethanol), 'ethanol');
     });
   });
 
@@ -22,6 +24,8 @@ void main() {
       expect(fuelOptionFromApiValue('electric'), FuelOption.electric);
       expect(fuelOptionFromApiValue('gpl'), FuelOption.lpg);
       expect(fuelOptionFromApiValue('hybrid'), FuelOption.hybrid);
+      expect(fuelOptionFromApiValue('flex'), FuelOption.flex);
+      expect(fuelOptionFromApiValue('ethanol'), FuelOption.ethanol);
     });
 
     test('returns null for an unrecognized value', () {
