@@ -10,6 +10,8 @@ import '../../ui/features/home/home_search_options.dart';
 /// `FuelType` enum value (`vehicle-models/enums/fuel-type.enum.ts`).
 const _fuelApiValues = <FuelOption, String>{
   FuelOption.petrol: 'gasoline',
+  FuelOption.flex: 'flex',
+  FuelOption.ethanol: 'ethanol',
   FuelOption.diesel: 'diesel',
   FuelOption.electric: 'electric',
   FuelOption.lpg: 'gpl',
