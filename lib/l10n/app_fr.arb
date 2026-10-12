@@ -67,6 +67,8 @@
   "homeFuelElectric": "Électrique",
   "homeFuelLpg": "GPL",
   "homeFuelHybrid": "Hybride",
+  "homeFuelFlex": "Flex-fuel (E85)",
+  "homeFuelEthanol": "Éthanol",
   "homeStatFaults": "Pannes enregistrées",
   "homeStatModels": "Modèles catalogués",
   "homeStatRecalls": "Rappels documentés",

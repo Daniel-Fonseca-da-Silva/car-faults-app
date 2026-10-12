@@ -1,14 +1,18 @@
+import 'dart:ui' show Locale;
+
 import 'package:car_faults_app/l10n/app_localizations.dart';
 
 /// Fuel types offered by the search form.
 ///
 /// UI enum with en-GB naming, matching the web app's fuel list
 /// (`gasoline`/`gpl` there, `petrol`/`lpg` here).
-enum FuelOption { petrol, diesel, electric, lpg, hybrid }
+enum FuelOption { petrol, flex, ethanol, diesel, electric, lpg, hybrid }
 
 extension FuelOptionLabel on FuelOption {
   String label(AppLocalizations l10n) => switch (this) {
     FuelOption.petrol => l10n.homeFuelPetrol,
+    FuelOption.flex => l10n.homeFuelFlex,
+    FuelOption.ethanol => l10n.homeFuelEthanol,
     FuelOption.diesel => l10n.homeFuelDiesel,
     FuelOption.electric => l10n.homeFuelElectric,
     FuelOption.lpg => l10n.homeFuelLpg,
@@ -23,6 +27,20 @@ extension FuelOptionLabel on FuelOption {
 /// catalogue endpoint replaces this later.
 abstract final class HomeSearchOptions {
   static const doors = <int>[2, 3, 4, 5];
+
+  /// Ethanol-capable fuels, only common in Brazil (flex and legacy "a álcool"
+  /// cars). Same rule as the web app's `REGIONAL_FUEL_OPTIONS`; the web also
+  /// offers flex for en-US, a locale this app doesn't have.
+  static const _brazilOnlyFuels = {FuelOption.flex, FuelOption.ethanol};
+
+  static List<FuelOption> fuelsFor(Locale locale) {
+    final isBrazil = locale.languageCode == 'pt' && locale.countryCode == 'BR';
+    return [
+      for (final fuel in FuelOption.values)
+        if (isBrazil || !_brazilOnlyFuels.contains(fuel)) fuel,
+    ];
+  }
+
   static const oldestYear = 1900;
 
   /// Newest first, down to [oldestYear]. Next year is included because models

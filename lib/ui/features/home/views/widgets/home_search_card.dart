@@ -26,6 +26,7 @@ class HomeSearchCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final locale = Localizations.localeOf(context);
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -49,7 +50,7 @@ class HomeSearchCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: _fieldGap,
-                children: _fields(l10n, viewModel),
+                children: _fields(l10n, locale, viewModel),
               ),
               const SizedBox(height: _fieldGap),
               AppPrimaryButton(
@@ -64,7 +65,11 @@ class HomeSearchCard extends StatelessWidget {
     );
   }
 
-  List<Widget> _fields(AppLocalizations l10n, HomeSearchViewModel viewModel) {
+  List<Widget> _fields(
+    AppLocalizations l10n,
+    Locale locale,
+    HomeSearchViewModel viewModel,
+  ) {
     final isElectric = viewModel.fuel == FuelOption.electric;
 
     return [
@@ -97,7 +102,7 @@ class HomeSearchCard extends StatelessWidget {
         label: l10n.homeSearchFieldFuel,
         child: AppDropdownField<FuelOption>(
           hintText: l10n.homeSearchFieldFuelPlaceholder,
-          options: _fuelOptions(l10n),
+          options: _fuelOptions(l10n, locale),
           value: viewModel.fuel,
           onChanged: viewModel.setFuel,
         ),
@@ -127,9 +132,12 @@ class HomeSearchCard extends StatelessWidget {
   }
 
   /// Rebuilt on every build because the labels follow the active locale.
-  List<AppDropdownOption<FuelOption>> _fuelOptions(AppLocalizations l10n) {
+  List<AppDropdownOption<FuelOption>> _fuelOptions(
+    AppLocalizations l10n,
+    Locale locale,
+  ) {
     return [
-      for (final fuel in FuelOption.values)
+      for (final fuel in HomeSearchOptions.fuelsFor(locale))
         AppDropdownOption(value: fuel, label: fuel.label(l10n)),
     ];
   }

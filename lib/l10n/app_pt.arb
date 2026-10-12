@@ -280,6 +280,14 @@
   "@homeFuelHybrid": {
     "description": "Hybrid option of the fuel dropdown."
   },
+  "homeFuelFlex": "Flex (gasolina/etanol)",
+  "@homeFuelFlex": {
+    "description": "Flex-fuel (gasoline/ethanol) option of the fuel dropdown. Only offered for pt_BR, where most cars are flex."
+  },
+  "homeFuelEthanol": "Etanol",
+  "@homeFuelEthanol": {
+    "description": "Ethanol-only ('a álcool') option of the fuel dropdown. Only offered for pt_BR."
+  },
   "homeStatFaults": "Defeitos registados",
   "@homeStatFaults": {
     "description": "Label of the faults count in the home stats bar."
